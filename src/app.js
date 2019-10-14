@@ -1,4 +1,7 @@
 'use strict'
+
+import stylesheet from './app.css';
+
 class App{
 	constructor() {
 	}
