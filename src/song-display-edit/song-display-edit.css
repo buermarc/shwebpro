@@ -1,0 +1,8 @@
+/*
+ * Dieses Stylesheet darf nur Selektoren beinhalten, die mit .song-display-edit
+ * beginnen. Denn wir wollen nicht, dass hier Eigenschaften aus anderen Bereichen
+ * der Anwendung überschrieben werden.
+ */
+.song-display-edit main {
+    color: orchid !important;
+}

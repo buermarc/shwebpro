@@ -4,8 +4,9 @@
 <head>
   <meta charset="utf-8" />
   <title>My Songbook</title>
-<!--  <script src="index.js"></script>
-  <script src="app.js"></script> -->
+  <link rel="shortcut icon" href="favicon.svg">
+
+  <script src="index.js"></script>
 </head>
 
 <body>
@@ -33,23 +34,64 @@
       </div>
 
       <!-- Untere Zeile (dynamisch je nach View) -->
-      <div class="bottom left">
-        <div class="item">
-          Song hinzufügen
+    </header>
+
+    <!-- Hauptbereich (dynamisch je nach View) -->
+    <main>
+      <!-- ... -->
+    </main>
+  </section>
+  <!-- ====================== -->
+  <!-- View: Vorhandene Songs -->
+  <!-- ====================== -->
+  <section id="song-overview" class="hidden">
+    <!-- Topbar -->
+    <header>
+      <div class="left">
+        <div class="item new-song">
+          <a href="/song/new/" data-navigo>
+            Song hinzufügen
+          </a>
         </div>
         <div class="item">
           Sortierung nach Titel
         </div>
       </div>
-      <div class="bottom right">
+      <div class="right">
         <input placeholder="Suchen" />
       </div>
     </header>
 
-    <!-- Hauptbereich (dynamisch je nach View) -->
+    <!-- Hauptbereich -->
     <main>
       <div class="padding">
-        Under Construction
+        Übersicht
+      </div>
+    </main>
+  </section>
+
+  <!-- ================================== -->
+  <!-- View: Song anzeigen und bearbeiten -->
+  <!-- ================================== -->
+  <section id="song-display-edit" class="hidden">
+    <!-- Topbar -->
+    <header>
+      <div class="left">
+        <!-- Leer -->
+      </div>
+      <div class="right">
+        <div class="item overview">
+          <a href="/" data-navigo>
+            Zurück zur Übersicht
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hauptbereich -->
+    <main>
+      <div class="padding">
+        Song anzeigen/bearbeiten
       </div>
     </main>
   </section>
