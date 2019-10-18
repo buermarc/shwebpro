@@ -2,6 +2,7 @@
 
 import stylesheet from "./song-overview.css";
 import Database from "../database.js";
+import overview from './song-overview.html';
 /**
  * View mit der Übersicht der vorhandenen Songs.
  */
@@ -64,7 +65,11 @@ class SongOverview {
    * Methode App._switchVisibleContent()
    */
   onShow() {
-    let section = document.querySelector("#song-overview").cloneNode(true);
+
+    let container = document.createElement("div");
+    container.innerHTML = overview.trim();
+
+    let section = container.querySelector("#song-overview").cloneNode(true);
 
     return {
       className: "song-overview",
