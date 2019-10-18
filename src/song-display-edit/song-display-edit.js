@@ -1,6 +1,7 @@
 "use strict";
 
 import stylesheet from "./song-display-edit.css";
+import edit from './song-display-edit.html';
 
 /**
  * View zur Anzeige oder zum Bearbeiten eines Songs.
@@ -29,7 +30,11 @@ class SongDisplayEdit {
    * Methode App._switchVisibleContent()
    */
   onShow() {
-    let section = document.querySelector("#song-display-edit").cloneNode(true);
+
+    let container = document.createElement("div");
+    container.innerHTML = edit.trim();
+
+    let section = container.querySelector("#song-display-edit").cloneNode(true);
 
     return {
       className: "song-display-edit",
