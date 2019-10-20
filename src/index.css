@@ -78,7 +78,7 @@ body {
  * Häufig benötigte Hilfsklassen
  */
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .padding {

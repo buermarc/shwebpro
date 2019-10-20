@@ -6,4 +6,8 @@ html {
     --header-normal-font-color:       rgba(255,255,255, 0.8);
     --header-active-background-color: rgba(255,255,255, 0.2);
     --header-active-font-color:       rgba(255,255,255, 0.9);
+
+    --overview-heading-background-color: rgb(230,230,230);
+    --overview-heading-font-color:       rgb(78,81,116);
+    --overview-list-hover-color:         rgba(0,0,0, 0.05);
 }

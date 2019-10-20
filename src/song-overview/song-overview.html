@@ -1,25 +1,29 @@
   <section id="song-overview" class="hidden">
     <!-- Topbar -->
     <header>
-      <div class="left">
+      <div class="left menu-content">
         <div class="item new-song">
           <a href="/song/new/" data-navigo>
             Song hinzufügen
           </a>
         </div>
-        <div class="item">
-          Sortierung nach Titel
+        <div class="item cmd-sort" data-sort-by="title">
+          <a>
+            Liste nach Titel sortieren
+          </a>
         </div>
-      </div>
-      <div class="right">
-        <input placeholder="Suchen" />
-      </div>
+        <div class="item cmd-sort" data-sort-by="artist">
+          <a>
+            Liste nach Künstler sortieren
+          </a>
+        </div>
+        <div class="right">
+          <input class='search' placeholder="Suchen" />
+        </div>
     </header>
 
     <!-- Hauptbereich -->
     <main>
-      <div class="padding">
-        Übersicht
-      </div>
+      <ul></ul>
     </main>
   </section>

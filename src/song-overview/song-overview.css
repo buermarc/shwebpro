@@ -3,6 +3,38 @@
  * beginnen. Denn wir wollen nicht, dass hier Eigenschaften aus anderen Bereichen
  * der Anwendung überschrieben werden.
  */
-.song-overview main {
-    color: orangered !important;
+.song-overview ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 130%;
+}
+
+.song-overview .no-data {
+  color: var(--header-normal-background-color);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.song-overview li {
+  border: 0px solid var(--overview-heading-background-color);
+  border-bottom-width: 1px;
+}
+
+.song-overview .entry:hover {
+  background-color: var(--overview-list-hover-color);
+  cursor: pointer;
+}
+
+.song-overview li>div {
+  padding: 0 0.5rem 0 0.5rem;
+}
+
+.song-overview .section-title {
+  background: var(--overview-heading-background-color);
+  color: var(--overview-heading-font-color);
+  font-weight: bold;
+}
+
+.song-overview .song-artist {
+  font-size: 75%;
 }

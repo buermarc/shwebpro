@@ -38,6 +38,61 @@ class App {
         }
       }
     });
+
+    let menuButton = document.querySelector("header .hamburger-menu");
+
+    menuButton.addEventListener("click", () => {
+      // Nur auf kleinen Bildschirmen auf den Klick reagieren
+      if (menuButton.classList.contains("inactive")) return;
+
+      // Sichtbarkeit des Menüs umschalten
+      let menuState = "menu-open";
+      if (menuButton.classList.contains("menu-open")) menuState = "menu-closed";
+
+      menuButton.classList.remove("menu-open");
+      menuButton.classList.remove("menu-closed");
+      menuButton.classList.add(menuState);
+
+      // Menüeinträge ein-/ausblenden
+      document.querySelectorAll("header .menu-content").forEach(element => {
+        if (menuState === "menu-open") {
+          element.classList.remove("hidden");
+        } else {
+          element.classList.add("hidden");
+        }
+      });
+    });
+
+    let _initHamburgerMenu = () => {
+      // Menübutton auf großen Bildschirmen inaktiv schalten
+      // Klasse .inactive für das Element mit .hamburger-menu setzen
+      let menuIcon = document.querySelector("header .menu-icon");
+      let largeScreen = true;
+
+      if (getComputedStyle(menuIcon).display === "none") {
+        menuButton.classList.add("inactive");
+      } else {
+        menuButton.classList.remove("inactive");
+        largeScreen = false;
+      }
+
+      //  Menüeinträge auf kleinen Bildschirmen anfangs ausblenden
+      // und auf großen Bildschirmen immer anzeigen
+      document.querySelectorAll("header .menu-content").forEach(element => {
+        if (largeScreen) {
+          element.classList.remove("hidden");
+        } else {
+          element.classList.add("hidden");
+        }
+      });
+    };
+
+    window.addEventListener("resize", () => {
+      _initHamburgerMenu();
+    });
+
+    _initHamburgerMenu();
+
   }
 
   /**
@@ -100,7 +155,7 @@ class App {
    * @param  {Object} view View-Objekt mit einer onShow()-Methode
    * @return {Boolean} Flag, ob die neue Seite aufgerufen werden konnte
    */
-  _switchVisibleView(view) {
+  async _switchVisibleView(view) {
     // Callback, mit dem die noch sichtbare View den Seitenwechsel zu einem
     // späteren Zeitpunkt fortführen kann, wenn sie in der Methode onLeave()
     // false zurückliefert. Dadurch erhält sie die Möglichkeit, den Anwender
@@ -113,16 +168,20 @@ class App {
     }
 
     // Aktuelle View fragen, ob eine neue View aufgerufen werden darf
-    if (this._currentView && !this._currentView.onLeave(goon)) {
-      this._navAborted = true;
-      return false;
+    if (this._currentView) {
+      let goonAllowed = await this._currentView.onLeave(goon);
+
+      if (!goonAllowed) {
+        this._navAborted = true;
+        return false;
+      }
     }
 
     // Alles klar, aktuelle View nun wechseln
     document.title = `${this._title} – ${view.title}`;
 
     this._currentView = view;
-    this._switchVisibleContent(view.onShow());
+    this._switchVisibleContent(await view.onShow());
     return true;
   }
 

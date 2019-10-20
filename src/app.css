@@ -76,24 +76,6 @@
 /*
  * Hauptinhalt
  */
-#app main {
-    /*
-     * Temporärer Inhalt, solange es noch keinen richtigen Inhalt gibt
-     * Bild: https://pixabay.com/de/handwerker-baustelle-arbeiter-3094035/
-     */
-    background-image: url(construction.jpg);
-    background-size: 100% auto;
-    background-position: bottom center;
-    background-repeat: no-repeat;
-
-    color: rgb(255, 246, 23);
-    text-shadow: 1px 1px 2px black;
-    font-size: 300%;
-    font-weight: bold;
-    text-align: center;
-}
-
-
 /*
  * Anpassung an große Bildschirme, sobald in der index.css das große
  * Hintergrundbild eingeschaltet wird
@@ -142,6 +124,11 @@
 
     #app header .item {
         width: auto;
+    }
+
+    /* Menü-Icon ausblenden */
+    #app header .menu-icon {
+        display: none;
     }
 
     /* Nur den Bereich unterhalb der Toolbar scrollen */

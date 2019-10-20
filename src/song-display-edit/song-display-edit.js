@@ -29,7 +29,7 @@ class SongDisplayEdit {
    * @return {Object} Darzustellende DOM-Elemente gemäß Beschreibung der
    * Methode App._switchVisibleContent()
    */
-  onShow() {
+  async onShow() {
 
     let container = document.createElement("div");
     container.innerHTML = edit.trim();
@@ -52,7 +52,7 @@ class SongDisplayEdit {
    * Zeitpunkt fortzuführen, falls wir hier false zurückgeben
    * @return {Boolean} true, wenn der Seitenwechsel erlaubt ist, sonst false
    */
-  onLeave(goon) {
+  async onLeave(goon) {
     return true;
   }
 
