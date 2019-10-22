@@ -13,6 +13,9 @@ let database = new Dexie("Spieleverwaltung");
 database.version(1).stores({
   songtexts: "++id, artist, title",
   game: '++id, gameName',
+  player: '++id, playerName',
+  gameInstance: '++id',
+  gameToGameInstance: '[gameId+gameInstanceId], gameId, gameInstanceId',
 });
 
 /**
@@ -20,6 +23,7 @@ database.version(1).stores({
  * Methoden, um Songtexte zu speichern und wieder auszulesen. Im Hintergrund
  * wird hierfür Dexie zur lokalen Speicherung im Browser genutzt.
  */
+
 class Game {
 
 
@@ -90,14 +94,63 @@ class Game {
 
     let result = database.game.filter(songtext => {
       let artist = game.gameName.toUpperCase();
-  //    let title = songtext.title.toUpperCase(); //Need more structure
+      //    let title = songtext.title.toUpperCase(); //Need more structure
       return artist.search(query) > -1 || title.search(query) > -1;
     });
 
     return result.toArray();
   }
 }
+
+class GameInstance {
+  async saveNew(gameInstance) {
+    return database.game.add(gameInstance);
+  }
+  async update(gameInstance) {
+    return database.gameInstace.put(gameInstance)
+  }
+  async delete(gameInstace) {
+    return database.gameInstance.delete(gameInstance)
+  }
+  async clear(gameInstace) {
+    return database.gameInstance.clear()
+  }
+  async getById(id) {
+    return database.gameInstance.get(id)
+  }
+  async search(query) {
+    //TODO
+  }
+}
+
+class Player {
+  async saveNew(player) {
+    return database.player.add(player)
+  }
+  async update(player) {
+    return database.player.put(player)
+  }
+  async delete(player) {
+    return database.player.delete(player)
+  }
+  async clear(player) {
+    return database.player.clear()
+  }
+  async getById(id) {
+    return database.player.get(id)
+  }
+  async search(query) {
+    //TODO
+  }
+}
+
+class GameToGameInstance {
+  async addGameInstanceOfGame(gameId, gameInstanceId){}
+}
+
 export default {
   database,
-  Songtexts,
+  Game,
+  GameInstance,
+  Player,
 };
