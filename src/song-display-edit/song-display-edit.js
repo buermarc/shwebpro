@@ -33,7 +33,7 @@ class SongDisplayEdit {
 
     let container = document.createElement("div");
     container.innerHTML = edit.trim();
-
+    
     let section = container.querySelector("#song-display-edit").cloneNode(true);
 
     return {

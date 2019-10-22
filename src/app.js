@@ -7,7 +7,7 @@ import Navigo from 'navigo/lib/navigo.js';
 
 class App {
   constructor() {
-    this._title = "My Songbook";
+    this._title = "Spielstandzähler";
     this._currentView = null;
 
     // Single Page Router aufsetzen
