@@ -4,6 +4,7 @@ import stylesheet from './app.css';
 import SongDisplayEdit from "./song-display-edit/song-display-edit.js";
 import SongOverview from "./song-overview/song-overview.js";
 import Stats from './stats/stats.js';
+import GameOverview from './game-overview/game-overview.js';
 import Navigo from 'navigo/lib/navigo.js';
 
 class App {
@@ -22,6 +23,7 @@ class App {
       "/song/display/:id/": params => this.showSongDisplayEdit(params.id, "display"),
       "/song/edit/:id/": params => this.showSongDisplayEdit(params.id, "edit"),
       '/stats/': () => this.showStats(),
+      '/gameOverview/': () => this.showGameOverview(),
     });
 
     this._router.hooks({
@@ -129,28 +131,10 @@ class App {
     let view  = new Stats(this);
     this._switchVisibleView(view);
   }
-  /**
- * Auswechseln des sichtbaren Inhalts der App. Hierfür muss der Methode
- * ein Objekt mit folgendem Aufbau übergeben werden:
- *
- *   {
-        className: "CSS-Klassenname",
- *      topbar: [DOM Element, DOM Element, DOM Element, ...],
- *      main: [DOM Element, DOM Element, DOM Element, ...],
- *   }
- *
- * Beide Attribute (topbar und main) sind optional, was dazu führt, dass
- * im jeweiligen Bereich einfach nichts angezeigt wird. Werden sie jedoch
- * mitgegeben, müssen sie mit forEach(element => { … }) iteriert werden
- * können, um ihren Inhalt in den DOM-Baum zu integrieren.
- *
- * Wichtig ist, dass die übergebenen Elemente noch an keiner Stelle im
- * DOM vorhanden sein dürfen. Werden die Elemente in der index.html
- * als Vorlage definiert, muss hier deshalb eine Kopie anstelle der
- * Elemente selbst übergeben werden!
- *
- * @param {Object} content Objekt mit den anzuzeigenden DOM-Elementen
- */
+  showGameOverview() {
+    let view = new GameOverview(this);
+    this._switchVisibleView(view);
+  }
 
   /**
    * Hilfsklasse zum Umschalten auf eine neue Seite. Sie ruft zunächst die
