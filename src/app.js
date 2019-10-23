@@ -3,6 +3,7 @@
 import stylesheet from './app.css';
 import SongDisplayEdit from "./song-display-edit/song-display-edit.js";
 import SongOverview from "./song-overview/song-overview.js";
+import Stats from './stats/stats.js';
 import Navigo from 'navigo/lib/navigo.js';
 
 class App {
@@ -20,6 +21,7 @@ class App {
       "/song/new/": () => this.showSongDisplayEdit("", "new"),
       "/song/display/:id/": params => this.showSongDisplayEdit(params.id, "display"),
       "/song/edit/:id/": params => this.showSongDisplayEdit(params.id, "edit"),
+      '/stats/': () => this.showStats(),
     });
 
     this._router.hooks({
@@ -120,6 +122,11 @@ class App {
    */
   showSongDisplayEdit(id, mode) {
     let view = new SongDisplayEdit(this, id, mode);
+    this._switchVisibleView(view);
+  }
+
+  showStats() {
+    let view  = new Stats();
     this._switchVisibleView(view);
   }
   /**
