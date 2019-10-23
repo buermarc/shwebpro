@@ -2,10 +2,13 @@
 
 import stylesheet from './stats.css';
 import stats from './stats.html';
+import DataObjectHandler from '../data-access/data-object-handler.js';
 
-class Stats{
-  constuctor(app) {
+class Stats {
+  constructor(app) {
+    console.log('asd');
     this._app = app;
+    new DataObjectHandler();
   }
 
   async onShow() {
@@ -21,7 +24,7 @@ class Stats{
   }
 
   async onLeave(goon) {
-      return true;
+    return true;
   }
 
   get title() {

@@ -126,7 +126,7 @@ class App {
   }
 
   showStats() {
-    let view  = new Stats();
+    let view  = new Stats(this);
     this._switchVisibleView(view);
   }
   /**
