@@ -1,7 +1,7 @@
 'use strict'
 
 import stylesheet from './game-overview.css';
-import Database from '../database-handler.js';
+import Database from '../data-access/database-handler.js';
 import overview from './game-overview.html';
 
 class GameOverview {

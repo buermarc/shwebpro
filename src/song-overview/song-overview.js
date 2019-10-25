@@ -21,7 +21,6 @@ class SongOverview {
     this._sortButtons = null;
     this._searchField = null;
     this._listElement = null;
-    console.log('overview');
   }
 
   /**
