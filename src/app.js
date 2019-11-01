@@ -4,7 +4,6 @@ import stylesheet from './app.css';
 import SongDisplayEdit from "./song-display-edit/song-display-edit.js";
 import SongOverview from "./song-overview/song-overview.js";
 import Stats from './stats/stats.js';
-import GameOverview from './game-overview/game-overview.js';
 import Navigo from 'navigo/lib/navigo.js';
 
 class App {
@@ -13,7 +12,7 @@ class App {
     this._currentView = null;
 
     // Single Page Router aufsetzen
-    this._router = new Navigo();
+    this._router = new Navigo(null, true);
     this._currentUrl = "";
     this._navAborted = false;
 
@@ -23,25 +22,32 @@ class App {
       "/song/display/:id/": params => this.showSongDisplayEdit(params.id, "display"),
       "/song/edit/:id/": params => this.showSongDisplayEdit(params.id, "edit"),
       '/stats/': () => this.showStats(),
-      '/gameOverview/': () => this.showGameOverview(),
     });
+
+    // this._router.hooks({
+    //   after: (params) => {
+    //     if (!this._navAborted) {
+    //       // Navigation durchführen, daher die neue URL merken
+    //       this._currentUrl = this._router.lastRouteResolved().url;
+    //     } else {
+    //       // Navigation abbrechen, daher die URL in der Adresszeile
+    //       // auf den alten Wert der bisherigen View zurücksetzen
+    //       this._router.pause(true);
+    //       this._router.navigate(this._currentUrl);
+    //       this._router.pause(false);
+    //
+    //       this._navAborted = false;
+    //     }
+    //   }
+    // });
 
     this._router.hooks({
       after: (params) => {
-        if (!this._navAborted) {
-          // Navigation durchführen, daher die neue URL merken
-          this._currentUrl = this._router.lastRouteResolved().url;
-        } else {
-          // Navigation abbrechen, daher die URL in der Adresszeile
-          // auf den alten Wert der bisherigen View zurücksetzen
-          this._router.pause(true);
-          this._router.navigate(this._currentUrl);
-          this._router.pause(false);
-
-          this._navAborted = false;
-        }
+        // Navigation durchführen, daher die neue URL merken
+        this._currentUrl = this._router.lastRouteResolved().url;
       }
     });
+
 
     let menuButton = document.querySelector("header .hamburger-menu");
 
@@ -128,11 +134,7 @@ class App {
   }
 
   showStats() {
-    let view  = new Stats(this);
-    this._switchVisibleView(view);
-  }
-  showGameOverview() {
-    let view = new GameOverview(this);
+    let view = new Stats(this);
     this._switchVisibleView(view);
   }
 
