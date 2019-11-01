@@ -20,25 +20,27 @@ class PlayerToGameRound {
     }
   }
   static async getAll() {
-    let result = await database.playerToGameRound.filter(() => {return true});
+    let result = await database.playerToGameRound.filter(() => {
+      return true
+    });
     return result.toArray();
+  }
+  static async getById(id) {
+    return database.playerToGameRound.get(id);
+  }
+  static async delete() {
+    return database.playerToGameRound.delete(this.asJson);
   }
   static async clear() {
     return database.playerToGameRound.clear();
   }
-  
   async saveNew() {
     return database.playerToGameRound.add(this.asJson);
   }
   async update() {
     return database.playerToGameRound.put(this.asJson);
   }
-  async delete() {
-    return database.playerToGameRound.delete(this.asJson);
-  }
-  async getById(id) {
-    return database.playerToGameRound.get(id);
-  }
+  async getId() {}
   async search(query) {
     //TODO
   }

@@ -24,8 +24,16 @@ class Game {
     }
   }
   static async getAll() {
-    let result = await database.game.filter(() => {return true});
+    let result = await database.game.filter(() => {
+      return true
+    });
     return result.toArray();
+  }
+  static async getById(id) {
+    return database.game.get(id);
+  }
+  static async delete() {
+    return database.game.delete(this.asJson);
   }
   static async clear() {
     return database.game.clear();
@@ -36,11 +44,19 @@ class Game {
   async update() {
     return database.game.put(this.asJson);
   }
-  async delete() {
-    return database.game.delete(this.asJson);
-  }
-  async getById(id) {
-    return database.game.get(id);
+  async getId() {
+    let res = database.game.
+    where('gameName', 'maxRounds', 'minPlayers', 'maxPlayers').
+    equals(this._gameName, this._maxRounds, this._minPlayers, this._maxPlayers);
+    res = await res.toArray();
+    if (res.length == 0) {
+      console.log('No such entry');
+    } else if (res.length == 1) {
+      return res[0].id;
+    } else {
+      throw ('This oject: ' + this.asJson + ' is not unique\n array has the length: ' +
+        res.length + '\n ' + res);
+    }
   }
   async search(query) {
     //TODO

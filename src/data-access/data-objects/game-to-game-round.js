@@ -20,8 +20,16 @@ class GameToGameRound {
   }
 
   static async getAll() {
-    let result = await database.gameToGameRound.filter(() => {return true});
+    let result = await database.gameToGameRound.filter(() => {
+      return true
+    });
     return result.toArray();
+  }
+  static async getById(id) {
+    return database.gameToGameRound.get(id);
+  }
+  async delete() {
+    return database.gameToGameRound.delete(this.asJson);
   }
   static async clear() {
     return database.gameToGameRound.clear();
@@ -32,12 +40,7 @@ class GameToGameRound {
   async update() {
     return database.gameToGameRound.put(this.asJson);
   }
-  async delete() {
-    return database.gameToGameRound.delete(this.asJson);
-  }
-  async getById(id) {
-    return database.gameToGameRound.get(id);
-  }
+  async getId() {}
   async search(query) {
     //TODO
   }
