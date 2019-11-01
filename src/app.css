@@ -126,6 +126,13 @@
         width: auto;
     }
 
+    #app div.menu-content.right > div.item {
+        width: 50%;
+        border-right: 0.1em solid var(--menu-content-border-color);
+        border-left:  0.1em solid var(--menu-content-border-color);
+    }
+
+    
     /* Menü-Icon ausblenden */
     #app header .menu-icon {
         display: none;
