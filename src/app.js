@@ -4,6 +4,7 @@ import stylesheet from './app.css';
 import SongDisplayEdit from "./song-display-edit/song-display-edit.js";
 import SongOverview from "./song-overview/song-overview.js";
 import GameOverview from "./game-overview/game-overview.js";
+import RoundOverview from "./round-overview/round-overview.js";
 import Navigo from 'navigo/lib/navigo.js';
 
 class App {
@@ -12,7 +13,7 @@ class App {
     this._currentView = null;
 
     // Single Page Router aufsetzen
-    this._router = new Navigo();
+    this._router = new Navigo(null, true);
     this._currentUrl = "";
     this._navAborted = false;
 
@@ -22,6 +23,7 @@ class App {
       "/song/display/:id/": params => this.showSongDisplayEdit(params.id, "display"),
       "/song/edit/:id/": params => this.showSongDisplayEdit(params.id, "edit"),
       "/gameOverview": () => this.showGameOverview(),
+      "/roundOverview": () => this.showRoundOverview(),
     });
 
     this._router.hooks({
@@ -115,6 +117,11 @@ class App {
 
   showGameOverview() {
     let view = new GameOverview(this); 
+    this._switchVisibleView(view);
+  }
+
+  showRoundOverview(){
+    let view = new RoundOverview(this); 
     this._switchVisibleView(view);
   }
 
