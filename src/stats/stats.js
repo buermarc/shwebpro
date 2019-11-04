@@ -27,7 +27,7 @@ class Stats {
     this._tableElement = section.querySelector('main > table');
     console.log(this._tableElement.innerHTML);
 
-    this._renderTable(await Game.getAll(), await Player.getAll(), 'null', this._tableElement, this._doh);
+    this._renderTable('null', this._tableElement, this._doh);
     return {
       className: 'stats',
       topbar: section.querySelectorAll('header > *'),
@@ -43,7 +43,7 @@ class Stats {
     return 'Statistik'
   }
 
-  async _renderTable(games, players, groupBy, parentNode, doh) {
+  async _renderTable(groupBy, parentNode, doh) {
     /**<table>
     <tr>
             <th colspan='2'> Spieler </th>
@@ -54,6 +54,9 @@ class Stats {
      */
 
     //order the games in alphabetic order
+    let games = await doh.getAllGames();
+    let players = await doh.getAllPlayers();
+
     games.sort((a, b) => {
       return a.gameName.localeCompare(b.gameName);
     })
