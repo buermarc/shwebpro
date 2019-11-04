@@ -15,8 +15,7 @@ class GameOverview {
    * @param {String} mode "new", "display" oder "edit"
    */
   constructor(app) {
-    this._app = app;
-
+    this._app = app
   }
 
   /**
@@ -32,7 +31,7 @@ class GameOverview {
 
     let container = document.createElement("div");
     container.innerHTML = overview.trim();
-    
+
     let section = container.querySelector("#game-overview").cloneNode(true);
 
     return {
