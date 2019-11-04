@@ -15,7 +15,7 @@ class Stats {
     this._app = app;
 
     this._tableElement = null;
-    this._doh = new DataObjectHandler();
+    this._doh = new DataObjectHandler(true);
   }
 
   async onShow() {

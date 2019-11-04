@@ -41,7 +41,7 @@ class GameRound {
     return database.gameRound.put(this.asJson);
   }
   async getId() {
-    let res = await database.gameRound.where(this.asJson).toArray;
+    let res = await database.gameRound.where(this.asJson).toArray();
     if (res.length == 0) {
       console.log('No such entry');
     } else if (res.length == 1) {

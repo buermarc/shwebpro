@@ -10,20 +10,10 @@ import db from './database-handler.js'
 
 class DataObjectHandler {
 
-  constructor() {
-    let test = async () => {
-      Game.clear();
-      let database = db.database;
-      let game = new Game('Marc', 2, 3, 4);
-      console.log(database.game);
-      let result = await database.game.where('gameName').equals('Marc').toArray();
-      console.log(result);
-      let arr = await Game.getAll();
-      console.log(arr);
-
+  constructor(initData) {
+    if (initData) {
+      this._initData();
     }
-    // test();
-    this._initData();
   }
 
 
@@ -53,7 +43,7 @@ class DataObjectHandler {
     }).toArray();
   }
 
-  async getAllPlayerOfGameRoundId(id) {
+  async getAllPlayerOfGameRoundId(id) { //Auch Lasse
     return await db.database.playerToGameRound.where({
       gameRoundId: id
     }).toArray();
@@ -82,7 +72,7 @@ class DataObjectHandler {
 
   //neue spieleRunde gameId, playerId[], round. fin
   async setNewGameRoundWithPlayers(gameId, playerIds) {
-    if (playerIds.isArray()) {
+    if (Array.isArray(playerIds)) {
       //create new gameRound with gameId, inital round 0 and fin false
       let zeroRounds = 0;
       let gameRound = new GameRound(zeroRounds, false, Date.now());
@@ -90,7 +80,7 @@ class DataObjectHandler {
       let gameRoundId = await gameRound.getId();
 
       //create new game-to-game-round
-      gameToGameRound = new GameToGameRound(gameId, gameRoundId);
+      let gameToGameRound = new GameToGameRound(gameId, gameRoundId);
       gameToGameRound.saveNew();
 
       //for each player create player to game round with playerId and gameRoundId
@@ -124,10 +114,17 @@ class DataObjectHandler {
 
   //=============Lasse========================================
 
-  // has to get all players with their points for a gameRound
-  async getAllPlayerOfGameRoundByGameRoundId(gameRoundId) {
-    // let res = await db.database
+  //get gameRound by id to get rounds and for (var
+  async getGameRoundById(gameRoundId) {
+    return GameRound.getById(gameRoundId);
   }
+
+  // update points of player in gameRound
+  async updatePointsByPlayerIdAndGameRoundId(playerId, gameRoundId, newPoints) {
+    let playerToGameRound = new PlayerToGameRound(playerId, gameRoundId, newPoints);
+    return db.database.playerToGameRound.put(playerToGameRound.asJson);
+  }
+
   //==========================================================
   //Mock Daten zum testen
   async _initData() {
@@ -254,6 +251,20 @@ class DataObjectHandler {
     }
     arr = await Player.getAll();
     console.log(arr);
+    let playerIdArr = arr.map(x => {
+      return x.id
+    });
+    console.log(Array.isArray(playerIdArr));
+    arr = await PlayerToGameRound.getAll();
+    console.log(arr);
+
+    // this.setNewGameRoundWithPlayers(gameRound2Id, playerIdArr);
+
+    arr = await PlayerToGameRound.getAll();
+    console.log(arr);
+
+    console.log(await this.updatePointsByPlayerIdAndGameRoundId(1, 1, 900));
+    console.log(await this.getGameRoundById(2));
   }
 
 }
