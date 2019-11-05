@@ -1,15 +1,15 @@
 'use strict'
 
-import stylesheet from './stats.css';
-import stats from './stats.html';
+import stylesheet from './player-stats.css';
+import stats from './player-stats.html';
 import DataObjectHandler from '../data-access/data-object-handler.js';
 import Game from '../data-access/data-objects/game.js';
 import Player from '../data-access/data-objects/player.js';
 import PlayerToGame from '../data-access/data-objects/player-to-game.js';
-import ColorUtils from './color-utils.js'
+import ColorUtils from '../stats/color-utils.js'
 
-class Stats {
-  constructor(app) {
+class PlayerStats {
+  constructor(app, playerName) {
     this._app = app;
 
     this._tableElement = null;
@@ -20,37 +20,37 @@ class Stats {
     let container = document.createElement('div');
     container.innerHTML = stats.trim();
 
-    let section = container.querySelector('#stats').cloneNode(true);
+    let section = container.querySelector('#player-stats').cloneNode(true);
 
     this._tableElement = section.querySelector('main > div');
     this._searchField = section.querySelector("header .search");
 
 
     // Event Listener zum Suchen von Songs
-    this._searchField.addEventListener("keyup", event => {
-      if (event.key === "Enter") {
-        // Bei Enter sofort suchen
-        console.log('asd');
-        this._renderTable(this._searchField.value, this._tableElement, this._doh);
-
-        if (this._searchTimeout) {
-          window.clearTimeout(this._searchTimeout);
-          this._searchTimeout = null;
-        }
-      } else {
-        // Bei sonstigem Tastendruck nur alle halbe Sekunde suchen
-        if (!this._searchTimeout) {
-          this._searchTimeout = window.setTimeout(() => {
-            this._renderTable(this._searchField.value, this._tableElement, this._doh);
-            this._searchTimeout = null;
-          }, 500);
-        }
-      }
-    });
-    this._renderTable('', this._tableElement, this._doh);
+    // this._searchField.addEventListener("keyup", event => {
+    //   if (event.key === "Enter") {
+    //     // Bei Enter sofort suchen
+    //     console.log('asd');
+    //     this._renderTable(this._searchField.value, this._tableElement, this._doh);
+    //
+    //     if (this._searchTimeout) {
+    //       window.clearTimeout(this._searchTimeout);
+    //       this._searchTimeout = null;
+    //     }
+    //   } else {
+    //     // Bei sonstigem Tastendruck nur alle halbe Sekunde suchen
+    //     if (!this._searchTimeout) {
+    //       this._searchTimeout = window.setTimeout(() => {
+    //         this._renderTable(this._searchField.value, this._tableElement, this._doh);
+    //         this._searchTimeout = null;
+    //       }, 500);
+    //     }
+    //   }
+    // });
+    // this._renderTable('', this._tableElement, this._doh);
 
     return {
-      className: 'stats',
+      className: 'player-stats',
       topbar: section.querySelectorAll('header > *'),
       main: section.querySelectorAll('main > *'),
     };
@@ -61,7 +61,7 @@ class Stats {
   }
 
   get title() {
-    return 'Statistik'
+    return 'Spielerstatistik'
   }
 
   async _renderTable(query, parentNode, doh) {
@@ -305,4 +305,4 @@ class Stats {
   }
 }
 
-export default Stats;
+export default PlayerStats;

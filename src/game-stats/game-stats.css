@@ -34,65 +34,65 @@
 }
 
 
-.stats .game {}
+.game-stats .game {}
 
-.stats div.table{
+.game-stats div.table{
   display: flex;
 }
 
-.stats div.table-box {
+.game-stats div.table-box {
   width: 20em;
   margin-top: 0.2em;
   margin-right: 1em;
 }
 
-.stats div#gameName.row{
+.game-stats div#gameName.row{
   text-align: center;
   display:inline-block;
 }
-.stats div#gameName.row:hover{
+.game-stats div#gameName.row:hover{
   cursor: pointer;
   font-style: italic;
 }
-.stats div.row {
+.game-stats div.row {
   display: flex;
   width: 100%;
 }
-.stats #win-lose > div.win.lose {
+.game-stats #win-lose > div.win.lose {
   margin-bottom: 0;
 }
-.stats #win-lose > div.win,
-.stats #win-lose > div.lose
+.game-stats #win-lose > div.win,
+.game-stats #win-lose > div.lose
 {
   margin-left: 0;
 }
 
 
-.stats div.field {
+.game-stats div.field {
   padding-left: 0.3em;
   padding-right: 0.3em;
 }
 
-.stats div.field.win {
+.game-stats div.field.win {
   width: 40%;
   margin-left: 0.1em;
 }
 
 
-.stats div.field.lose {
+.game-stats div.field.lose {
   width: 40%;
   margin-left: 0em;
 }
 
-.stats div.field.win.lose {
+.game-stats div.field.win.lose {
   width: 20%;
   margin-left: 0;
 }
 
-.stats div.field.playerName {
+.game-stats div.field.playerName {
   width: 20%;
 }
-.stats div.field.playerName:hover {
+.game-stats div.field.playerName:hover {
   background-color: var(--overview-list-hover-color);
   cursor: pointer;
   font-style: italic;

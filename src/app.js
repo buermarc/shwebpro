@@ -4,6 +4,8 @@ import stylesheet from './app.css';
 import SongDisplayEdit from "./song-display-edit/song-display-edit.js";
 import SongOverview from "./song-overview/song-overview.js";
 import Stats from './stats/stats.js';
+import GameStats from './game-stats/game-stats.js';
+import PlayerStats from './player-stats/player-stats.js';
 import GameOverview from "./game-overview/game-overview.js";
 import Navigo from 'navigo/lib/navigo.js';
 
@@ -23,6 +25,8 @@ class App {
       "/song/display/:id/": params => this.showSongDisplayEdit(params.id, "display"),
       "/song/edit/:id/": params => this.showSongDisplayEdit(params.id, "edit"),
       '/stats/': () => this.showStats(),
+      '/stats/game/:gameName/': params => this.showStatsGame(params.gameName),
+      '/stats/player/:playerName/': params => this.showStatsPlayer(params.playerName),
       "/gameOverview": () => this.showGameOverview(),
     });
 
@@ -124,7 +128,7 @@ class App {
   }
 
   showGameOverview() {
-    let view = new GameOverview(this); 
+    let view = new GameOverview(this);
     this._switchVisibleView(view);
   }
 
@@ -142,6 +146,16 @@ class App {
 
   showStats() {
     let view = new Stats(this);
+    this._switchVisibleView(view);
+  }
+
+  showStatsGame(gameName) {
+    let view = new GameStats(this, gameName);
+    this._switchVisibleView(view);
+  }
+
+  showStatsPlayer(playerName) {
+    let view = new PlayerStats(this, playerName);
     this._switchVisibleView(view);
   }
 
