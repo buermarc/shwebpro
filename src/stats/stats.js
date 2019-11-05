@@ -6,8 +6,6 @@ import DataObjectHandler from '../data-access/data-object-handler.js';
 import Game from '../data-access/data-objects/game.js';
 import Player from '../data-access/data-objects/player.js';
 import PlayerToGame from '../data-access/data-objects/player-to-game.js';
-import db from '../data-access/database-handler.js'
-let database = db.database;
 
 class Stats {
   constructor(app) {
@@ -71,7 +69,8 @@ class Stats {
     let tr = document.createElement('tr');
     tbody.appendChild(tr);
     let th = document.createElement('th');
-    th.textContent = 'Spieler';
+    th.textContent = '';
+    th.classList.add('Spieler');
     tr.appendChild(th);
 
     //for each game get gameName and create th for it
@@ -79,6 +78,8 @@ class Stats {
       let thTmp = document.createElement('th');
       thTmp.setAttribute('colspan', 2);
       thTmp.textContent = game.gameName;
+      thTmp.classList.add(game.gameName);
+      thTmp.classList.add('game');
       tr.appendChild(thTmp);
     });
 
@@ -89,9 +90,13 @@ class Stats {
     games.forEach(game => {
       let tdTmp = document.createElement('td');
       tdTmp.textContent = 'Gewonnen';
+      tdTmp.classList.add(game.gameName);
+      tdTmp.classList.add('win');
       tr.appendChild(tdTmp);
       tdTmp = document.createElement('td');
       tdTmp.textContent = 'Verloren';
+      tdTmp.classList.add(game.gameName);
+      tdTmp.classList.add('lose');
       tr.appendChild(tdTmp);
     });
 
@@ -101,7 +106,8 @@ class Stats {
       let trTmp = document.createElement('tr');
       tbody.appendChild(trTmp);
       let tdTmp = document.createElement('td');
-      tdTmp.textContent = player.playerName;
+      tdTmp.textContent = player.playerName
+      tdTmp.classList.add('player')
       trTmp.appendChild(tdTmp);
 
       games.forEach(async game => {
@@ -109,9 +115,13 @@ class Stats {
         if (result.length != 1) {result = [{win: 0, lose: 0}]};
         tdTmp = document.createElement('td');
         tdTmp.textContent = result[0].win;
+        tdTmp.classList.add('player-win');
+        tdTmp.classList.add(game.gameName);
         trTmp.appendChild(tdTmp);
         tdTmp = document.createElement('td');
         tdTmp.textContent = result[0].lose;
+        tdTmp.classList.add('player-lose');
+        tdTmp.classList.add(game.gameName);
         trTmp.appendChild(tdTmp);
       });
     });

@@ -1,1 +1,36 @@
-// still TODO
+.dummy {}
+
+.stats table {
+  width: 100%
+}
+
+.stats th {
+  text-transform: uppercase;
+}
+.stats th.Doppelkopf{
+  background-color: grey;
+}
+
+.stats th.Mau-Mau{
+  background-color: green;
+}
+
+.stats th.Spieler {
+}
+
+.stats td {
+}
+
+.stats td.win,
+.stats td.lose
+{
+  text-align: center;
+}
+
+.stats td.player-win,
+.stats td.player-lose
+{
+  text-align: center;
+}
+
+.stats .game {}
