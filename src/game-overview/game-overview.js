@@ -15,7 +15,8 @@ class GameOverview {
    * @param {String} mode "new", "display" oder "edit"
    */
   constructor(app) {
-    this._app = app
+    this._app = app;
+    
   }
 
   /**
