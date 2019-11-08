@@ -142,7 +142,10 @@ class GameStats {
       let tmpDiv = document.createElement('div');
       tmpDiv.classList.add('row');
       tmpDiv.id = 'gameName'
-      tmpDiv.innerHTML = x.gameName;
+      let eleA = document.createElement('a');
+      console.log('asd');
+      eleA.innerHTML = x.gameName;
+      tmpDiv.appendChild(eleA);
       tmpDiv.style.backgroundColor = gameColor;
       tmpDiv.addEventListener('click', () => {
         window.location.href = '#/stats/game/' + x.gameName;
@@ -162,13 +165,17 @@ class GameStats {
       tmpDiv2.classList.add('field');
       tmpDiv2.classList.add('win');
       tmpDiv2.classList.add(x.gameName);
-      tmpDiv2.innerHTML = 'Gewonnen';
+      eleA = document.createElement('a');
+      eleA.innerHTML = 'Gewonnen';
+      tmpDiv2.appendChild(eleA);
       tmpDiv.appendChild(tmpDiv2);
       tmpDiv2 = document.createElement('div');
       tmpDiv2.classList.add('field');
       tmpDiv2.classList.add('lose');
       tmpDiv2.classList.add(x.gameName);
-      tmpDiv2.innerHTML = 'Verloren';
+      eleA = document.createElement('a');
+      eleA.innerHTML = 'Verloren';
+      tmpDiv2.appendChild(eleA);
       tmpDiv.appendChild(tmpDiv2);
       x.arr.forEach(y => {
         tmpDiv = document.createElement('div');
@@ -178,7 +185,9 @@ class GameStats {
         tmpDiv2 = document.createElement('div');
         tmpDiv2.classList.add('field');
         tmpDiv2.classList.add('playerName');
-        tmpDiv2.innerHTML = y.playerName;
+        eleA = document.createElement('a');
+        eleA.innerHTML = y.playerName;
+        tmpDiv2.appendChild(eleA);
         tmpDiv2.style.backgroundColor = ColorUtils.hashStringToColor(y.playerName, 152);
         tmpDiv2.addEventListener('click', () => {
           window.location.href = '#/stats/player/' + y.playerName;
@@ -188,13 +197,17 @@ class GameStats {
         tmpDiv2.classList.add('field');
         tmpDiv2.classList.add('win');
         tmpDiv2.classList.add(x.gameName);
-        tmpDiv2.innerHTML = y.win;
+        eleA = document.createElement('a');
+        eleA.innerHTML = y.win;
+        tmpDiv2.appendChild(eleA);
         tmpDiv.appendChild(tmpDiv2);
         tmpDiv2 = document.createElement('div');
         tmpDiv2.classList.add('field');
         tmpDiv2.classList.add('lose');
         tmpDiv2.classList.add(x.gameName);
-        tmpDiv2.innerHTML = y.lose;
+        eleA = document.createElement('a');
+        eleA.innerHTML = y.lose;
+        tmpDiv2.appendChild(eleA);
         tmpDiv.appendChild(tmpDiv2);
 
       });
