@@ -114,6 +114,10 @@ class DataObjectHandler {
     return db.database.playerToGame.where({gameId: id}).toArray();
   }
 
+  async getGameRoundByPlayerId(id) {
+    return db.database.playerToGame.where({playerId:  id}).toArray();
+  }
+
   async getPlayerById(id) {
     return Player.getById(id);
   }

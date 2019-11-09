@@ -28,27 +28,27 @@ class GameStats {
 
     // TODO later
     // Event Listener zum Suchen von Songs
-    // this._searchField.addEventListener("keyup", event => {
-    //   if (event.key === "Enter") {
-    //     // Bei Enter sofort suchen
-    //     console.log('asd');
-    //     this._renderTable(this._searchField.value, this._tableElement, this._doh);
-    //
-    //     if (this._searchTimeout) {
-    //       window.clearTimeout(this._searchTimeout);
-    //       this._searchTimeout = null;
-    //     }
-    //   } else {
-    //     // Bei sonstigem Tastendruck nur alle halbe Sekunde suchen
-    //     if (!this._searchTimeout) {
-    //       this._searchTimeout = window.setTimeout(() => {
-    //         this._renderTable(this._searchField.value, this._tableElement, this._doh);
-    //         this._searchTimeout = null;
-    //       }, 500);
-    //     }
-    //   }
-    // });
-    this._renderTable(this._gameName, this._tableElement, this._doh);
+    this._searchField.addEventListener("keyup", event => {
+      if (event.key === "Enter") {
+        // Bei Enter sofort suchen
+        console.log('asd');
+        this._renderTable(this._searchField.value, this._tableElement, this._doh);
+
+        if (this._searchTimeout) {
+          window.clearTimeout(this._searchTimeout);
+          this._searchTimeout = null;
+        }
+      } else {
+        // Bei sonstigem Tastendruck nur alle halbe Sekunde suchen
+        if (!this._searchTimeout) {
+          this._searchTimeout = window.setTimeout(() => {
+            this._renderTable(this._searchField.value, this._tableElement, this._doh);
+            this._searchTimeout = null;
+          }, 500);
+        }
+      }
+    });
+    this._renderTable('', this._tableElement, this._doh);
 
     return {
       className: 'game-stats',
@@ -100,10 +100,10 @@ class GameStats {
       };
     }));
 
+    let res1 = tableContent.filter(x => {
+      return x.gameName.search(this._gameName) > -1;
+    });
     if (query != null && query != '') {
-      let res1 = tableContent.filter(x => {
-        return x.gameName.search(query) > -1;
-      });
 
       let res2 = tableContent.filter(x => {
         let arr = x.arr.map(m => {
@@ -122,6 +122,7 @@ class GameStats {
       tableContent = res2.concat(res1);
       tableContent = Array.from(new Set(tableContent));
     }
+    tableContent = res1;
 
     tableContent.sort((a, b) => {
       return a.arr.length > b.arr.length;

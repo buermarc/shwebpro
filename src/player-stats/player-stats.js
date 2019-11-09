@@ -11,7 +11,7 @@ import ColorUtils from '../stats/color-utils.js'
 class PlayerStats {
   constructor(app, playerName) {
     this._app = app;
-
+    this._playerName = playerName;
     this._tableElement = null;
     this._doh = new DataObjectHandler(true);
   }
@@ -27,27 +27,27 @@ class PlayerStats {
 
 
     // Event Listener zum Suchen von Songs
-    // this._searchField.addEventListener("keyup", event => {
-    //   if (event.key === "Enter") {
-    //     // Bei Enter sofort suchen
-    //     console.log('asd');
-    //     this._renderTable(this._searchField.value, this._tableElement, this._doh);
-    //
-    //     if (this._searchTimeout) {
-    //       window.clearTimeout(this._searchTimeout);
-    //       this._searchTimeout = null;
-    //     }
-    //   } else {
-    //     // Bei sonstigem Tastendruck nur alle halbe Sekunde suchen
-    //     if (!this._searchTimeout) {
-    //       this._searchTimeout = window.setTimeout(() => {
-    //         this._renderTable(this._searchField.value, this._tableElement, this._doh);
-    //         this._searchTimeout = null;
-    //       }, 500);
-    //     }
-    //   }
-    // });
-    // this._renderTable('', this._tableElement, this._doh);
+    this._searchField.addEventListener("keyup", event => {
+      if (event.key === "Enter") {
+        // Bei Enter sofort suchen
+        console.log('asd');
+        this._renderTable(this._searchField.value, this._tableElement, this._doh);
+
+        if (this._searchTimeout) {
+          window.clearTimeout(this._searchTimeout);
+          this._searchTimeout = null;
+        }
+      } else {
+        // Bei sonstigem Tastendruck nur alle halbe Sekunde suchen
+        if (!this._searchTimeout) {
+          this._searchTimeout = window.setTimeout(() => {
+            this._renderTable(this._searchField.value, this._tableElement, this._doh);
+            this._searchTimeout = null;
+          }, 500);
+        }
+      }
+    });
+    this._renderTable('', this._tableElement, this._doh);
 
     return {
       className: 'player-stats',
@@ -78,35 +78,40 @@ class PlayerStats {
       return a.playerName.localeCompare(b.playerName);
     });
 
-    let tableContent = await Promise.all(games.map(async game => {
-      let result = await doh.getGameRoundByGameId(game.id);
+    let tableContent = await Promise.all(players.map(async player => {
+      let result = await doh.getGameRoundByPlayerId(player.id);
       //enrich with playerName
       result = await Promise.all(result.map(async ele => {
-        let playerName = await doh.getPlayerById(ele.playerId);
-        playerName = playerName.playerName;
-        ele['playerName'] = playerName;
+        let gameName = await doh.getGameById(ele.gameId);
+        gameName = gameName.gameName;
+        ele['gameName'] = gameName;
         return ele;
       }));
       result.sort((a, b) => {
-        return a.playerName.localeCompare(b.playerName);
+        return a.gameName.localeCompare(b.gameName);
       });
-      let gameName = await doh.getGameById(game.id);
-      gameName = gameName.gameName;
+      let playerName = await doh.getPlayerById(player.id);
+      playerName = playerName.playerName;
       return {
-        gameId: game.id,
-        gameName: gameName,
+        playerId: player.id,
+        playerName: playerName,
         arr: result
       };
     }));
 
+    //leere arrays rausfiltern
+    tableContent = tableContent.filter(x => {
+      return x.arr.length > 0;
+    });
+    //filter nach player unabhängig von query da player-stats view
+    let res1 = tableContent.filter(x => {
+      return x.playerName.search(this._playerName) > -1;
+    });
+    //normale suche nach spiele
     if (query != null && query != '') {
-      let res1 = tableContent.filter(x => {
-        return x.gameName.search(query) > -1;
-      });
-
       let res2 = tableContent.filter(x => {
         let arr = x.arr.map(m => {
-          return m.playerName;
+          return m.gameName;
         });
         let v = arr.toString().search(query) > -1;
         return v;
@@ -114,13 +119,14 @@ class PlayerStats {
 
       res2 = res2.map(x => {
         x.arr = x.arr.filter(y => {
-          return y.playerName.search(query) > -1;
+          return y.gameName.search(query) > -1;
         })
         return x;
       });
       tableContent = res2.concat(res1);
       tableContent = Array.from(new Set(tableContent));
     }
+    tableContent = res1;
 
     tableContent.sort((a, b) => {
       return a.arr.length > b.arr.length;
@@ -135,16 +141,24 @@ class PlayerStats {
     // parentNode = tmp;
 
     tableContent.forEach(x => {
-      let gameColor = ColorUtils.hashStringToColor(x.gameName, 211);
+      let gameColor = ColorUtils.hashStringToColor(x.playerName, 211);
       let div = document.createElement('div');
       div.classList.add('table-box')
       let tmpDiv = document.createElement('div');
       tmpDiv.classList.add('row');
       tmpDiv.id = 'gameName'
-      tmpDiv.innerHTML = x.gameName;
-      tmpDiv.style.backgroundColor = gameColor;
+      let eleDiv = document.createElement('div');
+      // eleDiv.classList.add('blocker');
+      // tmpDiv.appendChild(eleDiv);
+      // eleDiv = document.createElement('div');
+      eleDiv.classList.add('colorstrip');
+      eleDiv.style.backgroundColor = gameColor;
+      tmpDiv.appendChild(eleDiv);
+      let eleA = document.createElement('a');
+      eleA.innerHTML = x.playerName;
+      tmpDiv.appendChild(eleA);
       tmpDiv.addEventListener('click', () => {
-        window.location.href = '#/stats/game/' + x.gameName;
+        window.location.href = '#/stats/player/' + x.playerName;
       });
       div.appendChild(tmpDiv);
       tmpDiv = document.createElement('div');
@@ -161,13 +175,17 @@ class PlayerStats {
       tmpDiv2.classList.add('field');
       tmpDiv2.classList.add('win');
       tmpDiv2.classList.add(x.gameName);
-      tmpDiv2.innerHTML = 'Gewonnen';
+      eleA = document.createElement('a');
+      eleA.innerHTML = 'Gewonnen';
+      tmpDiv2.appendChild(eleA);
       tmpDiv.appendChild(tmpDiv2);
       tmpDiv2 = document.createElement('div');
       tmpDiv2.classList.add('field');
       tmpDiv2.classList.add('lose');
       tmpDiv2.classList.add(x.gameName);
-      tmpDiv2.innerHTML = 'Verloren';
+      eleA = document.createElement('a');
+      eleA.innerHTML = 'Verloren';
+      tmpDiv2.appendChild(eleA);
       tmpDiv.appendChild(tmpDiv2);
       x.arr.forEach(y => {
         tmpDiv = document.createElement('div');
@@ -177,30 +195,39 @@ class PlayerStats {
         tmpDiv2 = document.createElement('div');
         tmpDiv2.classList.add('field');
         tmpDiv2.classList.add('playerName');
-        tmpDiv2.innerHTML = y.playerName;
-        tmpDiv2.style.backgroundColor = ColorUtils.hashStringToColor(y.playerName, 152);
-        tmpDiv2.addEventListener('click', () => {
-          window.location.href = '#/stats/player/' + y.playerName;
+        eleDiv = document.createElement('div');
+        eleDiv.classList.add('colorstrip');
+        eleDiv.style.backgroundColor = ColorUtils.hashStringToColor(y.gameName, 152);
+        tmpDiv2.appendChild(eleDiv);
+        eleA = document.createElement('a');
+        eleA.innerHTML = y.gameName;
+        tmpDiv2.appendChild(eleA);
+        tmpDiv2.style.backgroundColor = tmpDiv2.addEventListener('click', () => {
+          window.location.href = '#/stats/game/' + y.gameName;
         });
         tmpDiv.appendChild(tmpDiv2);
         tmpDiv2 = document.createElement('div');
         tmpDiv2.classList.add('field');
         tmpDiv2.classList.add('win');
         tmpDiv2.classList.add(x.gameName);
-        tmpDiv2.innerHTML = y.win;
+        eleA = document.createElement('a');
+        eleA.innerHTML = y.win;
+        tmpDiv2.appendChild(eleA);
         tmpDiv.appendChild(tmpDiv2);
         tmpDiv2 = document.createElement('div');
         tmpDiv2.classList.add('field');
         tmpDiv2.classList.add('lose');
         tmpDiv2.classList.add(x.gameName);
-        tmpDiv2.innerHTML = y.lose;
+        eleA = document.createElement('a');
+        eleA.innerHTML = y.lose;
+        tmpDiv2.appendChild(eleA);
         tmpDiv.appendChild(tmpDiv2);
 
       });
       parentNode.appendChild(div);
-      gameColor = ColorUtils.hashStringToColor(x.gameName, 152);
-      document.querySelectorAll('div.field.win.' + x.gameName).forEach(x => x.style.backgroundColor = gameColor);
-      document.querySelectorAll('div.field.lose.' + x.gameName).forEach(x => x.style.backgroundColor = gameColor);
+      gameColor = ColorUtils.hashStringToColor(x.playerName, 152);
+      // document.querySelectorAll('div.field.win.' + x.gameName).forEach(x => x.style.backgroundColor = gameColor);
+      // document.querySelectorAll('div.field.lose.' + x.gameName).forEach(x => x.style.backgroundColor = gameColor);
     });
   }
 
