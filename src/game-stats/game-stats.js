@@ -142,11 +142,16 @@ class GameStats {
       let tmpDiv = document.createElement('div');
       tmpDiv.classList.add('row');
       tmpDiv.id = 'gameName'
+      let eleDiv = document.createElement('div');
+      // eleDiv.classList.add('blocker');
+      // tmpDiv.appendChild(eleDiv);
+      // eleDiv = document.createElement('div');
+      eleDiv.classList.add('colorstrip');
+      eleDiv.style.backgroundColor = gameColor;
+      tmpDiv.appendChild(eleDiv);
       let eleA = document.createElement('a');
-      console.log('asd');
       eleA.innerHTML = x.gameName;
       tmpDiv.appendChild(eleA);
-      tmpDiv.style.backgroundColor = gameColor;
       tmpDiv.addEventListener('click', () => {
         window.location.href = '#/stats/game/' + x.gameName;
       });
@@ -185,11 +190,14 @@ class GameStats {
         tmpDiv2 = document.createElement('div');
         tmpDiv2.classList.add('field');
         tmpDiv2.classList.add('playerName');
+        eleDiv = document.createElement('div');
+        eleDiv.classList.add('colorstrip');
+        eleDiv.style.backgroundColor = ColorUtils.hashStringToColor(y.playerName, 152);
+        tmpDiv2.appendChild(eleDiv);
         eleA = document.createElement('a');
         eleA.innerHTML = y.playerName;
         tmpDiv2.appendChild(eleA);
-        tmpDiv2.style.backgroundColor = ColorUtils.hashStringToColor(y.playerName, 152);
-        tmpDiv2.addEventListener('click', () => {
+        tmpDiv2.style.backgroundColor = tmpDiv2.addEventListener('click', () => {
           window.location.href = '#/stats/player/' + y.playerName;
         });
         tmpDiv.appendChild(tmpDiv2);
@@ -213,8 +221,8 @@ class GameStats {
       });
       parentNode.appendChild(div);
       gameColor = ColorUtils.hashStringToColor(x.gameName, 152);
-      document.querySelectorAll('div.field.win.' + x.gameName).forEach(x => x.style.backgroundColor = gameColor);
-      document.querySelectorAll('div.field.lose.' + x.gameName).forEach(x => x.style.backgroundColor = gameColor);
+      // document.querySelectorAll('div.field.win.' + x.gameName).forEach(x => x.style.backgroundColor = gameColor);
+      // document.querySelectorAll('div.field.lose.' + x.gameName).forEach(x => x.style.backgroundColor = gameColor);
     });
   }
 

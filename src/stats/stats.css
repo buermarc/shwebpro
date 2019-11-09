@@ -66,9 +66,9 @@
 }
 
 .stats div.table-box {
-  width: 20em;
+  width: 48.5%;
   margin-top: 0.5em;
-  margin-left: 1em;
+  margin-left: 1%;
 }
 
 .stats div.blocker {
@@ -77,7 +77,7 @@
 }
 
 .stats div#gameName.row {
-  background-color: #EEEEEE;
+  background: var(--overview-heading-background-color);
   text-align: center;
   display: inline-block;
   position: relative;
@@ -93,6 +93,7 @@
 .stats div.row {
   display: flex;
   width: 100%;
+
 }
 
 .stats #win-lose>div.win.lose {
@@ -106,9 +107,10 @@
 }
 
 .stats div.field {
-  padding-top: 0.25em;
+  padding-top: 0.45em;
   padding-left: 0.3em;
   padding-right: 0.3em;
+  padding-bottom: 0.3em;
   overflow: hidden;
 }
 
@@ -133,7 +135,7 @@
 .stats div.field.playerName {
   width: 20%;
   position: relative;
-  background-color: #EEEEEE;
+  background: var(--overview-heading-background-color);
 }
 
 .stats div#win-lose.row>div.field.win {
