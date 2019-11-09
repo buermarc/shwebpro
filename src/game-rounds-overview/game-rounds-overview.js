@@ -2,12 +2,21 @@
 
 import stylesheet from "./game-rounds-overview.css";
 import overview from './game-rounds-overview.html';
+import DataObjectHandler from '../data-access/data-object-handler.js';
+import PlayerToGameRound from '../data-access/data-objects/player-to-game-round.js';
+import Game from '../data-access/data-objects/game.js';
+import GameRound from '../data-access/data-objects/game-round.js';
+import GameToGameRound from '../data-access/data-objects/game-to-game-round.js';
+import Player from '../data-access/data-objects/player.js';
+import db from '../data-access/database-handler.js'
+
+let database = db.database;
 
 
 /**
- * View zum Anzeigen des derzeitigen SPielstandes und eingabe der nächsten Ergebnisse.
+ * View zum Anzeigen der offenen Runden eines Spieles
  */
-class NewGame {
+class GameRoundsOverview {
   /**
    * Konstruktor.
    *
@@ -146,4 +155,4 @@ class NewGame {
     }
 }
 
-export default NewGame;
+export default GameRoundsOverview;

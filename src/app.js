@@ -5,6 +5,7 @@ import SongDisplayEdit from "./song-display-edit/song-display-edit.js";
 import SongOverview from "./song-overview/song-overview.js";
 import Stats from './stats/stats.js';
 import GameOverview from "./game-overview/game-overview.js";
+import GameRoundsOverview from "./game-rounds-overview/game-rounds-overview.js";
 import Navigo from 'navigo/lib/navigo.js';
 
 class App {
@@ -24,6 +25,7 @@ class App {
       "/song/edit/:id/": params => this.showSongDisplayEdit(params.id, "edit"),
       '/stats/': () => this.showStats(),
       "/gameOverview": () => this.showGameOverview(),
+      "/gameRoundsOverview": () => this.showGameRoundsOverview(),
     });
 
     // this._router.hooks({
@@ -124,7 +126,12 @@ class App {
   }
 
   showGameOverview() {
-    let view = new GameOverview(this); 
+    let view = new GameOverview(this);
+    this._switchVisibleView(view);
+  }
+
+  showGameRoundsOverview() {
+    let view = new GameRoundsOverview(this);
     this._switchVisibleView(view);
   }
 
