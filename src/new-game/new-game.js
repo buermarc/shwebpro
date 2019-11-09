@@ -26,8 +26,21 @@ class NewGame {
      this._spielstand = [30, -90, 150, 120];
      this._gespielteRunden = 5;
      this._spiel="Doppelkopf";
+     this._beendet = true;
+
+     this._spiele = [[], [], []];
+
      this._bodyTable="";
 
+     //Buttons weiterspielen und rundeBeenden deaktivieren, sollte keine offene
+     //Runde vorhanden sein
+     if (this._beendet == true) {
+       document.getElementById('weiterspielen').disabled = true;
+     }
+
+     if (this._spiele[0][0] == null) {
+       document.getElementById('rundeBeenden').disabled = true;
+     }
 
    }
 
@@ -79,6 +92,29 @@ class NewGame {
     }
 
     createTable(runde){
+
+      //Listener für die fünf Buttons initialisieren
+      document.getElementById("neuesSpiel").addEventListener("click", () => {
+        dialog.show();
+      });
+
+      document.getElementById("neuesSpielStarten").addEventListener("click", () => {
+        //Datenobjekt an Lasses Screen geben
+      });
+
+      document.getElementById("abbrechen").addEventListener("click", () => {
+        dialog.close();
+      });
+
+      document.getElementById("weiterspielen").addEventListener("click", () => {
+        //Datenobjekt an Lasses Screen geben
+      });
+
+      document.getElementById("rundeBeenden").addEventListener("click", () => {
+        //Variable Runde beendet auf true setzen
+      });
+
+      // HTML-Seite generieren
       buildBodyTable(this._gespielteRunden, this._spiel);
       document.getElementById("tabelleOffeneSpiele").innerHTML +=
       // this._listElement.innerHTML +=
