@@ -1,7 +1,7 @@
 "use strict";
 
-import stylesheet from "./new-game.css";
-import overview from './new-game.html';
+import stylesheet from "./game-rounds-overview.css";
+import overview from './game-rounds-overview.html';
 
 
 /**
@@ -22,13 +22,16 @@ class NewGame {
    constructor(app) {
      this._app = app;
 
+     //Mockdaten => Daten aus Dantebank hohlen und in entsprechende Variablen Speichern
+     this._spiele = [[], [], []];
+
+     //Eventuelle for-Schleifen um Daten zu speichern oder für jedes Spielobjekt
+     //einzeln durchlaufen
      this._spieler = ["Josia", "Karin", "Marc", "Lasse"];
      this._spielstand = [30, -90, 150, 120];
      this._gespielteRunden = 5;
      this._spiel="Doppelkopf";
      this._beendet = true;
-
-     this._spiele = [[], [], []];
 
      this._bodyTable="";
 
@@ -58,14 +61,14 @@ class NewGame {
       let container = document.createElement("div");
       container.innerHTML = overview.trim();
 
-      let section = container.querySelector("#new-game").cloneNode(true);
-      this._listElement = section.querySelector("#new-game > main > div");
-      this._documentElement = section.querySelector("#new-game > main");
+      let section = container.querySelector("#game-rounds-overview").cloneNode(true);
+      this._listElement = section.querySelector("#game-rounds-overview > main > div");
+      this._documentElement = section.querySelector("#game-rounds-overview > main");
 
       this.createTable(this._gespielteRunden);
 
       return {
-        className: "new-game",
+        className: "game-rounds-overview",
         topbar: section.querySelectorAll("header > *"),
         main: section.querySelectorAll("main > *"),
       };
