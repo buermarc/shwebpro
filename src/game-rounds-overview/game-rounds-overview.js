@@ -74,7 +74,7 @@ class GameRoundsOverview {
       this._listElement = section.querySelector("#game-rounds-overview > main > div");
       this._documentElement = section.querySelector("#game-rounds-overview > main");
 
-      this.createTable(this._gespielteRunden);
+      this.createTable();
 
       return {
         className: "game-rounds-overview",
@@ -103,19 +103,40 @@ class GameRoundsOverview {
       return "Neues Spiel";
     }
 
-    createTable(runde){
+    createTable(){
 
-      //Listener für die fünf Buttons initialisieren
+      // Listener für die sieben Buttons initialisieren
       document.getElementById("neuesSpiel").addEventListener("click", () => {
-        dialog.show();
-      });
-
-      document.getElementById("neuesSpielStarten").addEventListener("click", () => {
-        //Datenobjekt an Lasses Screen geben
+        document.getElementsByTagName('dialog')[0].show();
       });
 
       document.getElementById("abbrechen").addEventListener("click", () => {
-        dialog.close();
+        document.getElementsByTagName('dialog')[0].close();
+      });
+
+      document.getElementById("abbrechen2").addEventListener("click", () => {
+        document.getElementsByTagName('dialog')[1].close();
+      });
+
+      document.getElementById("neuesSpielErstellen").addEventListener("click", () => {
+        document.getElementsByTagName('dialog')[1].close();
+        //Datenobjekt an Lasses Screen geben
+      });
+
+      document.getElementById("weiter").addEventListener("click", () => {
+        document.getElementsByTagName('dialog')[0].close();
+
+        var anzahl = document.querySelector("#spieleranzahl").value;
+        var string = "";
+        for (var i = 0; i < anzahl; i++) {
+          string += '<input>'+
+                    '</input>'+
+                    '<br>';
+        }
+
+        document.getElementById("anzahlSpieler").innerHTML += string;
+
+        document.getElementsByTagName('dialog')[1].show();
       });
 
       document.getElementById("weiterspielen").addEventListener("click", () => {
@@ -125,6 +146,8 @@ class GameRoundsOverview {
       document.getElementById("rundeBeenden").addEventListener("click", () => {
         //Variable Runde beendet auf true setzen
       });
+
+
 
       // HTML-Seite generieren
       buildBodyTable(this._gespielteRunden, this._spiel);
