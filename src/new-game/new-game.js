@@ -25,6 +25,9 @@ class NewGame {
      this._spieler = ["Josia", "Karin", "Marc", "Lasse"];
      this._spielstand = [30, -90, 150, 120];
      this._gespielteRunden = 5;
+     this._spiel="Doppelkopf";
+     this._bodyTable="";
+
 
    }
 
@@ -43,8 +46,10 @@ class NewGame {
       container.innerHTML = overview.trim();
 
       let section = container.querySelector("#new-game").cloneNode(true);
+      this._listElement = section.querySelector("#new-game > main > div");
+      this._documentElement = section.querySelector("#new-game > main");
 
-      this.createTable();
+      this.createTable(this._gespielteRunden);
 
       return {
         className: "new-game",
@@ -73,48 +78,32 @@ class NewGame {
       return "Neues Spiel";
     }
 
-    createTable(){
-      var btn = document.createElement("BUTTON");
-      btn.innerHTML = "Speichern";
-      this._documentElement.appendChild(btn);
+    createTable(runde){
+      buildBodyTable(this._gespielteRunden, this._spiel);
+      document.getElementById("tabelleOffeneSpiele").innerHTML +=
+      // this._listElement.innerHTML +=
+      '<table>'+
+        this._bodyTable+
+      '</table>';
+    }
 
+    buildBodyTable(runde, spiel){
+      this._bodyTable += '<th>'+spiel+'</th>';
       for (var i = 0; i < this._spieler.length; i++) {
-        this.buildTable(this._spieler[i], this._spielstand[i], i)
+        createBodyTable(this._spieler[i], this._spielstand[i]);
       }
-
-     btn.addEventListener("click", () => {
-      this.speichern()
-    });
-
+      this._bodyTable +=
+        '<tr>'+
+        '<td>Gespielte Runden: '+runde+'</td>'+
+        '</tr>';
     }
 
-    buildTable(name, punkte, nummer){
-      this._listElement.innerHTML+=`
-      <div class="tSpielerColumnName" >
-          <h2>`+name+`</h2>
-        </div>
-        <div class="tSpielerColumnPunkte">
-          <h2 id="spPunkte`+nummer+`">`+punkte+`</h2>
-        </div>
-        <div class="tSpielerColumnInput">
-          <input type="number" id="spInput`+nummer+`"/>
-        </div>
-      `;
-    }
-
-    speichern(){
-      for(var i = 0; i<this._spieler.length;i++){
-        var wert = document.getElementById("spInput"+i).value;
-        if(wert==0){window.alert("Bitte alle Felder ausfüllen"); return;}
-      }
-      for(var i = 0; i<this._spieler.length;i++){
-        var wert = document.getElementById("spInput"+i).value;
-        var wert = parseInt(wert, 10);
-        var wert2 = parseInt(this._spielstand[i], 10);
-        this._spielstand[i]=wert2+wert;
-        document.getElementById("spPunkte"+i).innerHTML=this._spielstand[i];
-        document.getElementById("spInput"+i).value="";
-      }
+    createBodyTable(spielername, punkte){
+      this._bodyTable +=
+      '<tr>'+
+      '<td>'+spielername+'</td>'+
+      '<td>'+punkte+'</td>'+
+      '</tr>';
     }
 }
 
