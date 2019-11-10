@@ -28,154 +28,182 @@ class GameRoundsOverview {
 
 
 
-   constructor(app) {
-     this._app = app;
+  constructor(app) {
+    this._app = app;
 
-     //Mockdaten => Daten aus Dantebank hohlen und in entsprechende Variablen Speichern
-     this._spiele = [[], [], []];
+    //Mockdaten => Daten aus Dantebank hohlen und in entsprechende Variablen Speichern
+    this._spiele = [
+      [],
+      [],
+      []
+    ];
 
-     //Eventuelle for-Schleifen um Daten zu speichern oder für jedes Spielobjekt
-     //einzeln durchlaufen
-     this._spieler = ["Josia", "Karin", "Marc", "Lasse"];
-     this._spielstand = [30, -90, 150, 120];
-     this._gespielteRunden = 5;
-     this._spiel="Doppelkopf";
-     this._beendet = true;
+    //Eventuelle for-Schleifen um Daten zu speichern oder für jedes Spielobjekt
+    //einzeln durchlaufen
+    this._spieler = ["Josia", "Karin", "Marc", "Lasse"];
+    this._spielstand = [30, -90, 150, 120];
+    this._gespielteRunden = 5;
+    this._spiel = "Doppelkopf";
+    this._beendet = true;
 
-     this._bodyTable="";
+    this._bodyTable = "";
 
-     //Buttons weiterspielen und rundeBeenden deaktivieren, sollte keine offene
-     //Runde vorhanden sein
-     if (this._beendet == true) {
-       document.getElementById('weiterspielen').disabled = true;
-     }
+    //Buttons weiterspielen und rundeBeenden deaktivieren, sollte keine offene
+    //Runde vorhanden sein
 
-     if (this._spiele[0][0] == null) {
-       document.getElementById('rundeBeenden').disabled = true;
-     }
+  }
 
-   }
+  /**
+   * Von der Klasse App aufgerufene Methode, um die Seite anzuzeigen. Die
+   * Methode gibt daher ein passendes Objekt zurück, das an die Methode
+   * _switchVisibleContent() der Klasse App übergeben werden kann, um ihr
+   * die darzustellenden DOM-Elemente mitzuteilen.
+   *
+   * @return {Object} Darzustellende DOM-Elemente gemäß Beschreibung der
+   * Methode App._switchVisibleContent()
+   */
+  async onShow() {
 
-   /**
-    * Von der Klasse App aufgerufene Methode, um die Seite anzuzeigen. Die
-    * Methode gibt daher ein passendes Objekt zurück, das an die Methode
-    * _switchVisibleContent() der Klasse App übergeben werden kann, um ihr
-    * die darzustellenden DOM-Elemente mitzuteilen.
-    *
-    * @return {Object} Darzustellende DOM-Elemente gemäß Beschreibung der
-    * Methode App._switchVisibleContent()
-    */
-    async onShow() {
+    let container = document.createElement("div");
+    container.innerHTML = overview.trim();
 
-      let container = document.createElement("div");
-      container.innerHTML = overview.trim();
+    let section = container.querySelector("#game-rounds-overview").cloneNode(true);
+    this._listElement = section.querySelector("#game-rounds-overview > main > div");
+    this._documentElement = section.querySelector("#game-rounds-overview > main");
 
-      let section = container.querySelector("#game-rounds-overview").cloneNode(true);
-      this._listElement = section.querySelector("#game-rounds-overview > main > div");
-      this._documentElement = section.querySelector("#game-rounds-overview > main");
+    this.createTable();
 
-      this.createTable();
+    return {
+      className: "game-rounds-overview",
+      topbar: section.querySelectorAll("header > *"),
+      main: section.querySelectorAll("main > *"),
+    };
+  }
 
-      return {
-        className: "game-rounds-overview",
-        topbar: section.querySelectorAll("header > *"),
-        main: section.querySelectorAll("main > *"),
-      };
+  /**
+   * Von der Klasse App aufgerufene Methode, um festzustellen, ob der Wechsel
+   * auf eine neue Seite erlaubt ist. Wird hier true zurückgegeben, wird der
+   * Seitenwechsel ausgeführt.
+   *
+   * @param  {Function} goon Callback, um den Seitenwechsel zu einem späteren
+   * Zeitpunkt fortzuführen, falls wir hier false zurückgeben
+   * @return {Boolean} true, wenn der Seitenwechsel erlaubt ist, sonst false
+   */
+  async onLeave(goon) {
+    return true;
+  }
+
+  /**
+   * @return {String} Titel für die Titelzeile des Browsers
+   */
+  get title() {
+    return "Neues Spiel";
+  }
+
+  async createTable() {
+
+
+    this._documentElement.innerHTML =
+      `<div class="offeneSpiele" id="tabelleOffeneSpiele"></div>
+
+      <button id="neuesSpiel">Neues Spiel</button>
+      <button id="weiterspielen">Weiterspielen</button>
+      <button id="rundeBeenden">Runde Beenden</button>
+
+      <dialog>
+          <p>Anzahl der Spieler festlegen</p>
+          <input placeholder="Anzahl der Spieler eingeben" type="number" id="spieleranzahl"></input>
+          <br>
+          <button id="abbrechen">Abbrechen</button>
+          <button id="weiter">Weiter</button>
+      </dialog>
+
+      <dialog>
+          <h2>Spieler</h2>
+          <div id="anzahlSpieler"></div>
+          <button id="abbrechen2">Abbrechen</button>
+          <button id="neuesSpielErstellen">Neues Spiel erstellen</button>
+      </dialog>`
+
+    if (this._beendet == true) {
+      // document.getElementById('weiterspielen').disabled = true;
     }
 
-    /**
-     * Von der Klasse App aufgerufene Methode, um festzustellen, ob der Wechsel
-     * auf eine neue Seite erlaubt ist. Wird hier true zurückgegeben, wird der
-     * Seitenwechsel ausgeführt.
-     *
-     * @param  {Function} goon Callback, um den Seitenwechsel zu einem späteren
-     * Zeitpunkt fortzuführen, falls wir hier false zurückgeben
-     * @return {Boolean} true, wenn der Seitenwechsel erlaubt ist, sonst false
-     */
-    async onLeave(goon) {
-      return true;
+    if (this._spiele[0][0] == null) {
+      // document.getElementById('rundeBeenden').disabled = true;
     }
 
-    /**
-     * @return {String} Titel für die Titelzeile des Browsers
-     */
-    get title() {
-      return "Neues Spiel";
-    }
+    // Listener für die sieben Buttons initialisieren
+    this._documentElement.querySelector("#neuesSpiel").addEventListener("click", () => {
+      document.getElementsByTagName('dialog')[0].show();
+    });
 
-    createTable(){
+    this._documentElement.querySelector("#abbrechen").addEventListener("click", () => {
+      document.getElementsByTagName('dialog')[0].close();
+    });
 
-      // Listener für die sieben Buttons initialisieren
-      document.getElementById("neuesSpiel").addEventListener("click", () => {
-        document.getElementsByTagName('dialog')[0].show();
-      });
+    this._documentElement.querySelector("#abbrechen2").addEventListener("click", () => {
+      document.getElementsByTagName('dialog')[1].close();
+    });
 
-      document.getElementById("abbrechen").addEventListener("click", () => {
-        document.getElementsByTagName('dialog')[0].close();
-      });
+    this._documentElement.querySelector("#neuesSpielErstellen").addEventListener("click", () => {
+      document.getElementsByTagName('dialog')[1].close();
+      //Datenobjekt an Lasses Screen geben
+    });
 
-      document.getElementById("abbrechen2").addEventListener("click", () => {
-        document.getElementsByTagName('dialog')[1].close();
-      });
+    this._documentElement.querySelector("#weiter").addEventListener("click", () => {
+      document.getElementsByTagName('dialog')[0].close();
 
-      document.getElementById("neuesSpielErstellen").addEventListener("click", () => {
-        document.getElementsByTagName('dialog')[1].close();
-        //Datenobjekt an Lasses Screen geben
-      });
-
-      document.getElementById("weiter").addEventListener("click", () => {
-        document.getElementsByTagName('dialog')[0].close();
-
-        var anzahl = document.querySelector("#spieleranzahl").value;
-        var string = "";
-        for (var i = 0; i < anzahl; i++) {
-          string += '<input>'+
-                    '</input>'+
-                    '<br>';
-        }
-
-        document.getElementById("anzahlSpieler").innerHTML += string;
-
-        document.getElementsByTagName('dialog')[1].show();
-      });
-
-      document.getElementById("weiterspielen").addEventListener("click", () => {
-        //Datenobjekt an Lasses Screen geben
-      });
-
-      document.getElementById("rundeBeenden").addEventListener("click", () => {
-        //Variable Runde beendet auf true setzen
-      });
-
-
-
-      // HTML-Seite generieren
-      buildBodyTable(this._gespielteRunden, this._spiel);
-      document.getElementById("tabelleOffeneSpiele").innerHTML +=
-      // this._listElement.innerHTML +=
-      '<table>'+
-        this._bodyTable+
-      '</table>';
-    }
-
-    buildBodyTable(runde, spiel){
-      this._bodyTable += '<th>'+spiel+'</th>';
-      for (var i = 0; i < this._spieler.length; i++) {
-        createBodyTable(this._spieler[i], this._spielstand[i]);
+      var anzahl = document.querySelector("#spieleranzahl").value;
+      var string = "";
+      for (var i = 0; i < anzahl; i++) {
+        string += '<input>' +
+          '</input>' +
+          '<br>';
       }
-      this._bodyTable +=
-        '<tr>'+
-        '<td>Gespielte Runden: '+runde+'</td>'+
-        '</tr>';
-    }
 
-    createBodyTable(spielername, punkte){
-      this._bodyTable +=
-      '<tr>'+
-      '<td>'+spielername+'</td>'+
-      '<td>'+punkte+'</td>'+
-      '</tr>';
+      document.querySelector("#anzahlSpieler").innerHTML = string;
+
+      document.getElementsByTagName('dialog')[1].show();
+    });
+
+    this._documentElement.querySelector("#weiterspielen").addEventListener("click", () => {
+      //Datenobjekt an Lasses Screen geben
+    });
+
+    this._documentElement.querySelector("#rundeBeenden").addEventListener("click", () => {
+      //Variable Runde beendet auf true setzen
+    });
+
+
+
+    // HTML-Seite generieren
+    this.buildBodyTable(this._gespielteRunden, this._spiel);
+    this._documentElement.querySelector("#tabelleOffeneSpiele").innerHTML +=
+      // this._listElement.innerHTML +=
+      '<table>' +
+      this._bodyTable +
+      '</table>';
+  }
+
+  buildBodyTable(runde, spiel) {
+    this._bodyTable += '<th>' + spiel + '</th>';
+    for (var i = 0; i < this._spieler.length; i++) {
+      this.createBodyTable(this._spieler[i], this._spielstand[i]);
     }
+    this._bodyTable +=
+      '<tr>' +
+      '<td>Gespielte Runden: ' + runde + '</td>' +
+      '</tr>';
+  }
+
+  createBodyTable(spielername, punkte) {
+    this._bodyTable +=
+      '<tr>' +
+      '<td>' + spielername + '</td>' +
+      '<td>' + punkte + '</td>' +
+      '</tr>';
+  }
 }
 
 export default GameRoundsOverview;
