@@ -102,35 +102,35 @@ class GameRoundsOverview {
 
   async createTable() {
 
+    //von Marc: den gesamten HTML-Code per JS einfügen
 
-    this._documentElement.innerHTML =
-      `<div class="offeneSpiele" id="tabelleOffeneSpiele"></div>
+    // this._documentElement.innerHTML =
+    //   `<div class="offeneSpiele" id="tabelleOffeneSpiele"></div>
+    //   <button id="neuesSpiel">Neues Spiel</button>
+    //   <button id="weiterspielen">Weiterspielen</button>
+    //   <button id="rundeBeenden">Runde Beenden</button>
+    //   <dialog>
+    //       <p>Anzahl der Spieler festlegen</p>
+    //       <input placeholder="Anzahl der Spieler eingeben" type="number" id="spieleranzahl"></input>
+    //       <br>
+    //       <button id="abbrechen">Abbrechen</button>
+    //       <button id="weiter">Weiter</button>
+    //   </dialog>
+    //   <dialog>
+    //       <h2>Spieler</h2>
+    //       <div id="anzahlSpieler"></div>
+    //       <button id="abbrechen2">Abbrechen</button>
+    //       <button id="neuesSpielErstellen">Neues Spiel erstellen</button>
+    //   </dialog>`
 
-      <button id="neuesSpiel">Neues Spiel</button>
-      <button id="weiterspielen">Weiterspielen</button>
-      <button id="rundeBeenden">Runde Beenden</button>
-
-      <dialog>
-          <p>Anzahl der Spieler festlegen</p>
-          <input placeholder="Anzahl der Spieler eingeben" type="number" id="spieleranzahl"></input>
-          <br>
-          <button id="abbrechen">Abbrechen</button>
-          <button id="weiter">Weiter</button>
-      </dialog>
-
-      <dialog>
-          <h2>Spieler</h2>
-          <div id="anzahlSpieler"></div>
-          <button id="abbrechen2">Abbrechen</button>
-          <button id="neuesSpielErstellen">Neues Spiel erstellen</button>
-      </dialog>`
-
+    //Buttons weiterspielen und rundeBeenden deaktivieren, sollte keine offene
+    //Runde vorhanden sein
     if (this._beendet == true) {
-      // document.getElementById('weiterspielen').disabled = true;
+      //document.querySelector("#weiterspielen").disabled = true;
     }
 
     if (this._spiele[0][0] == null) {
-      // document.getElementById('rundeBeenden').disabled = true;
+      //document.querySelector("#rundeBeenden").disabled = true;
     }
 
     // Listener für die sieben Buttons initialisieren
