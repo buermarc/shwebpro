@@ -8,7 +8,6 @@ import Player from '../data-access/data-objects/player.js';
 import PlayerToGame from '../data-access/data-objects/player-to-game.js';
 import ColorUtils from '../stats/color-utils.js'
 import * as d3 from 'd3';
-import RadarChart from './radar-chart.js';
 
 class PlayerStats {
   constructor(app, playerName) {
@@ -50,7 +49,7 @@ class PlayerStats {
       }
     });
     this._renderTable('', this._tableElement, this._doh);
-    // this._createDiagramm();
+    this._createDiagramm(d3);
 
     return {
       className: 'player-stats',
@@ -138,7 +137,6 @@ class PlayerStats {
     while (parentNode.hasChildNodes()) {
       parentNode.removeChild(parentNode.firstChild);
     }
-    this._createDiagramm();
     // let tmp = document.createElement('div');
     // tmp.classList.add('table');
     // parentNode.appendChild(tmp);
@@ -336,7 +334,6 @@ class PlayerStats {
   }
 
   _createDiagramm() {
-    console.log('came here');
     // Sample dataset. In a real application, you will probably get this data from another source such as AJAX.
     var dataset = [5, 10, 15, 20, 25]
 
@@ -388,63 +385,6 @@ class PlayerStats {
 
       return max
     }
-    div = document.createElement('div');
-    div.classList.add('chart-container');
-    this._tableElement.parentNode.appendChild(div);
-    var data = [{
-        className: 'germany', // optional, can be used for styling
-        axes: [{
-            axis: "strength",
-            value: 13,
-            yOffset: 10
-          },
-          {
-            axis: "intelligence",
-            value: 6
-          },
-          {
-            axis: "charisma",
-            value: 5
-          },
-          {
-            axis: "dexterity",
-            value: 9
-          },
-          {
-            axis: "luck",
-            value: 2,
-            xOffset: -20
-          }
-        ]
-      },
-      {
-        className: 'argentina',
-        axes: [{
-            axis: "strength",
-            value: 6
-          },
-          {
-            axis: "intelligence",
-            value: 7
-          },
-          {
-            axis: "charisma",
-            value: 10
-          },
-          {
-            axis: "dexterity",
-            value: 13
-          },
-          {
-            axis: "luck",
-            value: 9
-          }
-        ]
-      }
-    ];
-    console.log(RadarChart);
-    RadarChart.draw('.chart-container', data);
-
   }
 }
 
