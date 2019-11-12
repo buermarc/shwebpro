@@ -3,7 +3,9 @@
 import stylesheet from './app.css';
 import SongDisplayEdit from "./song-display-edit/song-display-edit.js";
 import SongOverview from "./song-overview/song-overview.js";
+import Stats from './stats/stats.js';
 import GameOverview from "./game-overview/game-overview.js";
+import GameRoundsOverview from "./game-rounds-overview/game-rounds-overview.js";
 import Navigo from 'navigo/lib/navigo.js';
 
 class App {
@@ -21,25 +23,35 @@ class App {
       "/song/new/": () => this.showSongDisplayEdit("", "new"),
       "/song/display/:id/": params => this.showSongDisplayEdit(params.id, "display"),
       "/song/edit/:id/": params => this.showSongDisplayEdit(params.id, "edit"),
-      "/gameOverview": () => this.showGameOverview(), 
+      '/stats/': () => this.showStats(),
+      "/gameOverview": () => this.showGameOverview(),
+      "/gameRoundsOverview": () => this.showGameRoundsOverview(),
     });
+
+    // this._router.hooks({
+    //   after: (params) => {
+    //     if (!this._navAborted) {
+    //       // Navigation durchführen, daher die neue URL merken
+    //       this._currentUrl = this._router.lastRouteResolved().url;
+    //     } else {
+    //       // Navigation abbrechen, daher die URL in der Adresszeile
+    //       // auf den alten Wert der bisherigen View zurücksetzen
+    //       this._router.pause(true);
+    //       this._router.navigate(this._currentUrl);
+    //       this._router.pause(false);
+    //
+    //       this._navAborted = false;
+    //     }
+    //   }
+    // });
 
     this._router.hooks({
       after: (params) => {
-        if (!this._navAborted) {
-          // Navigation durchführen, daher die neue URL merken
-          this._currentUrl = this._router.lastRouteResolved().url;
-        } else {
-          // Navigation abbrechen, daher die URL in der Adresszeile
-          // auf den alten Wert der bisherigen View zurücksetzen
-          this._router.pause(true);
-          this._router.navigate(this._currentUrl);
-          this._router.pause(false);
-
-          this._navAborted = false;
-        }
+        // Navigation durchführen, daher die neue URL merken
+        this._currentUrl = this._router.lastRouteResolved().url;
       }
     });
+
 
     let menuButton = document.querySelector("header .hamburger-menu");
 
@@ -114,7 +126,12 @@ class App {
   }
 
   showGameOverview() {
-    let view = new GameOverview(this); 
+    let view = new GameOverview(this);
+    this._switchVisibleView(view);
+  }
+
+  showGameRoundsOverview() {
+    let view = new GameRoundsOverview(this);
     this._switchVisibleView(view);
   }
 
@@ -129,28 +146,11 @@ class App {
     let view = new SongDisplayEdit(this, id, mode);
     this._switchVisibleView(view);
   }
-  /**
- * Auswechseln des sichtbaren Inhalts der App. Hierfür muss der Methode
- * ein Objekt mit folgendem Aufbau übergeben werden:
- *
- *   {
-        className: "CSS-Klassenname",
- *      topbar: [DOM Element, DOM Element, DOM Element, ...],
- *      main: [DOM Element, DOM Element, DOM Element, ...],
- *   }
- *
- * Beide Attribute (topbar und main) sind optional, was dazu führt, dass
- * im jeweiligen Bereich einfach nichts angezeigt wird. Werden sie jedoch
- * mitgegeben, müssen sie mit forEach(element => { … }) iteriert werden
- * können, um ihren Inhalt in den DOM-Baum zu integrieren.
- *
- * Wichtig ist, dass die übergebenen Elemente noch an keiner Stelle im
- * DOM vorhanden sein dürfen. Werden die Elemente in der index.html
- * als Vorlage definiert, muss hier deshalb eine Kopie anstelle der
- * Elemente selbst übergeben werden!
- *
- * @param {Object} content Objekt mit den anzuzeigenden DOM-Elementen
- */
+
+  showStats() {
+    let view = new Stats(this);
+    this._switchVisibleView(view);
+  }
 
   /**
    * Hilfsklasse zum Umschalten auf eine neue Seite. Sie ruft zunächst die
