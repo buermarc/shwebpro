@@ -1,4 +1,5 @@
-.tSpieler{
+.dummy {}
+.tSpieler {
     display: grid;
     grid-template-columns:  25% 35% 25%;
     grid-gap: 10px;
@@ -6,8 +7,9 @@
     padding: 10px;
     margin-left: 25%;
     margin-right: 25%;
+    
 }
-.tSpielerColumnName{
+.round-overview  .tSpielerColumnName{
     background-color: yellowgreen;
     border: 1px solid black;
     text-align: center;
@@ -16,7 +18,7 @@
     margin-right: 5px;
     margin-left: 5px;
 }
-.tSpielerColumnPunkte{
+.round-overview .tSpielerColumnPunkte{
     background-color: yellowgreen;
     border: 1px solid black;
     text-align: center;
@@ -25,14 +27,14 @@
     margin-right: 5px;
     margin-left: 5px;
 }
-.tSpielerColumnInput{
+.round-overview .tSpielerColumnInput{
     background-color: steelblue;
     text-align: center;
     border-radius: 5px;
     margin-right: 5px;
     margin-left: 5px;
 }
-.tSpielerColumnInput>input{
+.round-overview .tSpielerColumnInput>input{
     height: 95%;
     width: 100%;
     font-size: 25px;
@@ -40,7 +42,7 @@
     background-color: steelblue;
 }
 
-main > button{
+.round-overview main > button{
     background-color: #4CAF50;
     border: none;
     color: white;
@@ -54,3 +56,78 @@ main > button{
     margin-right: 45%;
     margin-left: 45%;
 }
+
+
+
+
+
+/* Für Das Pop Up */
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+  }
+  
+  /* Add Animation */
+  @-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+  }
+  
+  @keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+  }
+  
+  /* The Close Button */
+  .close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .modal-header {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+  
+  .modal-body {padding: 2px 16px;}
+  
+  .modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
