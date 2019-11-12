@@ -12,7 +12,7 @@ class App {
     this._currentView = null;
 
     // Single Page Router aufsetzen
-    this._router = new Navigo();
+    this._router = new Navigo(null, true);
     this._currentUrl = "";
     this._navAborted = false;
 
@@ -21,7 +21,7 @@ class App {
       "/song/new/": () => this.showSongDisplayEdit("", "new"),
       "/song/display/:id/": params => this.showSongDisplayEdit(params.id, "display"),
       "/song/edit/:id/": params => this.showSongDisplayEdit(params.id, "edit"),
-      "/gameOverview": () => this.showGameOverview(),
+      "/gameOverview": () => this.showGameOverview(), 
     });
 
     this._router.hooks({
