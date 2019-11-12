@@ -4,7 +4,10 @@ import stylesheet from './app.css';
 import SongDisplayEdit from "./song-display-edit/song-display-edit.js";
 import SongOverview from "./song-overview/song-overview.js";
 import Stats from './stats/stats.js';
+import GameStats from './game-stats/game-stats.js';
+import PlayerStats from './player-stats/player-stats.js';
 import GameOverview from "./game-overview/game-overview.js";
+import RoundOverview from "./round-overview/round-overview.js";
 import GameRoundsOverview from "./game-rounds-overview/game-rounds-overview.js";
 import Navigo from 'navigo/lib/navigo.js';
 
@@ -24,7 +27,10 @@ class App {
       "/song/display/:id/": params => this.showSongDisplayEdit(params.id, "display"),
       "/song/edit/:id/": params => this.showSongDisplayEdit(params.id, "edit"),
       '/stats/': () => this.showStats(),
+      '/stats/game/:gameName/': params => this.showStatsGame(params.gameName),
+      '/stats/player/:playerName/': params => this.showStatsPlayer(params.playerName),
       "/gameOverview": () => this.showGameOverview(),
+      "/roundOverview": () => this.showRoundOverview(),
       "/gameRoundsOverview": () => this.showGameRoundsOverview(),
     });
 
@@ -135,6 +141,11 @@ class App {
     this._switchVisibleView(view);
   }
 
+  showRoundOverview(){
+    let view = new RoundOverview(this); 
+    this._switchVisibleView(view);
+  }
+
   /**
    * Aufruf der Detailseite zur Anzeige oder zum Bearbeiten eines Songs.
    *
@@ -149,6 +160,16 @@ class App {
 
   showStats() {
     let view = new Stats(this);
+    this._switchVisibleView(view);
+  }
+
+  showStatsGame(gameName) {
+    let view = new GameStats(this, gameName);
+    this._switchVisibleView(view);
+  }
+
+  showStatsPlayer(playerName) {
+    let view = new PlayerStats(this, playerName);
     this._switchVisibleView(view);
   }
 

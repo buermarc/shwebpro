@@ -2,6 +2,7 @@
 
 import stylesheet from "./round-overview.css";
 import overview from './round-overview.html';
+import DataObjectHandler from "../data-access/data-object-handler.js"
 
 
 /**
@@ -14,17 +15,18 @@ class RoundOverview {
    * @param {Objekt} app  Zentrales App-Objekt der Anwendung
    * @param {String} id   ID des darzustellenden Spieles
    * @param {String} mode "new", "display" oder "edit"
-   *
+   * 
    */
 
-
+   
 
   constructor(app) {
     this._app = app;
 
     this._spieler = ["Josia", "Karin", "Marc", "Lasse"];
     this._spielstand = [30, -90, 150, 120];
-
+    this._doh = new DataObjectHandler(true);
+  
 
 
   }
@@ -42,13 +44,13 @@ class RoundOverview {
 
     let container = document.createElement("div");
     container.innerHTML = overview.trim();
-
+    
     let section = container.querySelector("#round-overview").cloneNode(true);
     this._listElement = section.querySelector("#round-overview > main > div");
     this._documentElement = section.querySelector("#round-overview > main");
 
-    this.createTable();
-
+    this.createContent(this._doh, 1);
+  
 
     return {
       className: "round-overview",
@@ -56,7 +58,7 @@ class RoundOverview {
       main: section.querySelectorAll("main > *"),
     };
   }
-
+  
   /**
    * Von der Klasse App aufgerufene Methode, um festzustellen, ob der Wechsel
    * auf eine neue Seite erlaubt ist. Wird hier true zurückgegeben, wird der
@@ -77,17 +79,20 @@ class RoundOverview {
     return "Rundenübersicht";
   }
 
-  createTable(){
+  async createContent(doh, gameId){
+    let gameRound = await doh.getGameRoundById(gameId);
+    let spielstand = await doh.getAllPlayerOfGameRoundId(gameRound.id);
+    
     var btn = document.createElement("BUTTON");
     btn.innerHTML = "Speichern";
     this._documentElement.appendChild(btn);
-
-    for (var i = 0; i < this._spieler.length; i++) {
-      this.buildTable(this._spieler[i], this._spielstand[i], i)
+    
+    for (var i = 0; i < spielstand.length; i++) {
+      this.buildTable(spielstand[i].playerId, spielstand[i].points, i)
     }
 
    btn.addEventListener("click", () => {
-    this.speichern()
+    this.speichern()    
   });
 
   }
@@ -106,10 +111,38 @@ class RoundOverview {
     `;
   }
 
+  buildPopUp(){
+    var btnPop = document.createElement("BUTTON ");
+    btnPop.innerHTML = "PopUp öffnen";
+    this._documentElement.appendChild(btnPop);
+
+    btnPop.addEventListener("click", () =>{
+      modal.style.display = "block";
+    });
+
+    this._documentElement.innerHTML+=`
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="close">&times;</span>
+            <h2>Modal Header</h2>
+          </div>
+          <div class="modal-body">
+            <p>Some text in the Modal Body</p>
+            <p>Some other text...</p>
+          </div>
+          <div class="modal-footer">
+            <h3>Modal Footer</h3>
+          </div>
+        </div>
+      
+      </div>`;
+  }
+
   speichern(){
     for(var i = 0; i<this._spieler.length;i++){
       var wert = document.getElementById("spInput"+i).value;
-      if(wert==0){window.alert("Bitte alle Felder ausfüllen"); return;}
+      if(wert==""){window.alert("Bitte alle Felder ausfüllen"); return;}
     }
     for(var i = 0; i<this._spieler.length;i++){
       var wert = document.getElementById("spInput"+i).value;
@@ -121,6 +154,8 @@ class RoundOverview {
     }
   }
 
+  
+  
 }
 
 export default RoundOverview;

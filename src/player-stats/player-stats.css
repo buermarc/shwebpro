@@ -1,0 +1,163 @@
+.dummy {}
+
+.player-stats table {
+  width: 100%
+}
+
+.player-stats th {
+  text-transform: uppercase;
+}
+
+.player-stats th.Doppelkopf {
+  background-color: grey;
+}
+
+.player-stats th.Mau-Mau {
+  background-color: green;
+}
+
+.player-stats th.Spieler {}
+
+.player-stats td {}
+
+.player-stats td.win,
+.player-stats td.lose {
+  text-align: center;
+}
+
+.player-stats td.player-win,
+.player-stats td.player-lose {
+  text-align: center;
+}
+
+.player-stats .game {}
+
+.player-stats * {
+  box-sizing: border-box;
+}
+
+.player-stats .colorstrip {
+  position: absolute;
+  top: -0.3em;
+  left: 0;
+  width: 100%;
+  height: 0.4em;
+  transition: top .4s ease 0s;
+  opacity: 0.7;
+  background-color: #E94336;
+}
+
+.player-stats .row:active .colorstrip,
+.player-stats .row:focus .colorstrip,
+.player-stats .row:hover .colorstrip,
+.player-stats .field.playerName:active .colorstrip,
+.player-stats .field.playerName:focus .colorstrip,
+.player-stats .field.playerName:hover .colorstrip {
+  top: 0;
+  opacity: 0.7;
+}
+
+.player-stats .table-box>div {
+  border: 0.05em solid #DDD;
+}
+
+.player-stats div.table {
+  display: flex;
+}
+
+.player-stats div.table-box {
+  width: 48.5%;
+  margin-top: 0.5em;
+  margin-left: 1%;
+}
+
+.player-stats div.blocker {
+  height: 0.4em;
+  overflow: hidden;
+}
+
+.player-stats div#gameName.row {
+  background: var(--overview-heading-background-color);
+  text-align: center;
+  display: inline-block;
+  position: relative;
+  overflow: auto;
+  padding-top: 0.25em;
+}
+
+.player-stats div#gameName.row:hover {
+  background-color: #bdbdbd;
+  cursor: pointer;
+}
+
+.player-stats div.row {
+  display: flex;
+  width: 100%;
+
+}
+
+.player-stats #win-lose>div.win.lose {
+  margin-bottom: 0;
+}
+
+.player-stats #win-lose>div.win,
+.player-stats #win-lose>div.lose {
+  margin-left: 0;
+  text-align: center;
+}
+
+.player-stats div.field {
+  padding-top: 0.45em;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+  padding-bottom: 0.3em;
+  overflow: hidden;
+}
+
+.player-stats div.field.win {
+  width: 40%;
+  padding-left: 0.3em;
+  border-left: 0.1em solid #DDD;
+}
+
+.player-stats div.field.lose {
+  width: 40%;
+  margin-left: 0em;
+  border-left: 0.1em solid #DDD;
+}
+
+.player-stats div.field.win.lose {
+  width: 20%;
+  margin-left: 0;
+  border-left: 0.1em;
+}
+
+.player-stats div.field.playerName {
+  width: 20%;
+  position: relative;
+  background: var(--overview-heading-background-color);
+}
+
+.player-stats div#win-lose.row>div.field.win {
+  border-left: 0;
+  border-right: 0;
+}
+
+.player-stats div#win-lose.row>div.field.lose {
+  border-left: 0;
+}
+
+.player-stats div#win-lose.row>div.field.win.lose {
+  border-right: 0;
+}
+
+.player-stats div.row.data>div.field {
+  border-top: 0;
+}
+
+.player-stats div.field.playerName:hover {
+  background-color: #bdbdbd;
+  cursor: pointer;
+}
+
+.dummy {}

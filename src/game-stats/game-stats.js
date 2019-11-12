@@ -1,16 +1,17 @@
 'use strict'
 
-import stylesheet from './stats.css';
-import stats from './stats.html';
+import stylesheet from './game-stats.css';
+import stats from './game-stats.html';
 import DataObjectHandler from '../data-access/data-object-handler.js';
 import Game from '../data-access/data-objects/game.js';
 import Player from '../data-access/data-objects/player.js';
 import PlayerToGame from '../data-access/data-objects/player-to-game.js';
-import ColorUtils from './color-utils.js'
+import ColorUtils from '../stats/color-utils.js'
 
-class Stats {
-  constructor(app) {
+class GameStats {
+  constructor(app, gameName) {
     this._app = app;
+    this._gameName = gameName;
 
     this._tableElement = null;
     this._doh = new DataObjectHandler(true);
@@ -20,12 +21,12 @@ class Stats {
     let container = document.createElement('div');
     container.innerHTML = stats.trim();
 
-    let section = container.querySelector('#stats').cloneNode(true);
+    let section = container.querySelector('#game-stats').cloneNode(true);
 
     this._tableElement = section.querySelector('main > div');
     this._searchField = section.querySelector("header .search");
 
-
+    // TODO later
     // Event Listener zum Suchen von Songs
     this._searchField.addEventListener("keyup", event => {
       if (event.key === "Enter") {
@@ -50,7 +51,7 @@ class Stats {
     this._renderTable('', this._tableElement, this._doh);
 
     return {
-      className: 'stats',
+      className: 'game-stats',
       topbar: section.querySelectorAll('header > *'),
       main: section.querySelectorAll('main > *'),
     };
@@ -61,7 +62,7 @@ class Stats {
   }
 
   get title() {
-    return 'Statistik'
+    return 'Spielestatistik'
   }
 
   async _renderTable(query, parentNode, doh) {
@@ -99,10 +100,10 @@ class Stats {
       };
     }));
 
+    let res1 = tableContent.filter(x => {
+      return x.gameName.search(this._gameName) > -1;
+    });
     if (query != null && query != '') {
-      let res1 = tableContent.filter(x => {
-        return x.gameName.search(query) > -1;
-      });
 
       let res2 = tableContent.filter(x => {
         let arr = x.arr.map(m => {
@@ -121,6 +122,7 @@ class Stats {
       tableContent = res2.concat(res1);
       tableContent = Array.from(new Set(tableContent));
     }
+    tableContent = res1;
 
     tableContent.sort((a, b) => {
       return a.arr.length > b.arr.length;
@@ -326,4 +328,4 @@ class Stats {
   }
 }
 
-export default Stats;
+export default GameStats;

@@ -62,7 +62,7 @@
     text-decoration: none;
 }
 
-#app header a:hover {
+#app header a:  hover {
     color: var(--header-active-font-color);
     text-decoration: underline;
 }
@@ -132,7 +132,7 @@
         border-left:  0.1em solid var(--menu-content-border-color);
     }
 
-    
+
     /* Menü-Icon ausblenden */
     #app header .menu-icon {
         display: none;
