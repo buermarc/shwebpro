@@ -7,6 +7,8 @@ import Stats from './stats/stats.js';
 import GameStats from './game-stats/game-stats.js';
 import PlayerStats from './player-stats/player-stats.js';
 import GameOverview from "./game-overview/game-overview.js";
+import RoundOverview from "./round-overview/round-overview.js";
+import GameRoundsOverview from "./game-rounds-overview/game-rounds-overview.js";
 import Navigo from 'navigo/lib/navigo.js';
 
 class App {
@@ -28,6 +30,8 @@ class App {
       '/stats/game/:gameName/': params => this.showStatsGame(params.gameName),
       '/stats/player/:playerName/': params => this.showStatsPlayer(params.playerName),
       "/gameOverview": () => this.showGameOverview(),
+      "/roundOverview": () => this.showRoundOverview(),
+      "/gameRoundsOverview": () => this.showGameRoundsOverview(),
     });
 
     // this._router.hooks({
@@ -129,6 +133,16 @@ class App {
 
   showGameOverview() {
     let view = new GameOverview(this);
+    this._switchVisibleView(view);
+  }
+
+  showGameRoundsOverview() {
+    let view = new GameRoundsOverview(this);
+    this._switchVisibleView(view);
+  }
+
+  showRoundOverview(){
+    let view = new RoundOverview(this); 
     this._switchVisibleView(view);
   }
 
