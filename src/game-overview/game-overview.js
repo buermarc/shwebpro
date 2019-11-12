@@ -3,6 +3,7 @@
 import stylesheet from "./game-overview.css";
 import overview from './game-overview.html';
 
+
 /**
  * View zur Anzeige oder zum Bearbeiten eines Songs.
  */
@@ -13,7 +14,11 @@ class GameOverview {
    * @param {Objekt} app  Zentrales App-Objekt der Anwendung
    * @param {String} id   ID des darzustellenden Songs
    * @param {String} mode "new", "display" oder "edit"
+   *
    */
+
+
+   
   constructor(app) {
     this._app = app;
 
@@ -32,7 +37,7 @@ class GameOverview {
 
     let container = document.createElement("div");
     container.innerHTML = overview.trim();
-    
+
     let section = container.querySelector("#game-overview").cloneNode(true);
 
     return {

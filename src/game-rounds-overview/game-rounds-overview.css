@@ -1,0 +1,9 @@
+.spielName{
+  display: grid;
+  grid-template-columns:  25% 35% 25%;
+  grid-gap: 10px;
+  align-content: center;
+  padding: 10px;
+  margin-left: 25%;
+  margin-right: 25%;
+}
