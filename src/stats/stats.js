@@ -22,7 +22,7 @@ class Stats {
 
     let section = container.querySelector('#stats').cloneNode(true);
 
-    this._tableElement = section.querySelector('main > div');
+    this._tableElement = section.querySelector('main > .table');
     this._searchField = section.querySelector("header .search");
 
 
@@ -78,6 +78,7 @@ class Stats {
       return a.playerName.localeCompare(b.playerName);
     });
 
+    //get data and enricht it
     let tableContent = await Promise.all(games.map(async game => {
       let result = await doh.getGameRoundByGameId(game.id);
       //enrich with playerName
@@ -99,22 +100,24 @@ class Stats {
       };
     }));
 
+
+    //search with query
     if (query != null && query != '') {
       let res1 = tableContent.filter(x => {
-        return x.gameName.search(query) > -1;
+        return x.gameName.toUpperCase().search(query.toUpperCase()) > -1;
       });
 
       let res2 = tableContent.filter(x => {
         let arr = x.arr.map(m => {
           return m.playerName;
         });
-        let v = arr.toString().search(query) > -1;
+        let v = arr.toString().toUpperCase().search(query.toUpperCase()) > -1;
         return v;
       });
 
       res2 = res2.map(x => {
         x.arr = x.arr.filter(y => {
-          return y.playerName.search(query) > -1;
+          return y.playerName.toUpperCase().search(query.toUpperCase()) > -1;
         })
         return x;
       });
@@ -122,32 +125,37 @@ class Stats {
       tableContent = Array.from(new Set(tableContent));
     }
 
+    //sort content after length
     tableContent.sort((a, b) => {
       return a.arr.length > b.arr.length;
     })
-    // parentNode = parentNode.parentNode;
     while (parentNode.hasChildNodes()) {
       parentNode.removeChild(parentNode.firstChild);
     }
-    // let tmp = document.createElement('div');
-    // tmp.classList.add('table');
-    // parentNode.appendChild(tmp);
-    // parentNode = tmp;
+
+    let div = document.querySelector('.title');
+    div.innerHTML = `
+      <div class='noBackButton'><a></a></div>
+      <div class='titleName'><a>Gesamtstatisik</a></div>`;
 
     tableContent.forEach(x => {
+      //table-box for game
       let gameColor = ColorUtils.hashStringToColor(x.gameName, 211);
-      let div = document.createElement('div');
+      div = document.createElement('div');
       div.classList.add('table-box')
+
+      //div for gameName
       let tmpDiv = document.createElement('div');
       tmpDiv.classList.add('row');
       tmpDiv.id = 'gameName'
+
+      //create colorstrip for hover
       let eleDiv = document.createElement('div');
-      // eleDiv.classList.add('blocker');
-      // tmpDiv.appendChild(eleDiv);
-      // eleDiv = document.createElement('div');
       eleDiv.classList.add('colorstrip');
       eleDiv.style.backgroundColor = gameColor;
       tmpDiv.appendChild(eleDiv);
+
+      //create a for text
       let eleA = document.createElement('a');
       eleA.innerHTML = x.gameName;
       tmpDiv.appendChild(eleA);
@@ -155,6 +163,8 @@ class Stats {
         window.location.href = '#/stats/game/' + x.gameName;
       });
       div.appendChild(tmpDiv);
+
+      //row for 'Gewonnen and Verloren Text'
       tmpDiv = document.createElement('div');
       tmpDiv.classList.add('row');
       tmpDiv.id = 'win-lose'
@@ -181,18 +191,27 @@ class Stats {
       eleA.innerHTML = 'Verloren';
       tmpDiv2.appendChild(eleA);
       tmpDiv.appendChild(tmpDiv2);
+
+      //for each entry create row
       x.arr.forEach(y => {
+        //row div
         tmpDiv = document.createElement('div');
         tmpDiv.classList.add('row');
         tmpDiv.classList.add('data');
         div.appendChild(tmpDiv);
+
+        //div for palyerName
         tmpDiv2 = document.createElement('div');
         tmpDiv2.classList.add('field');
         tmpDiv2.classList.add('playerName');
+
+        //colorstrip for hover
         eleDiv = document.createElement('div');
         eleDiv.classList.add('colorstrip');
-        eleDiv.style.backgroundColor = ColorUtils.hashStringToColor(y.playerName, 152);
+        eleDiv.style.backgroundColor = ColorUtils.hashStringToColor(y.playerName, 255);
         tmpDiv2.appendChild(eleDiv);
+
+        // a for text playerName
         eleA = document.createElement('a');
         eleA.innerHTML = y.playerName;
         tmpDiv2.appendChild(eleA);
@@ -200,18 +219,25 @@ class Stats {
           window.location.href = '#/stats/player/' + y.playerName;
         });
         tmpDiv.appendChild(tmpDiv2);
+
+        //div for win
         tmpDiv2 = document.createElement('div');
         tmpDiv2.classList.add('field');
         tmpDiv2.classList.add('win');
         tmpDiv2.classList.add(x.gameName);
+        //a for win
         eleA = document.createElement('a');
         eleA.innerHTML = y.win;
         tmpDiv2.appendChild(eleA);
         tmpDiv.appendChild(tmpDiv2);
+
+        //div for lose
         tmpDiv2 = document.createElement('div');
         tmpDiv2.classList.add('field');
         tmpDiv2.classList.add('lose');
         tmpDiv2.classList.add(x.gameName);
+
+        //a for lose
         eleA = document.createElement('a');
         eleA.innerHTML = y.lose;
         tmpDiv2.appendChild(eleA);

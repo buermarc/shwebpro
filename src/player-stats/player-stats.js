@@ -1,6 +1,6 @@
 'use strict'
 
-import stylesheet from './player-stats.css';
+import stylesheet from './../stats/stats.css';
 import stats from './player-stats.html';
 import DataObjectHandler from '../data-access/data-object-handler.js';
 import Game from '../data-access/data-objects/game.js';
@@ -21,9 +21,9 @@ class PlayerStats {
     let container = document.createElement('div');
     container.innerHTML = stats.trim();
 
-    let section = container.querySelector('#player-stats').cloneNode(true);
+    let section = container.querySelector('#stats').cloneNode(true);
 
-    this._tableElement = section.querySelector('main > div');
+    this._tableElement = section.querySelector('main > .table');
     this._searchField = section.querySelector("header .search");
 
 
@@ -52,7 +52,7 @@ class PlayerStats {
     this._createDiagramm(d3);
 
     return {
-      className: 'player-stats',
+      className: 'stats',
       topbar: section.querySelectorAll('header > *'),
       main: section.querySelectorAll('main > *'),
     };
@@ -106,29 +106,19 @@ class PlayerStats {
       return x.arr.length > 0;
     });
     //filter nach player unabhängig von query da player-stats view
-    let res1 = tableContent.filter(x => {
-      return x.playerName.search(this._playerName) > -1;
+    tableContent = tableContent.filter(x => {
+      return x.playerName.toUpperCase().search(this._playerName.toUpperCase()) > -1;
     });
     //normale suche nach spiele
     if (query != null && query != '') {
-      let res2 = tableContent.filter(x => {
-        let arr = x.arr.map(m => {
-          return m.gameName;
-        });
-        let v = arr.toString().search(query) > -1;
-        return v;
-      });
-
-      res2 = res2.map(x => {
+      tableContent.map(x => {
         x.arr = x.arr.filter(y => {
-          return y.gameName.search(query) > -1;
+          return y.gameName.toUpperCase().search(query.toUpperCase()) > -1
+          || this._playerName.toUpperCase().search(query.toUpperCase()) > -1;
         })
         return x;
       });
-      tableContent = res2.concat(res1);
-      tableContent = Array.from(new Set(tableContent));
     }
-    tableContent = res1;
 
     tableContent.sort((a, b) => {
       return a.arr.length > b.arr.length;
@@ -137,6 +127,13 @@ class PlayerStats {
     while (parentNode.hasChildNodes()) {
       parentNode.removeChild(parentNode.firstChild);
     }
+    let div = document.querySelector('.title');
+    div.innerHTML = `
+      <div class='backButton'><a>＜</a></div>
+      <div class='titleName'><a>Zurück zur Gesamtstatisik</a></div>`
+    document.querySelector('.backButton').addEventListener('click', () => {
+      window.location.href = '#/stats/';
+    })
     // let tmp = document.createElement('div');
     // tmp.classList.add('table');
     // parentNode.appendChild(tmp);
@@ -144,7 +141,7 @@ class PlayerStats {
 
     tableContent.forEach(x => {
       let gameColor = ColorUtils.hashStringToColor(x.playerName, 211);
-      let div = document.createElement('div');
+      div = document.createElement('div');
       div.classList.add('table-box')
       let tmpDiv = document.createElement('div');
       tmpDiv.classList.add('row');
