@@ -23,8 +23,6 @@ class RoundOverview {
   constructor(app) {
     this._app = app;
 
-    this._spieler = ["Josia", "Karin", "Marc", "Lasse"];
-    this._spielstand = [30, -90, 150, 120];
     this._doh = new DataObjectHandler(true);
   
 
@@ -49,7 +47,7 @@ class RoundOverview {
     this._listElement = section.querySelector("#round-overview > main > div");
 
     this.createContent(this._doh, 1);
-  
+    //this.createPopUp();
 
     return {
       className: "round-overview",
@@ -109,6 +107,60 @@ class RoundOverview {
       </div>
     `;
   }
+  
+  /*createPopUp(){
+    var btnPop = document.createElement("BUTTON");
+    btnPop.innerHTML = "PopPopPop";
+    this._listElement.parentNode.appendChild(btnPop);
+
+    var pop = document.createElement("div");
+    pop.classList.add("modal");
+    pop.id = "myModal";
+    this._listElement.parentNode.appendChild(pop);
+
+    var modalContent = document.createElement("div");
+    modalContent.classList.add("modal-content");
+    pop.appendChild(modalContent);
+  
+    var modalHeader = document.createElement("div");
+    modalHeader.classList.add("modal-header");
+    modalContent.appendChild(modalHeader);
+
+    var spanClose = document.createElement("span");
+    spanClose.classList.add("close");
+    spanClose.innerHTML = "&times;"
+    modalHeader.appendChild(spanClose);
+
+
+    var modalHeaderText = document.createElement("h2");
+    modalHeaderText.innerHTML = "Modal Header"
+    modalHeader.appendChild(modalHeaderText);
+    
+    var modalBody = document.createElement("div");
+    modalBody.classList.add("modal-body");
+    modalContent.appendChild(modalBody);
+
+    var modalBodyP1 = document.createElement("p");
+    modalBodyP1.innerHTML = "Blablabla";
+    modalBody.appendChild(modalBodyP1);
+
+
+    var modalFooter = document.createElement("div");
+    modalFooter.classList.add("modal-footer");
+    modalContent.appendChild(modalFooter);
+
+    spanClose.onclick = function() {
+      pop.style.display = "none";
+    }
+    btnPop.onclick = function() {
+      pop.style.display = "block";
+    }
+    window.onclick = function(event) {
+      if (event.target == pop) {
+        pop.style.display = "none";
+      }
+    }
+  }*/
 
   async speichern(doh, gameRoundId){
     let spielstand = await doh.getAllPlayerOfGameRoundId(gameRoundId);
