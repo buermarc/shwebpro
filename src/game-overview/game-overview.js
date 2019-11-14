@@ -55,13 +55,24 @@ class GameOverview {
 
     let section = container.querySelector("#game-overview").cloneNode(true);
     this._listElement = section.querySelector("#game-overview > main > div");
-    //this._popUpElement = section.querySelector("#game-overview > main > dialog");
     this._documentElement = section.querySelector("#game-overview > main");
 
-    section.querySelector('#modalButton').addEventListener("click", ()=> { console.log('wtf')
-    document.getElementById('id01').className ="modalDivShow"
-    document.getElementById("main").className = "inactive"});
-    
+    section.querySelector("#modalButton").addEventListener("click", hi);
+    var modal = section.querySelector("#myModal");
+    section.querySelector("#closeModal").addEventListener("click", hi2);
+
+    function hi(){
+      modal.style.display = "block";
+    }
+
+    function hi2(){
+      modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }}
 
     this.createList(this._doh);
 
@@ -71,14 +82,6 @@ class GameOverview {
       main: section.querySelectorAll("main > *"),
     };
   }
-
-  modalTest() {
-   
-  }
-
-  
-  
-
 
   /**
    * Von der Klasse App aufgerufene Methode, um festzustellen, ob der Wechsel
@@ -107,24 +110,20 @@ class GameOverview {
     //});
     
     // copy and paste _documentElementAustauschen
-    var amount = this._spiel.length;
+    /*var amount = this._spiel.length;
     var btn = document.createElement("button");
     btn.id = "button0"
     btn.innerHTML = "neues Spiel hinzufügen";
-    this._documentElement.appendChild(btn);
+    this._documentElement.appendChild(btn);*/
 
     //var btnClose = document.createElement("button");
     //btnClose.id = "buttonClose"
     //btnClose.innerHTML = "abbrechen";
     //this._popUpElement.appendChild(btnClose);
 
-    console.log("Test1");
- 
     //btn.addEventListener("click", Warnung);
     //btnClose.addEventListener("click", Hi);
-
-    //document.querySelector("#weiterNeuesSpiel").addEventListener("click", Hi);
-
+    
     function Warnung(){
       console.log("HHHH");
       if (amount == 8){
