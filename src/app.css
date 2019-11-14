@@ -4,7 +4,7 @@
  * Anwendung überschrieben werden.
  */
   #app {
-    background-color: white;
+    background-color: black;
     flex: 1;
   }
 
@@ -87,8 +87,8 @@
         margin-top: 2em;
         margin-bottom: 2em;
 
-        border: 1px solid rgba(32,32,32, 0.2);
-        box-shadow: 1px 1px 3px rgba(0,0,0, 0.1);
+        border: 1px solid black;
+        /*box-shadow: 1px 1px 1px 1px white;*/
     }
 
     /* Topbar- und Toolbar-Inhalte nebeneinander */
@@ -118,7 +118,7 @@
         display: flex;
         justify-content: flex-start;
 
-        background-color: var(--header-active-background-color);
+        background-color: var(--header-normal-background-color);
         color: var(--header-active-font-color);
     }
 
@@ -128,8 +128,8 @@
 
     #app div.menu-content.right > div.item {
         width: 50%;
-        border-right: 0.1em solid var(--menu-content-border-color);
-        border-left:  0.1em solid var(--menu-content-border-color);
+        border-right: 0.1em solid var(--header-normal-background-color);
+        border-left:  0.1em solid var(--header-normal-background-color);
     }
 
 
@@ -147,5 +147,6 @@
     #app > main {
         flex: 1;
         overflow: auto;
+        background-color: var(--main-background-color);
     }
 }
