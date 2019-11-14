@@ -47,7 +47,6 @@ class RoundOverview {
     
     let section = container.querySelector("#round-overview").cloneNode(true);
     this._listElement = section.querySelector("#round-overview > main > div");
-    this._documentElement = section.querySelector("#round-overview > main");
 
     this.createContent(this._doh, 1);
   
@@ -85,14 +84,14 @@ class RoundOverview {
     
     var btn = document.createElement("BUTTON");
     btn.innerHTML = "Speichern";
-    this._documentElement.appendChild(btn);
+    this._listElement.parentNode.appendChild(btn);
     
     for (var i = 0; i < spielstand.length; i++) {
       this.buildTable(spielstand[i].playerId, spielstand[i].points, i)
     }
 
    btn.addEventListener("click", () => {
-    this.speichern()    
+    this.speichern(doh, gameRound.id)    
   });
 
   }
@@ -111,49 +110,22 @@ class RoundOverview {
     `;
   }
 
-  buildPopUp(){
-    var btnPop = document.createElement("BUTTON ");
-    btnPop.innerHTML = "PopUp öffnen";
-    this._documentElement.appendChild(btnPop);
-
-    btnPop.addEventListener("click", () =>{
-      modal.style.display = "block";
-    });
-
-    this._documentElement.innerHTML+=`
-      <div id="myModal" class="modal">
-        <div class="modal-content">
-          <div class="modal-header">
-            <span class="close">&times;</span>
-            <h2>Modal Header</h2>
-          </div>
-          <div class="modal-body">
-            <p>Some text in the Modal Body</p>
-            <p>Some other text...</p>
-          </div>
-          <div class="modal-footer">
-            <h3>Modal Footer</h3>
-          </div>
-        </div>
-      
-      </div>`;
-  }
-
-  speichern(){
-    for(var i = 0; i<this._spieler.length;i++){
+  async speichern(doh, gameRoundId){
+    let spielstand = await doh.getAllPlayerOfGameRoundId(gameRoundId);
+    for(var i = 0; i<spielstand.length; i++){
       var wert = document.getElementById("spInput"+i).value;
       if(wert==""){window.alert("Bitte alle Felder ausfüllen"); return;}
     }
-    for(var i = 0; i<this._spieler.length;i++){
+    for(var i = 0; i<spielstand.length;i++){
       var wert = document.getElementById("spInput"+i).value;
       var wert = parseInt(wert, 10);
-      var wert2 = parseInt(this._spielstand[i], 10);
-      this._spielstand[i]=wert2+wert;
-      document.getElementById("spPunkte"+i).innerHTML=this._spielstand[i];
+      var wert2 = parseInt(spielstand[i].points, 10);
+      wert += wert2;
+      await doh.updatePointsByPlayerIdAndGameRoundId(spielstand[i].playerId, spielstand[i].gameRoundId, wert)
+      document.getElementById("spPunkte"+i).innerHTML=wert;
       document.getElementById("spInput"+i).value="";
     }
   }
-
   
   
 }
