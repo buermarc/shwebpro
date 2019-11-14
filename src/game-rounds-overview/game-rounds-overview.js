@@ -133,6 +133,8 @@ class GameRoundsOverview {
       //document.querySelector("#rundeBeenden").disabled = true;
     }
 
+    //this._documentElement = this._documentElement.parentNode; FALLS FEHLER
+
     // Listener für die sieben Buttons initialisieren
     this._documentElement.querySelector("#neuesSpiel").addEventListener("click", () => {
       document.getElementsByTagName('dialog')[0].show();
