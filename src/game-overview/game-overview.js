@@ -2,6 +2,7 @@
 
 import stylesheet from "./game-overview.css";
 import overview from './game-overview.html';
+import DataObjectHandler from '../data-access/data-object-handler.js';
 
 
 /**
@@ -32,8 +33,10 @@ class GameOverview {
   constructor(app) {
     this._app = app;
 
-    this._spiel = ["Doppelkopf", "Spiel","Doppelkopf"];
-   
+    //"Doppelkopf", "Spiel","Doppelkopf"
+    this._spiel = [];
+    this._doh = new DataObjectHandler(true);
+    
   }
 
   /**
@@ -47,15 +50,20 @@ class GameOverview {
    */
   async onShow() {
 
-
     let container = document.createElement("div");
     container.innerHTML = overview.trim();
 
     let section = container.querySelector("#game-overview").cloneNode(true);
     this._listElement = section.querySelector("#game-overview > main > div");
+    //this._popUpElement = section.querySelector("#game-overview > main > dialog");
     this._documentElement = section.querySelector("#game-overview > main");
 
-    this.createList();
+    section.querySelector('#modalButton').addEventListener("click", ()=> { console.log('wtf')
+    document.getElementById('id01').className ="modalDivShow"
+    document.getElementById("main").className = "inactive"});
+    
+
+    this.createList(this._doh);
 
     return {
       className: "game-overview",
@@ -63,6 +71,14 @@ class GameOverview {
       main: section.querySelectorAll("main > *"),
     };
   }
+
+  modalTest() {
+   
+  }
+
+  
+  
+
 
   /**
    * Von der Klasse App aufgerufene Methode, um festzustellen, ob der Wechsel
@@ -84,35 +100,58 @@ class GameOverview {
     return "Spieleübersicht";
   }
 
-  createList(){
-
+  async createList(doh){
+    
+    //this._popUpElement.parentNode.querySelector("#abbrechenNeuesSpiel").addEventListener("click", () => {
+    //  document.getElementsByTagName('dialog')[0].close();
+    //});
+    
+    // copy and paste _documentElementAustauschen
     var amount = this._spiel.length;
     var btn = document.createElement("button");
-    btn.id = "button1"
+    btn.id = "button0"
     btn.innerHTML = "neues Spiel hinzufügen";
     this._documentElement.appendChild(btn);
 
-    for (var i = 0; i < this._spiel.length; i++) {
-      this.buildList(this._spiel[i], i);
-    }
+    //var btnClose = document.createElement("button");
+    //btnClose.id = "buttonClose"
+    //btnClose.innerHTML = "abbrechen";
+    //this._popUpElement.appendChild(btnClose);
 
-    btn.addEventListener("click", Warnung);
+    console.log("Test1");
+ 
+    //btn.addEventListener("click", Warnung);
+    //btnClose.addEventListener("click", Hi);
+
+    //document.querySelector("#weiterNeuesSpiel").addEventListener("click", Hi);
 
     function Warnung(){
+      console.log("HHHH");
       if (amount == 8){
         window.alert("Keine weiteren Spiele möglich");
       }
-      else{window.alert("HI");
+      else{
+        document.getElementsById('modalButton').addEventListener("click", modalTest)
+      }
     }
 
-    this._listElement.addEventListener("click", function(e) {
-      // e.target is our targetted element.
-                  // try doing console.log(e.target.nodeName), it will result LI
-          window.alert(e.target.id + " was clicked");
-      });
+    function Hi(){
+      console.log("Hi");
+        document.getElementsByTagName('dialog')[0].close();
+    }
 
-      if (this._spiel.length < 1) {
-        // Hinweistext, wenn noch keine Songs vorhanden sind
+    this._spiel = await doh.getAllGames();
+      for (var i = 0; i < this._spiel.length; i++) {
+        this.buildList(this._listElement,this._spiel[i].gameName);
+      }
+      /*for (var i = 0; i < this._spiel.length; i++) {
+        this.buildList(this._popUpElement,this._spiel[i].gameName);
+      }*/
+
+
+    
+      if (this._spiel.length == 0) {
+        // Hinweistext, wenn noch keine Spiele vorhanden sind
         this._listElement.innerHTML += `
               <li>
                   <div class="padding no-data">
@@ -121,11 +160,18 @@ class GameOverview {
               </li>
           `;
       };
-    }}
+
+    this._listElement.addEventListener("click", function(e) {
+      // e.target is our targetted element.
+                  // try doing console.log(e.target.nodeName), it will result LI
+          window.alert(e.target.id + " was clicked");
+      });
+    }
+  
     
 
-  buildList(name){
-    this._listElement.innerHTML+=`
+  buildList(element,name){
+    element.innerHTML+=`
     <div class="lSpiel" >
       <ul>
         <li>`+name+`</li>
@@ -133,5 +179,6 @@ class GameOverview {
     </div>
     `;
   }
+
 }
 export default GameOverview;
