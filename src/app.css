@@ -73,6 +73,10 @@
     border: 0;
 }
 
+#app > main {
+  background-color: var(--main-background-color)
+}
+
 /*
  * Hauptinhalt
  */

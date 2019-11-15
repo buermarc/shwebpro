@@ -21,7 +21,7 @@ class GameStats {
     let container = document.createElement('div');
     container.innerHTML = stats.trim();
 
-    let section = container.querySelector('#stats').cloneNode(true);
+    let section = container.querySelector('#game-stats').cloneNode(true);
 
     this._tableElement = section.querySelector('main > .table');
     this._searchField = section.querySelector("header .search");
@@ -51,7 +51,7 @@ class GameStats {
     this._renderTable('', this._tableElement, this._doh);
 
     return {
-      className: 'stats',
+      className: 'stats game',
       topbar: section.querySelectorAll('header > *'),
       main: section.querySelectorAll('main > *'),
     };
@@ -69,6 +69,8 @@ class GameStats {
     //order the games in alphabetic order
     let games = await doh.getAllGames();
     let players = await doh.getAllPlayers();
+    let sum = 0;
+    let playerSum = 0;
 
     games.sort((a, b) => {
       return a.gameName.localeCompare(b.gameName);
@@ -81,6 +83,7 @@ class GameStats {
 
     let tableContent = await Promise.all(games.map(async game => {
       let result = await doh.getGameRoundByGameId(game.id);
+      playerSum = result.length;
       //enrich with playerName
       result = await Promise.all(result.map(async ele => {
         let playerName = await doh.getPlayerById(ele.playerId);
@@ -100,9 +103,16 @@ class GameStats {
       };
     }));
 
+    //leere arrays rausfiltern
+    tableContent = tableContent.filter(x => {
+      return x.arr.length > 0;
+    });
+
+    //filter nach player unabhängig von query da player-stats view
     tableContent = tableContent.filter(x => {
       return x.gameName.search(this._gameName) > -1;
     });
+    //normale suche nach spielen
     if (query != null && query != '') {
       tableContent = tableContent.map(x => {
         x.arr = x.arr.filter(y => {
@@ -113,6 +123,7 @@ class GameStats {
       });
     }
 
+    //sort content after length TODO check if length is always one
     tableContent.sort((a, b) => {
       return a.arr.length > b.arr.length;
     })
@@ -127,25 +138,25 @@ class GameStats {
     document.querySelector('.backButton').addEventListener('click', () => {
       window.location.href = '#/stats/';
     })
-    // let tmp = document.createElement('div');
-    // tmp.classList.add('table');
-    // parentNode.appendChild(tmp);
-    // parentNode = tmp;
 
     tableContent.forEach(x => {
+      //table-box for each player
       let gameColor = ColorUtils.hashStringToColor(x.gameName, 211);
       let div = document.createElement('div');
       div.classList.add('table-box')
+
+      //div for playerName
       let tmpDiv = document.createElement('div');
       tmpDiv.classList.add('row');
       tmpDiv.id = 'gameName'
+
+      //create colorstrip for hover
       let eleDiv = document.createElement('div');
-      // eleDiv.classList.add('blocker');
-      // tmpDiv.appendChild(eleDiv);
-      // eleDiv = document.createElement('div');
       eleDiv.classList.add('colorstrip');
       eleDiv.style.backgroundColor = gameColor;
       tmpDiv.appendChild(eleDiv);
+
+      //create a for text
       let eleA = document.createElement('a');
       eleA.innerHTML = x.gameName;
       tmpDiv.appendChild(eleA);
@@ -153,6 +164,8 @@ class GameStats {
         window.location.href = '#/stats/game/' + x.gameName;
       });
       div.appendChild(tmpDiv);
+
+      //row for Gewonnen und Verloren Text
       tmpDiv = document.createElement('div');
       tmpDiv.classList.add('row');
       tmpDiv.id = 'win-lose'
@@ -163,6 +176,7 @@ class GameStats {
       tmpDiv2.classList.add('lose')
       tmpDiv2.classList.add(x.gameName);
       tmpDiv.appendChild(tmpDiv2);
+
       tmpDiv2 = document.createElement('div');
       tmpDiv2.classList.add('field');
       tmpDiv2.classList.add('win');
@@ -171,6 +185,7 @@ class GameStats {
       eleA.innerHTML = 'Gewonnen';
       tmpDiv2.appendChild(eleA);
       tmpDiv.appendChild(tmpDiv2);
+
       tmpDiv2 = document.createElement('div');
       tmpDiv2.classList.add('field');
       tmpDiv2.classList.add('lose');
@@ -179,18 +194,34 @@ class GameStats {
       eleA.innerHTML = 'Verloren';
       tmpDiv2.appendChild(eleA);
       tmpDiv.appendChild(tmpDiv2);
+
+      tmpDiv2 = document.createElement('div');
+      tmpDiv2.classList.add('sum');
+      tmpDiv2.classList.add(x.gameName);
+      eleA = document.createElement('a');
+      eleA.innerHTML = 'Gesamt Gespielt';
+      tmpDiv2.appendChild(eleA);
+      tmpDiv.appendChild(tmpDiv2);
+
+      //for each entry create row
       x.arr.forEach(y => {
         tmpDiv = document.createElement('div');
         tmpDiv.classList.add('row');
         tmpDiv.classList.add('data');
         div.appendChild(tmpDiv);
+
+        //div for gameName
         tmpDiv2 = document.createElement('div');
         tmpDiv2.classList.add('field');
         tmpDiv2.classList.add('playerName');
+
+        //colorstrip for hover
         eleDiv = document.createElement('div');
         eleDiv.classList.add('colorstrip');
         eleDiv.style.backgroundColor = ColorUtils.hashStringToColor(y.playerName, 152);
         tmpDiv2.appendChild(eleDiv);
+
+        //a for text gameName
         eleA = document.createElement('a');
         eleA.innerHTML = y.playerName;
         tmpDiv2.appendChild(eleA);
@@ -198,20 +229,41 @@ class GameStats {
           window.location.href = '#/stats/player/' + y.playerName;
         });
         tmpDiv.appendChild(tmpDiv2);
+
+        //div for win
         tmpDiv2 = document.createElement('div');
         tmpDiv2.classList.add('field');
         tmpDiv2.classList.add('win');
         tmpDiv2.classList.add(x.gameName);
+
+        //a for win
         eleA = document.createElement('a');
         eleA.innerHTML = y.win;
         tmpDiv2.appendChild(eleA);
         tmpDiv.appendChild(tmpDiv2);
+
+        //div for lose
         tmpDiv2 = document.createElement('div');
         tmpDiv2.classList.add('field');
         tmpDiv2.classList.add('lose');
         tmpDiv2.classList.add(x.gameName);
+
+        //a for lose
         eleA = document.createElement('a');
         eleA.innerHTML = y.lose;
+        tmpDiv2.appendChild(eleA);
+        tmpDiv.appendChild(tmpDiv2);
+
+        //div for sum
+        tmpDiv2 = document.createElement('div');
+        tmpDiv2.classList.add('field');
+        tmpDiv2.classList.add('sum');
+        tmpDiv2.classList.add(x.gameName);
+
+        //a for sum
+        eleA = document.createElement('a');
+        eleA.innerHTML = (parseInt(y.lose) + parseInt(y.win));
+        sum += (parseInt(y.lose) + parseInt(y.win));
         tmpDiv2.appendChild(eleA);
         tmpDiv.appendChild(tmpDiv2);
 
@@ -221,6 +273,20 @@ class GameStats {
       // document.querySelectorAll('div.field.win.' + x.gameName).forEach(x => x.style.backgroundColor = gameColor);
       // document.querySelectorAll('div.field.lose.' + x.gameName).forEach(x => x.style.backgroundColor = gameColor);
     });
+
+    div = document.createElement('div');
+    div.innerHTML = `
+      <div class='allSumTitle'><a>Insgesamt gespielte Runden</a></div>
+      <div class='allSumValue'><a>`+sum+`</a></div>
+    `
+    parentNode.appendChild(div);
+
+    div = document.createElement('div');
+    div.innerHTML = `
+      <div class='allSumTitle'><a>Anzahl der Spieler die dieses Spiel gespielt haben</a></div>
+      <div class='allSumValue'><a>`+playerSum+`</a></div>
+    `
+    parentNode.appendChild(div);
   }
 
   async _renderTableSimple(groupBy, parentNode, doh) {
