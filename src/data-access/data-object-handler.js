@@ -279,7 +279,7 @@ class DataObjectHandler {
     arr = await PlayerToGameRound.getAll();
     console.log(arr);
 
-    console.log(await this.updatePointsByPlayerIdAndGameRoundId(1, 1, 900));
+    //console.log(await this.updatePointsByPlayerIdAndGameRoundId(1, 1, 900));
     console.log(await this.getGameRoundById(2));
   }
 

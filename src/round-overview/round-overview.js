@@ -23,8 +23,6 @@ class RoundOverview {
   constructor(app) {
     this._app = app;
 
-    this._spieler = ["Josia", "Karin", "Marc", "Lasse"];
-    this._spielstand = [30, -90, 150, 120];
     this._doh = new DataObjectHandler(true);
   
 
@@ -47,10 +45,9 @@ class RoundOverview {
     
     let section = container.querySelector("#round-overview").cloneNode(true);
     this._listElement = section.querySelector("#round-overview > main > div");
-    this._documentElement = section.querySelector("#round-overview > main");
 
     this.createContent(this._doh, 1);
-  
+    //this.createPopUp();
 
     return {
       className: "round-overview",
@@ -85,14 +82,14 @@ class RoundOverview {
     
     var btn = document.createElement("BUTTON");
     btn.innerHTML = "Speichern";
-    this._documentElement.appendChild(btn);
+    this._listElement.parentNode.appendChild(btn);
     
     for (var i = 0; i < spielstand.length; i++) {
       this.buildTable(spielstand[i].playerId, spielstand[i].points, i)
     }
 
    btn.addEventListener("click", () => {
-    this.speichern()    
+    this.speichern(doh, gameRound.id)    
   });
 
   }
@@ -110,50 +107,77 @@ class RoundOverview {
       </div>
     `;
   }
+  
+  /*createPopUp(){
+    var btnPop = document.createElement("BUTTON");
+    btnPop.innerHTML = "PopPopPop";
+    this._listElement.parentNode.appendChild(btnPop);
 
-  buildPopUp(){
-    var btnPop = document.createElement("BUTTON ");
-    btnPop.innerHTML = "PopUp öffnen";
-    this._documentElement.appendChild(btnPop);
+    var pop = document.createElement("div");
+    pop.classList.add("modal");
+    pop.id = "myModal";
+    this._listElement.parentNode.appendChild(pop);
 
-    btnPop.addEventListener("click", () =>{
-      modal.style.display = "block";
-    });
+    var modalContent = document.createElement("div");
+    modalContent.classList.add("modal-content");
+    pop.appendChild(modalContent);
+  
+    var modalHeader = document.createElement("div");
+    modalHeader.classList.add("modal-header");
+    modalContent.appendChild(modalHeader);
 
-    this._documentElement.innerHTML+=`
-      <div id="myModal" class="modal">
-        <div class="modal-content">
-          <div class="modal-header">
-            <span class="close">&times;</span>
-            <h2>Modal Header</h2>
-          </div>
-          <div class="modal-body">
-            <p>Some text in the Modal Body</p>
-            <p>Some other text...</p>
-          </div>
-          <div class="modal-footer">
-            <h3>Modal Footer</h3>
-          </div>
-        </div>
-      
-      </div>`;
-  }
+    var spanClose = document.createElement("span");
+    spanClose.classList.add("close");
+    spanClose.innerHTML = "&times;"
+    modalHeader.appendChild(spanClose);
 
-  speichern(){
-    for(var i = 0; i<this._spieler.length;i++){
+
+    var modalHeaderText = document.createElement("h2");
+    modalHeaderText.innerHTML = "Modal Header"
+    modalHeader.appendChild(modalHeaderText);
+    
+    var modalBody = document.createElement("div");
+    modalBody.classList.add("modal-body");
+    modalContent.appendChild(modalBody);
+
+    var modalBodyP1 = document.createElement("p");
+    modalBodyP1.innerHTML = "Blablabla";
+    modalBody.appendChild(modalBodyP1);
+
+
+    var modalFooter = document.createElement("div");
+    modalFooter.classList.add("modal-footer");
+    modalContent.appendChild(modalFooter);
+
+    spanClose.onclick = function() {
+      pop.style.display = "none";
+    }
+    btnPop.onclick = function() {
+      pop.style.display = "block";
+    }
+    window.onclick = function(event) {
+      if (event.target == pop) {
+        pop.style.display = "none";
+      }
+    }
+  }*/
+
+  async speichern(doh, gameRoundId){
+    let spielstand = await doh.getAllPlayerOfGameRoundId(gameRoundId);
+    for(var i = 0; i<spielstand.length; i++){
       var wert = document.getElementById("spInput"+i).value;
       if(wert==""){window.alert("Bitte alle Felder ausfüllen"); return;}
     }
-    for(var i = 0; i<this._spieler.length;i++){
+    for(var i = 0; i<spielstand.length;i++){
       var wert = document.getElementById("spInput"+i).value;
       var wert = parseInt(wert, 10);
-      var wert2 = parseInt(this._spielstand[i], 10);
-      this._spielstand[i]=wert2+wert;
-      document.getElementById("spPunkte"+i).innerHTML=this._spielstand[i];
+      var wert2 = parseInt(spielstand[i].points, 10);
+      wert += wert2;
+      await doh.updatePointsByPlayerIdAndGameRoundId(spielstand[i].playerId, spielstand[i].gameRoundId, wert)
+      document.getElementById("spPunkte"+i).innerHTML=wert;
       document.getElementById("spInput"+i).value="";
     }
   }
-
   
   
 }
