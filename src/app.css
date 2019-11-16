@@ -82,13 +82,13 @@
         text-align: center;
         font-size: 28px;
         padding: 20px;
-        width: 300px;
+        width: 400px;
         transition: all 0.5s;
         cursor: pointer;
         margin: 5px;
         position:absolute;
         top: 80%;
-        left: 40%;
+        left: 35%;
       }
       
 #app .buttonHover span {

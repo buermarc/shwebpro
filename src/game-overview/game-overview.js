@@ -16,7 +16,7 @@ var elements = document.getElementsByClassName("column");
 var i;
 
 /**
- * View zur Anzeige oder zum Bearbeiten eines Songs.
+ * View zur Anzeige oder zum Bearbeiten eines Spiele.
  */
 class GameOverview {
   /**
@@ -54,12 +54,16 @@ class GameOverview {
     container.innerHTML = overview.trim();
 
     let section = container.querySelector("#game-overview").cloneNode(true);
-    this._listElement = section.querySelector("#game-overview > main > div");
+    this._listElement = section.querySelector(".lSpiel");
+    this._modalElement = section.querySelector(".modal-body");
     this._documentElement = section.querySelector("#game-overview > main");
 
+
+    //alles zum Modal
     section.querySelector("#modalButton").addEventListener("click", hi);
     var modal = section.querySelector("#myModal");
     section.querySelector("#closeModal").addEventListener("click", hi2);
+    section.querySelector
 
     function hi(){
       modal.style.display = "block";
@@ -74,6 +78,7 @@ class GameOverview {
         modal.style.display = "none";
       }}
 
+    // Liste erstellen
     this.createList(this._doh);
 
     return {
@@ -104,50 +109,11 @@ class GameOverview {
   }
 
   async createList(doh){
-    
-    //this._popUpElement.parentNode.querySelector("#abbrechenNeuesSpiel").addEventListener("click", () => {
-    //  document.getElementsByTagName('dialog')[0].close();
-    //});
-    
-    // copy and paste _documentElementAustauschen
-    /*var amount = this._spiel.length;
-    var btn = document.createElement("button");
-    btn.id = "button0"
-    btn.innerHTML = "neues Spiel hinzufügen";
-    this._documentElement.appendChild(btn);*/
-
-    //var btnClose = document.createElement("button");
-    //btnClose.id = "buttonClose"
-    //btnClose.innerHTML = "abbrechen";
-    //this._popUpElement.appendChild(btnClose);
-
-    //btn.addEventListener("click", Warnung);
-    //btnClose.addEventListener("click", Hi);
-    
-    function Warnung(){
-      console.log("HHHH");
-      if (amount == 8){
-        window.alert("Keine weiteren Spiele möglich");
-      }
-      else{
-        document.getElementsById('modalButton').addEventListener("click", modalTest)
-      }
-    }
-
-    function Hi(){
-      console.log("Hi");
-        document.getElementsByTagName('dialog')[0].close();
-    }
 
     this._spiel = await doh.getAllGames();
       for (var i = 0; i < this._spiel.length; i++) {
-        this.buildList(this._listElement,this._spiel[i].gameName);
+        this.buildList(this._modalElement,this._spiel[i].gameName);
       }
-      /*for (var i = 0; i < this._spiel.length; i++) {
-        this.buildList(this._popUpElement,this._spiel[i].gameName);
-      }*/
-
-
     
       if (this._spiel.length == 0) {
         // Hinweistext, wenn noch keine Spiele vorhanden sind
@@ -160,22 +126,34 @@ class GameOverview {
           `;
       };
 
-    this._listElement.addEventListener("click", function(e) {
+    /*this._modalElement.addEventListener("click", function(e) {
+      for (var i = 0; i < 2; i++) {
+        this.buildList(this._listElement,this._spiel[i].gameName);
+      }
       // e.target is our targetted element.
                   // try doing console.log(e.target.nodeName), it will result LI
+          
           window.alert(e.target.id + " was clicked");
-      });
+
+      });*/
     }
   
-    
-
-  buildList(element,name){
+  /*buildList(element,name){
     element.innerHTML+=`
     <div class="lSpiel" >
       <ul>
         <li>`+name+`</li>
       </ul>
     </div>
+    `;
+  }*/
+  buildList(element,name){
+    element.innerHTML+=`
+      <ul>
+        <li>`+name+`
+        <img src="./doppelkopf.jpg" alt="Doppelkopf">
+        </li>
+      </ul>
     `;
   }
 

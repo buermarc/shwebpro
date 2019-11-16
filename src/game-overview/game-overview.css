@@ -10,15 +10,15 @@ ul li {
     border-radius: 10px;
     margin: 25px;
     padding: 40px;
-    width: 180px;
-    background-color: var(--list-element-color);
+    width: 150px;
+    background-color: rgb(106, 113, 218);
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 20px;
     font-weight: bold;
     float: left;
 }
 li:hover{
-    background-color: var(--list-element-hover-color);
+    background-color:whitesmoke;
 }
 /* horizontally center ul element */
 ul { text-align:center; }
@@ -57,10 +57,10 @@ p{
 /* Modal Content */
 .modal-content {
   position: relative;
-  background-color: #fefefe;
   margin: auto;
   padding: 0;
-  border: 1px solid #888;
+  border: 1px solid black;
+  border-radius: 3em;
   width: 80%;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   -webkit-animation-name: animatetop;
@@ -83,8 +83,9 @@ p{
 /* The Close Button */
 .close {
   color: white;
-  float: right;
-  font-size: 28px;
+  margin-right: 1%;
+  margin-top: 1%;
+  font-size: 35px;
   font-weight: bold;
 }
 
@@ -97,11 +98,26 @@ p{
 
 .modal-header1 {
   padding: 2px 16px;
-  background-color: #000066;
-  color:white;
+  background-color: whitesmoke;
+  color: var(--font-color);
+  size: 12pt;
+  border-top-left-radius: 3em;
+  border-top-right-radius: 3em;
 }
 
-.modal-body {padding: 2px 16px;
-background-color: var(--button-background-color);}
+.modal-body {
+  width: auto;
+  height: 500px;
+  padding: 2px 16px;
+  background-color: var(--button-background-color);
+  border-bottom-left-radius: 3em;
+  border-bottom-right-radius: 3em;}
+
+.h2{
+  font-size: 25pt;
+  text-align: center;
+}
+
+
 
 
