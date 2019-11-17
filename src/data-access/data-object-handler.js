@@ -132,7 +132,29 @@ class DataObjectHandler {
     return Game.getById(id);
   }
   //==========================================================
+  //Karin
+  async getNeverPlayedGames() {
+    let set1 = await Game.getAll();
+    let set2 = await GameToGameRound.getAll();
 
+    set1 = set1.map(s => s.id);
+    set2 = set2.map(s => s.gameId);
+    set1 = new Set(set1);
+    set2 = new Set(set2);
+    let difference = new Set([...set1].filter(x => !set2.has(x)));
+    return Array.from(difference);
+  }
+
+  async getAllreadyPlayedGames() {
+    let set1 = await Game.getAll();
+    let set2 = await GameToGameRound.getAll();
+    set1 = set1.map(s => s.id);
+    set2 = set2.map(s => s.gameId);
+    set1 = new Set(set1);
+    set2 = new Set(set2);
+    let intersection = new Set([...set1].filter(x => set2.has(x)));
+    return Array.from(intersection);
+  }
 
   //=============Lasse========================================
 
@@ -219,6 +241,7 @@ class DataObjectHandler {
       game5.saveNew();
       game6.saveNew();
     }
+    console.log(arr);
 
     let game1Id = await game1.getId();
     let game2Id = await game2.getId();
@@ -363,6 +386,9 @@ class DataObjectHandler {
 
     arr = await this.getGameByGameRoundId(gameRound1Id);
     console.log(arr);
+
+    console.log(await this.getNeverPlayedGames());
+    console.log(await this.getAllreadyPlayedGames());
   }
 
 }
