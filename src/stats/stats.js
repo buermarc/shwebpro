@@ -64,7 +64,7 @@ class Stats {
     return 'Statistik'
   }
 
-  async _renderTable(query, parentNode, doh) {
+  async _renderTable(query, parentNode, doh, sortBy) {
     //order the games in alphabetic order
     let games = await doh.getAllGames();
     let players = await doh.getAllPlayers();
@@ -74,10 +74,12 @@ class Stats {
     })
 
     //order the players in alphabetic order
-    players.sort((a, b) => {
-      return a.playerName.localeCompare(b.playerName);
-    });
-
+    if (sortBy = 'playerName') {
+      players.sort((a, b) => {
+        return a.playerName.localeCompare(b.playerName);
+      });
+    }
+    
     //get data and enricht it
     let tableContent = await Promise.all(games.map(async game => {
       let result = await doh.getGameRoundByGameId(game.id);
