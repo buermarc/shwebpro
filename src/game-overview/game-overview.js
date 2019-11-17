@@ -80,26 +80,31 @@ class GameOverview {
     // Liste erstellen
     this.createList(this._doh);
 
-    //Eventlistener modal element
-    this._spiel = await this._doh.getAllGames();
+    //Eventlistener modal element 
+
+
+    this._spiel = await this._doh.getNeverPlayedGames();
     for (var i = 0; i < this._spiel.length; i++) {
-      let element = this._modalElementListe.querySelector("#element"+this._spiel[i].gameName);
+
       let name = this._spiel[i].gameName;
-      if(element!=null){
-        element.addEventListener("click", () => {
-          this.addElementListSpiel(name,this._spiel[i].id);
+      this.buildList(this._modalElementListe, name);
+      let elementModalListe = this._modalElementListe.querySelector("#element"+name);
+      let id = this._spiel[i].id;
+      elementModalListe.addEventListener("click", () => {
+        window.location.href="#/gameRoundsOverview/" +id;
         });
-      }
     }
 
+    this._spiel = await this._doh.getAllreadyPlayedGames();
     //Eventlistener listSpiel
     for (var i = 0; i < this._spiel.length; i++) {
       let element = this._listElement.querySelector("#element"+this._spiel[i].gameName);
       let name = this._spiel[i].gameName;
+      let id = this._spiel[i].id;
       if(element!=null){
         element.addEventListener("click", () => {
-          window.location.href="#gameRoundsOverview" + this._spiel[i].id;
-        });
+          window.location.href="#/gameRoundsOverview/" + id;
+                });
       }
     }
 
@@ -132,9 +137,9 @@ class GameOverview {
 
   async createList(doh){
 
-    this._spiel = await doh.getAllGames();
-
-
+    this._spiel = await doh.getAllreadyPlayedGames();
+     
+    
       if (this._spiel.length == 0) {
         // Hinweistext, wenn noch keine Spiele vorhanden sind
         this._listElement.innerHTML += `
@@ -156,14 +161,9 @@ class GameOverview {
         }
       }
   }
-  async addElementListSpiel(spielName, spielId){
-    let elementName = this._listElement.querySelector("#element"+spielName);
-    if(elementName==null){
-      let elementModalListe = this._modalElementListe.querySelector("#element"+spielName);
-      modalElement.removeChild(elementModalListe);
-      this.buildList(this._listElement, spielName);
-      window.location.href="#gameRoundsOverview" + spielId;
-    }
+
+  weiterleiten(){
+    window.location.href="#gameRoundsOverview" + spielId;
   }
 
   buildList(element,name){
