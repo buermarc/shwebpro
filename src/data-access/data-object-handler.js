@@ -67,8 +67,8 @@ class DataObjectHandler {
       throw 'Name ' + playerName + ' may already exists or is double';
     } else {
       let player = new Player(playerName);
-      player.saveNew();
-      return player.asJson;
+      player = player.saveNew();
+      return player;
     }
   }
 
@@ -91,6 +91,7 @@ class DataObjectHandler {
         let playerToGameRound = new PlayerToGameRound(playerId, gameRoundId, 0);
         playerToGameRound.saveNew();
       });
+      return gameRoundId;
     } else {
       throw 'playerId is not an array';
     }
