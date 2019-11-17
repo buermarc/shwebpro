@@ -23,10 +23,7 @@ class App {
     this._navAborted = false;
 
     this._router.on({
-      "*": () => this.showSongOverview(),
-      "/song/new/": () => this.showSongDisplayEdit("", "new"),
-      "/song/display/:id/": params => this.showSongDisplayEdit(params.id, "display"),
-      "/song/edit/:id/": params => this.showSongDisplayEdit(params.id, "edit"),
+      "*": () => this.showGameOverview(),
       '/stats/': () => this.showStats(),
       '/stats/game/:gameName/': params => this.showStatsGame(params.gameName),
       '/stats/player/:playerName/': params => this.showStatsPlayer(params.playerName),
