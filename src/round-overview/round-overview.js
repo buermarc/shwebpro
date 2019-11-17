@@ -95,19 +95,14 @@ class RoundOverview {
     let anzeigeRunde = rundenAnzeige;
     let anzeigeSpiel = spielAnzeige;
     let gameRound = await doh.getGameRoundById(gameRoundId);
-    let spielstand = await doh.getAllPlayerOfGameRoundId(gameRound.id);
-    let gameId; //gameId über runde rausfinden
-    let game = await doh.getGameById(gameId);
+    let spielstand = await doh.getAllPlayerOfGameRoundId(gameRoundId);
+    let game = await doh.getGameByGameRoundId(gameRoundId);
 
     var btn = document.createElement("BUTTON");
     btn.classList.add("border-fade");
     btn.innerHTML = "Speichern";
     this._listButton.appendChild(btn);
 
-
-    let aktuelleRunde = gameRound.round;
-    let insgesamtRunden = game.maxRounds;
-    let spielName = game.name;
     this.setzeAnzeige(doh, anzeigeRunde, anzeigeSpiel, gameRoundId);
 
     for (var i = 0; i < spielstand.length; i++) {
@@ -116,7 +111,7 @@ class RoundOverview {
     }
 
    btn.addEventListener("click", () => {
-    this.speichern(doh, gameRound.id, gameId, rundenAnzeige, spielAnzeige, modal)
+    this.speichern(doh, gameRound.id, rundenAnzeige, spielAnzeige, modal)
   });
 
   }
@@ -124,7 +119,7 @@ class RoundOverview {
   async setzeAnzeige(doh, anzeigeRunde, anzeigeSpiel, gameRoundId){
     
     let gameRound = await doh.getGameRoundById(gameRoundId);    
-    let game = await doh.getGameById(gameId);//feheler
+    let game = await doh.getGameByGameRoundId(gameRoundId);
 
 
     let aktuelleRunde = gameRound.round;
@@ -155,11 +150,11 @@ class RoundOverview {
     `;
   }
 
-  async speichern(doh, gameRoundId, gameId, rundenAnzeige, spielAnzeige, modal){
+  async speichern(doh, gameRoundId, rundenAnzeige, spielAnzeige, modal){
     let gameRound = await doh.getGameRoundById(gameRoundId);    
     let aktuelleRunde = gameRound.round;
     let spielstand = await doh.getAllPlayerOfGameRoundId(gameRoundId);
-    let game = await doh.getGameById(gameId);
+    let game = await doh.getGameByGameRoundId(gameRoundId);
 
     for(var i = 0; i<spielstand.length; i++){
       var wert = document.getElementById("spInput"+i).value;
@@ -175,7 +170,7 @@ class RoundOverview {
       document.getElementById("spInput"+i).value="";
     }
     if(aktuelleRunde>=game.maxRounds-1){
-      setGameRoundFinsihedById(gameRoundId);
+      await doh.setGameRoundFinsihedById(gameRoundId);
       let beste = 0;
       for(var i = 0; i<spielstand.length;i++){
         if(spielstand[i].points>spielstand[beste].points){
