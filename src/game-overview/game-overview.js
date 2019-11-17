@@ -59,11 +59,6 @@ class GameOverview {
     this._modalElementListe = section.querySelector(".modal-body > ul");
     this._documentElement = section.querySelector("#game-overview > main");
 
-    var pictureTichu ="https://img.fireden.net/tg/image/1506/31/1506318249723.png";
-    var source="http://kartenlegen-beratung.com/wp-content/uploads/2015/07/kreuz_dame.jpg";
-    //var source = "https://web.whatsapp.com/ea2f84bc-b3a8-4297-ad79-4195ec0a4f48";
-
-
     //alles zum Modal
     section.querySelector("#modalButton").addEventListener("click", openModal);
     var modal = section.querySelector("#myModal");
@@ -83,7 +78,7 @@ class GameOverview {
       }}
 
     // Liste erstellen
-    this.createList(this._doh,source);
+    this.createList(this._doh);
 
     //Eventlistener modal element 
     this._spiel = await this._doh.getAllGames();
@@ -92,7 +87,7 @@ class GameOverview {
       let name = this._spiel[i].gameName;
       if(element!=null){
         element.addEventListener("click", () => {
-          this.addElementListSpiel(name, source);
+          this.addElementListSpiel(name,this._spiel[i].id);
         });
       }
     }
@@ -103,8 +98,7 @@ class GameOverview {
       let name = this._spiel[i].gameName;
       if(element!=null){
         element.addEventListener("click", () => {
-          //weiterleiten Josia
-          window.alert("hallöchen");
+          window.location.href="#gameRoundsOverview" + this._spiel[i].id;
         });
       }
     }
@@ -136,7 +130,7 @@ class GameOverview {
     return "Spieleübersicht";
   }
 
-  async createList(doh,source){
+  async createList(doh){
 
     this._spiel = await doh.getAllGames();
      
@@ -152,24 +146,23 @@ class GameOverview {
           `;
       }else{
         for (var i = 0; i < this._spiel.length; i++) {
-          this.buildList(this._listElement, this._spiel[i].gameName,source);
+          this.buildList(this._listElement, this._spiel[i].gameName);
         }
         for (var i = 0; i < this._spiel.length; i++) {
           let elementName = this._listElement.querySelector("#element"+this._spiel[i].gameName);
           if(elementName==null){
-            this.buildList(this._modalElementListe,this._spiel[i].gameName,source);
+            this.buildList(this._modalElementListe,this._spiel[i].gameName);
           }
         }
       }
   }
-  async addElementListSpiel(spielName, source){
+  async addElementListSpiel(spielName, spielId){
     let elementName = this._listElement.querySelector("#element"+spielName);
     if(elementName==null){
       let elementModalListe = this._modalElementListe.querySelector("#element"+spielName);
       modalElement.removeChild(elementModalListe);
-      this.buildList(this._listElement, spielName, source);
-
-      //weiterleiten Josias seite und gleichzeitig das Pop-Up aufrufen, für neues Spiel
+      this.buildList(this._listElement, spielName);
+      window.location.href="#gameRoundsOverview" + spielId;
     }
   }
   /*buildList(element,name){
@@ -182,7 +175,7 @@ class GameOverview {
     `;
   }*/
 
-  buildList(element,name,source){
+  buildList(element,name){
     
     element.innerHTML+=`
         <li  class="listElement" id="element`+name+`">`+name+`

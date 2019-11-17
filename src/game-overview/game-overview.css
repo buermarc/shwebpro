@@ -1,6 +1,6 @@
-.dummy{}
+.game-overview .dummy{}
 
-.listElement { 
+.game-overview .listElement { 
     /* make list elements fall inline as block elements */
     position: relative;
     display: inline-block;
@@ -13,28 +13,34 @@
     padding: 20px;
     width: 150px;
     background-color: white;
+    background-image: url(defaultImage.jpg);
+    background-position-x: center;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  background-size: 150px 150px;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 20px;
     font-weight: bold;
     float: left;
     height: 11em;
+    color: black;
 }
-.listElement:hover{
+.game-overview .listElement:hover{
   transform: scale(1.15);
 }
 /* horizontally center ul element */
-ul { text-align:center; }
+.game-overview ul { text-align:center; }
 
-.lSpiel{
+.game-overview .lSpiel{
   width: 98%;
   margin-left: 2%;
 }
 
-p{
+.game-overview p{
   margin-left: 20px;
   font-style: italic;
 }
-.no-data{
+.game-overview .no-data{
   list-style-type: none;
   width: 20%;
   margin-left: 40%;
@@ -42,7 +48,7 @@ p{
 }
 
 /* The Modal (background) */
-.modal {
+.game-overview .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -57,7 +63,7 @@ p{
 }
 
 /* Modal Content */
-.modal-content {
+.game-overview .modal-content {
   position: relative;
   margin: auto;
   padding: 0;
@@ -82,30 +88,31 @@ p{
 }
 
 /* The Close Button */
-.close {
+.game-overview .close {
+  line-height: 0;
   color: black;
   margin-left: 97%;
-  margin-top: 10%;
+  margin-top: 2em;
   font-size: 35px;
   font-weight: bold;
 }
-.close:hover,
-.close:focus {
+.game-overview .close:hover,
+.game-overview .close:focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;
 }
 
-.modal-header1 {
+.game-overview .modal-header1 {
+  line-height: 0;
   padding: 2px 16px;
   background-color: white;
-  color: var(--font-color);
-  size: 12pt;
+  color: black;
   border-top-left-radius: 3em;
   border-top-right-radius: 3em;
 }
 
-.modal-body {
+.game-overview .modal-body {
   width: auto;
   height: 400px;
   padding: 2px 16px;
@@ -113,19 +120,20 @@ p{
   border-bottom-left-radius: 3em;
   border-bottom-right-radius: 3em;}
 
-.h2{
+.game-overview .h2{
   font-size: 25pt;
   text-align: center;
+  margin-bottom: 1em;
 }
 
-img{
+.game-overview img{
   margin-top: 15px;
   height: 170px;
   width: 130px;
 }
 /* Grow */
 
-.grow {
+.game-overview .grow {
 	display: inline-block;
 	transition-duration: .1s;
   transition-property: transform;
@@ -134,21 +142,35 @@ img{
   box-shadow: 0 0 1px rgba(0, 0, 0, 0);
 }
 
-#elementDoppelkopf{
+.game-overview #elementDoppelkopf{
     background-image: url(doppelkopf.jpg);
-    background-position-x: center;
     background-position-y: bottom;
-    background-repeat: no-repeat;
     background-size: 170px 220px;
 }
 
-#elementMau-Mau{
+.game-overview #elementTichu{
   background-image: url(dragon.png);
-  background-position-x: center;
   background-position-y: bottom;
-  background-repeat: no-repeat;
   background-size: 140px 190px;
 }
+
+.game-overview #elementSkat{
+  background-image: url(skat.png);
+  background-position-y: bottom;
+  background-size: 140px 190px;
+}
+
+.game-overview #elementBinokel{
+  background-image: url(binokel.png);
+  background-position-y: bottom;
+  background-size: 140px 190px;
+}
+
+.game-overview span{
+  color: #000;
+}
+
+
 
 
 

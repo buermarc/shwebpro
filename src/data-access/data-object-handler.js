@@ -7,13 +7,14 @@ import GameToGameRound from './data-objects/game-to-game-round.js';
 import PlayerToGame from './data-objects/player-to-game.js';
 import PlayerToGameRound from './data-objects/player-to-game-round.js';
 import db from './database-handler.js'
+import Dexie from './database-handler.js'
 
 class DataObjectHandler {
 
   constructor(initData) {
-    if (initData) {
-      this._initData();
-    }
+    // if (initData) {
+    //   this._initData();
+    // }
   }
 
 
@@ -28,6 +29,7 @@ class DataObjectHandler {
     return await Player.getAll();
   }
   //============Josia=================================
+
 
   async getOpenRoundsByGameId(id) {
     let rounds = await db.database.gameToGameRound.where({
@@ -111,11 +113,15 @@ class DataObjectHandler {
   }
 
   async getGameRoundByGameId(id) {
-    return db.database.playerToGame.where({gameId: id}).toArray();
+    return db.database.playerToGame.where({
+      gameId: id
+    }).toArray();
   }
 
   async getGameRoundByPlayerId(id) {
-    return db.database.playerToGame.where({playerId:  id}).toArray();
+    return db.database.playerToGame.where({
+      playerId: id
+    }).toArray();
   }
 
   async getPlayerById(id) {
@@ -136,11 +142,15 @@ class DataObjectHandler {
   }
 
   async updateRoundByGameRoundId(id, newRound) {
-    return db.database.gameRound.update(id, {round: newRound});
+    return db.database.gameRound.update(id, {
+      round: newRound
+    });
   }
 
   async setGameRoundFinsihedById(id) {
-    return db.database.gameRound.update(id, {fin: true});
+    return db.database.gameRound.update(id, {
+      fin: true
+    });
   }
 
   // update points of player in gameRound
@@ -150,33 +160,75 @@ class DataObjectHandler {
   }
 
   async getGameByGameRoundId(id) {
-    let gameToGameRound = await db.database.gameToGameRound.where({gameRoundId: id}).toArray();
+    let gameToGameRound = await db.database.gameToGameRound.where({
+      gameRoundId: id
+    }).toArray();
     let gameId = gameToGameRound[0].gameId;
     return db.database.game.get(gameId);
   }
 
   //==========================================================
   //Mock Daten zum testen
-  async _initData() {
+
+  static async _createGameData(b) {
+    if (b) {
+      let game1 = new Game('Doppelkopf', 50, 4, 4);
+      let game2 = new Game('Tishu', null, 4, 4);
+      let game3 = new Game('Mau-Mau', null, null, null);
+      let game4 = new Game('Skat', 20, 3, 3);
+      let game5 = new Game('Canasta', null, 2, 6);
+      let game6 = new Game('Binokel', 15, 2, 4);
+
+      let arr = await Game.getAll();
+      if (arr.length < 3) {
+        console.log('Game Data Init');
+        game1.saveNew();
+        game2.saveNew();
+        game3.saveNew();
+        game4.saveNew();
+        game5.saveNew();
+        game6.saveNew();
+      }
+    }
+  }
+
+
+  async _initData(b) {
+    if (b) {
+      return db.database.delete().then(() => db.database.open());
+    }
     let games = [];
     let players = [];
 
     //game.clear();
     // Player.clear();
-    let game1 = new Game('Doppelkopf', 2, 3, 4);
-    let game2 = new Game('Mau-Mau', 4, 5, 6);
-
+    let game1 = new Game('Doppelkopf', 50, 4, 4);
+    let game2 = new Game('Tichu', null, 4, 4);
+    let game3 = new Game('Mau-Mau', null, null, null);
+    let game4 = new Game('Skat', 20, 3, 3);
+    let game5 = new Game('Canasta', null, 2, 6);
+    let game6 = new Game('Binokel', 15, 2, 4);
 
     let arr = await Game.getAll();
     if (arr.length < 1) {
       console.log('Game Data Init');
       game1.saveNew();
       game2.saveNew();
+      game3.saveNew();
+      game4.saveNew();
+      game5.saveNew();
+      game6.saveNew();
     }
-    arr = await Game.getAll();
-    console.log(arr);
+
     let game1Id = await game1.getId();
     let game2Id = await game2.getId();
+    let game3Id = await game3.getId();
+    let game5Id = await game4.getId();
+    let game4Id = await game5.getId();
+    let game6Id = await game6.getId();
+    console.log(game1Id);
+    console.log(game2Id);
+
 
 
     let player1 = new Player('Lasse');
@@ -294,7 +346,7 @@ class DataObjectHandler {
     console.log(arr);
 
     //console.log(await this.updatePointsByPlayerIdAndGameRoundId(1, 1, 900));
-    console.log(await this.getGameRoundById(2));
+    console.log(await this.getGameRoundById(gameRound2Id));
 
     //this.updateRoundByGameRoundId(gameRound1Id, 5555);
     arr = await GameRound.getAll();
