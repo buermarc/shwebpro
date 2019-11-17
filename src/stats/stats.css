@@ -91,13 +91,16 @@
 .stats div.titleName>a {}
 
 .stats div.table {
-  display: block;
+  display: flex;
+  flex-wrap: wrap-reverse;
+  /* flex-direction: row-reverse; */
 }
 
 .stats div.table-box {
   width: 97%;
   margin-top: 0.5em;
   margin-left: 1%;
+  margin-bottom: 2em;
 }
 
 .stats div.blocker {
@@ -184,6 +187,25 @@
   background-color: #313131;
 }
 
+.stats.game div.field.win,
+.stats.game div.field.lose,
+.stats.game div.field.sum,
+.stats.player div.field.win,
+.stats.player div.field.lose,
+.stats.player div.field.sum {
+    width: 27%;
+}
+
+.stats.game div.field.win.lose,
+.stats.player div.field.win.lose {
+  width: 19%;
+}
+
+.stats.game div.row.data>div.field.sum,
+.stats.player div.row.data>div.field.sum {
+    border-left: 0.1em solid;
+}
+
 .stats.player div#win-lose.row>div.sum,
 .stats.game div#win-lose.row>div.sum{
   background: #313131;
@@ -198,14 +220,48 @@
   cursor: pointer;
 }
 
+.stats .table-box.additionalInformation{
+  display: flex;
+}
+
+.stats .table-box.additionalInformation>div{
+  margin-bottom: 0.5em;
+  width: 60%;
+}
+
+.stats .allRounds {
+  margin-right: 1em;
+}
+
+.stats .allGames {
+  margin-left: 1em;
+}
+.stats .field.allSumTitle {
+  background: #313131;
+}
+
+.stats .field.allSumValue {
+  background: #454545;
+}
+
 @media screen and (min-width: 85em) {
   .stats div.table {
     display: flex;
+    flex-direction: row;
   }
 
   .stats div.table-box {
     width: 48.5%;
   }
+
+.stats .table-box.additionalInformation{
+  display: block;
+}
+
+.stats .table-box.additionalInformation>div{
+  width: 50%;
+  margin-left: 30%;
+}
 }
 
 .dummy {}

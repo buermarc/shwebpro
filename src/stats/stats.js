@@ -13,7 +13,10 @@ class Stats {
     this._app = app;
 
     this._tableElement = null;
+    this._searchField = null;
+    this._sortButtons = null;
     this._doh = new DataObjectHandler(true);
+    this._sort = 'playerName';
   }
 
   async onShow() {
@@ -24,14 +27,20 @@ class Stats {
 
     this._tableElement = section.querySelector('main > .table');
     this._searchField = section.querySelector("header .search");
+    this._sortButtons = section.querySelectorAll('header .cmd-sort');
 
-
+    this._sortButtons.forEach(button => {
+      if (button.dataset.sortBy !== 'playerName') {button.classList.add('hidden');}
+      button.addEventListener('click', event => {
+        this._renderTable(this._searchField.value, this._tableElement, this._doh, button.dataset.sortBy);
+        event.preventDefault();
+      });
+    });
     // Event Listener zum Suchen von Songs
     this._searchField.addEventListener("keyup", event => {
       if (event.key === "Enter") {
         // Bei Enter sofort suchen
-        console.log('asd');
-        this._renderTable(this._searchField.value, this._tableElement, this._doh);
+        this._renderTable(this._searchField.value, this._tableElement, this._doh, this._sort);
 
         if (this._searchTimeout) {
           window.clearTimeout(this._searchTimeout);
@@ -41,13 +50,13 @@ class Stats {
         // Bei sonstigem Tastendruck nur alle halbe Sekunde suchen
         if (!this._searchTimeout) {
           this._searchTimeout = window.setTimeout(() => {
-            this._renderTable(this._searchField.value, this._tableElement, this._doh);
+            this._renderTable(this._searchField.value, this._tableElement, this._doh, this._sort);
             this._searchTimeout = null;
           }, 500);
         }
       }
     });
-    this._renderTable('', this._tableElement, this._doh);
+    this._renderTable('', this._tableElement, this._doh, this._sort);
 
     return {
       className: 'stats',
@@ -64,7 +73,10 @@ class Stats {
     return 'Statistik'
   }
 
-  async _renderTable(query, parentNode, doh) {
+  async _renderTable(query, parentNode, doh, sortBy) {
+
+    this._query = query;
+    this._sort = sortBy;
     //order the games in alphabetic order
     let games = await doh.getAllGames();
     let players = await doh.getAllPlayers();
@@ -88,9 +100,20 @@ class Stats {
         ele['playerName'] = playerName;
         return ele;
       }));
-      result.sort((a, b) => {
-        return a.playerName.localeCompare(b.playerName);
-      });
+      if (sortBy == 'loses') {
+        result.sort((a, b) => {
+          return (parseInt(b.lose) - parseInt(a.lose));
+        });
+      } else if (sortBy == 'wins') {
+        result.sort((a, b) => {
+          return (parseInt(b.win) - parseInt(a.win));
+        });
+      } else if (sortBy == 'playerName'){
+        result.sort((a, b) => {
+          return a.playerName.localeCompare(b.playerName);
+        });
+      }
+
       let gameName = await doh.getGameById(game.id);
       gameName = gameName.gameName;
       return {
@@ -124,7 +147,6 @@ class Stats {
       tableContent = res2.concat(res1);
       tableContent = Array.from(new Set(tableContent));
     }
-
     //sort content after length
     tableContent.sort((a, b) => {
       return a.arr.length > b.arr.length;
@@ -249,6 +271,19 @@ class Stats {
       // document.querySelectorAll('div.field.win.' + x.gameName).forEach(x => x.style.backgroundColor = gameColor);
       // document.querySelectorAll('div.field.lose.' + x.gameName).forEach(x => x.style.backgroundColor = gameColor);
     });
+
+    let iRes = 0;
+    for (let i = 0; i < this._sortButtons.length; i++) {
+      if (this._sortButtons[i].dataset.sortBy === sortBy) {
+        iRes = i;
+      }
+    }
+
+    iRes = (iRes + 1) % this._sortButtons.length;
+    this._sortButtons.forEach(element => {
+        element.classList.add("hidden");
+    });
+    this._sortButtons[iRes].classList.remove('hidden')
   }
 
   async _renderTableSimple(groupBy, parentNode, doh) {
