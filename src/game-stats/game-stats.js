@@ -196,6 +196,7 @@ class GameStats {
       tmpDiv.appendChild(tmpDiv2);
 
       tmpDiv2 = document.createElement('div');
+      tmpDiv2.classList.add('field');
       tmpDiv2.classList.add('sum');
       tmpDiv2.classList.add(x.gameName);
       eleA = document.createElement('a');
@@ -275,17 +276,23 @@ class GameStats {
     });
 
     div = document.createElement('div');
-    div.innerHTML = `
-      <div class='allSumTitle'><a>Insgesamt gespielte Runden</a></div>
-      <div class='allSumValue'><a>`+sum+`</a></div>
+    div.classList.add('table-box');
+    div.classList.add('additionalInformation');
+    let tmpDiv = document.createElement('div');
+    tmpDiv.classList.add('allRounds');
+    tmpDiv.innerHTML = `
+      <div class='field allSumTitle'><a>Insgesamt gespielte Runden</a></div>
+      <div class='field allSumValue'><a>`+sum+`</a></div>
     `
-    parentNode.appendChild(div);
+    div.appendChild(tmpDiv);
 
-    div = document.createElement('div');
-    div.innerHTML = `
-      <div class='allSumTitle'><a>Anzahl der Spieler die dieses Spiel gespielt haben</a></div>
-      <div class='allSumValue'><a>`+playerSum+`</a></div>
+    tmpDiv = document.createElement('div');
+    tmpDiv.classList.add('allGames');
+    tmpDiv.innerHTML = `
+      <div class='field allSumTitle'><a>Anzahl der Spieler die dieses Spiel gespielt haben</a></div>
+      <div class='field allSumValue'><a>`+playerSum+`</a></div>
     `
+    div.appendChild(tmpDiv);
     parentNode.appendChild(div);
   }
 
