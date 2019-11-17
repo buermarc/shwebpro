@@ -19,3 +19,6 @@ $ npm install
 ```
 $ npm run start
 ```
+
+#### Limiterte Benutzbarkeit
+Aufgrund von Zeit Problemen kommt man auf die Rundenübersicht nur durch anlegen eines neuen Spiels mit einzigartigen Namen

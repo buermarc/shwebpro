@@ -29,7 +29,7 @@ class App {
       '/stats/player/:playerName/': params => this.showStatsPlayer(params.playerName),
       "/gameOverview": () => this.showGameOverview(),
       "/roundOverview/:gameRoundId/": (params) => this.showRoundOverview(params.gameRoundId),
-      "/gameRoundsOverview": () => this.showGameRoundsOverview(),
+      "/gameRoundsOverview/:id": (params) => this.showGameRoundsOverview(params.id),
     });
 
     // this._router.hooks({
@@ -133,8 +133,8 @@ class App {
     this._switchVisibleView(view);
   }
 
-  showGameRoundsOverview() {
-    let view = new GameRoundsOverview(this);
+  showGameRoundsOverview(id) {
+    let view = new GameRoundsOverview(this,id);
     this._switchVisibleView(view);
   }
 
