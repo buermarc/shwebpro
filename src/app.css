@@ -62,7 +62,7 @@
     text-decoration: none;
 }
 
-#app header a:  hover {
+#app header a:hover {
     color: var(--header-active-font-color);
     text-decoration: underline;
 }
@@ -82,22 +82,21 @@
         text-align: center;
         font-size: 28px;
         padding: 20px;
-        width: 300px;
+        width: 400px;
         transition: all 0.5s;
         cursor: pointer;
         margin: 5px;
         position:absolute;
-        top: 80%;
-        left: 40%;
+        left: 35%;
       }
-      
+
 #app .buttonHover span {
         cursor: pointer;
         display: inline-block;
         position: relative;
         transition: 0.5s;
       }
-      
+
 #app .buttonHover span:after {
         content: '\00bb';
         position: absolute;
@@ -106,15 +105,20 @@
         right: -20px;
         transition: 0.5s;
       }
-      
+
 #app .buttonHover:hover span {
         padding-right: 25px;
       }
-      
+
 #app .buttonHover:hover span:after {
         opacity: 1;
         right: 0;
       }
+#app > main {
+  /* background-color: var(--list-element-hover-color); */
+  background-color: var(--main-background-color)
+}
+
 /*
  * Hauptinhalt
  */
@@ -191,6 +195,6 @@
     #app > main {
         flex: 1;
         overflow: auto;
-        background-color: var(--main-background-color);
+        background-image: url(https://c.wallhere.com/photos/3e/0e/wood_texture_dark_planks_simple_background-156677.jpg!d);
     }
 }

@@ -15,16 +15,16 @@ class RoundOverview {
    * @param {Objekt} app  Zentrales App-Objekt der Anwendung
    * @param {String} id   ID des darzustellenden Spieles
    * @param {String} mode "new", "display" oder "edit"
-   * 
+   *
    */
 
-   
 
-  constructor(app) {
+
+  constructor(app, gameRoundId) {
     this._app = app;
 
     this._doh = new DataObjectHandler(true);
-  
+    this._gameRoundId = parseInt(gameRoundId);
 
 
   }
@@ -32,7 +32,7 @@ class RoundOverview {
   /**
    * Von der Klasse App aufgerufene Methode, um die Seite anzuzeigen. Die
    * Methode gibt daher ein passendes Objekt zurück, das an die Methode
-   * _switchVisibleContent() der Klasse App übergeben werden kann, um ihr
+   * _switchVisibleContent() der Klasse App übergebenwerden kann, um ihr
    * die darzustellenden DOM-Elemente mitzuteilen.
    *
    * @return {Object} Darzustellende DOM-Elemente gemäß Beschreibung der
@@ -42,12 +42,27 @@ class RoundOverview {
 
     let container = document.createElement("div");
     container.innerHTML = overview.trim();
-    
-    let section = container.querySelector("#round-overview").cloneNode(true);
-    this._listElement = section.querySelector("#round-overview > main > div");
 
-    this.createContent(this._doh, 1);
-    //this.createPopUp();
+    let section = container.querySelector("#round-overview").cloneNode(true);
+    this._listElement = section.querySelector(".tSpieler");
+    this._listButton = section.querySelector(".d");
+
+    let rundenAnzeige = section.querySelector("#anzeigeRunde");
+    let spielAnzeige = section.querySelector("#rundeText");
+
+    var modal = section.querySelector("#myModal");
+
+    section.querySelector("#statistikB").addEventListener("click", openStatistik);
+    function openStatistik(){
+      window.location.href="#/stats";
+    }
+    section.querySelector("#zurueckUebersicht").addEventListener("click", openUebersicht);
+    function openUebersicht(){
+      window.location.href="#/gameOverview";
+    }
+
+
+    this.createContent(this._doh, this._gameRoundId, rundenAnzeige, spielAnzeige, modal);
 
     return {
       className: "round-overview",
@@ -55,7 +70,7 @@ class RoundOverview {
       main: section.querySelectorAll("main > *"),
     };
   }
-  
+
   /**
    * Von der Klasse App aufgerufene Methode, um festzustellen, ob der Wechsel
    * auf eine neue Seite erlaubt ist. Wird hier true zurückgegeben, wird der
@@ -76,22 +91,49 @@ class RoundOverview {
     return "Rundenübersicht";
   }
 
-  async createContent(doh, gameId){
-    let gameRound = await doh.getGameRoundById(gameId);
-    let spielstand = await doh.getAllPlayerOfGameRoundId(gameRound.id);
-    
+  async createContent(doh, gameRoundId, rundenAnzeige, spielAnzeige, modal){
+    let anzeigeRunde = rundenAnzeige;
+    let anzeigeSpiel = spielAnzeige;
+    let gameRound = await doh.getGameRoundById(gameRoundId);
+    let spielstand = await doh.getAllPlayerOfGameRoundId(gameRoundId);
+    let game = await doh.getGameByGameRoundId(gameRoundId);
+
     var btn = document.createElement("BUTTON");
+    btn.classList.add("border-fade");
     btn.innerHTML = "Speichern";
-    this._listElement.parentNode.appendChild(btn);
-    
+    this._listButton.appendChild(btn);
+
+    this.setzeAnzeige(doh, anzeigeRunde, anzeigeSpiel, gameRoundId);
+
     for (var i = 0; i < spielstand.length; i++) {
-      this.buildTable(spielstand[i].playerId, spielstand[i].points, i)
+      let spielerName = await doh.getPlayerById(spielstand[i].playerId);
+      this.buildTable(spielerName.playerName, spielstand[i].points, i)
     }
 
    btn.addEventListener("click", () => {
-    this.speichern(doh, gameRound.id)    
+    this.speichern(doh, gameRound.id, rundenAnzeige, spielAnzeige, modal)
   });
 
+  }
+
+  async setzeAnzeige(doh, anzeigeRunde, anzeigeSpiel, gameRoundId){
+    
+    let gameRound = await doh.getGameRoundById(gameRoundId);    
+    let game = await doh.getGameByGameRoundId(gameRoundId);
+
+
+    let aktuelleRunde = gameRound.round;
+    let insgesamtRunden = game.maxRounds;
+    let spielName = game.gameName;
+
+
+    if(insgesamtRunden >= 0){
+      anzeigeSpiel.innerHTML= spielName;
+      anzeigeRunde.innerHTML= 'Runde: ' + aktuelleRunde + ' / ' + insgesamtRunden;
+    }else{
+      anzeigeSpiel.innerHTML= spielName;
+      anzeigeRunde.innerHTML= 'Runde: ' + aktuelleRunde
+    }
   }
 
   buildTable(name, punkte, nummer){
@@ -103,67 +145,17 @@ class RoundOverview {
         <h2 id="spPunkte`+nummer+`">`+punkte+`</h2>
       </div>
       <div class="tSpielerColumnInput">
-        <input type="number" id="spInput`+nummer+`"/>
+        <input class="inputFocus" type="number" id="spInput`+nummer+`"/>
       </div>
     `;
   }
-  
-  /*createPopUp(){
-    var btnPop = document.createElement("BUTTON");
-    btnPop.innerHTML = "PopPopPop";
-    this._listElement.parentNode.appendChild(btnPop);
 
-    var pop = document.createElement("div");
-    pop.classList.add("modal");
-    pop.id = "myModal";
-    this._listElement.parentNode.appendChild(pop);
-
-    var modalContent = document.createElement("div");
-    modalContent.classList.add("modal-content");
-    pop.appendChild(modalContent);
-  
-    var modalHeader = document.createElement("div");
-    modalHeader.classList.add("modal-header");
-    modalContent.appendChild(modalHeader);
-
-    var spanClose = document.createElement("span");
-    spanClose.classList.add("close");
-    spanClose.innerHTML = "&times;"
-    modalHeader.appendChild(spanClose);
-
-
-    var modalHeaderText = document.createElement("h2");
-    modalHeaderText.innerHTML = "Modal Header"
-    modalHeader.appendChild(modalHeaderText);
-    
-    var modalBody = document.createElement("div");
-    modalBody.classList.add("modal-body");
-    modalContent.appendChild(modalBody);
-
-    var modalBodyP1 = document.createElement("p");
-    modalBodyP1.innerHTML = "Blablabla";
-    modalBody.appendChild(modalBodyP1);
-
-
-    var modalFooter = document.createElement("div");
-    modalFooter.classList.add("modal-footer");
-    modalContent.appendChild(modalFooter);
-
-    spanClose.onclick = function() {
-      pop.style.display = "none";
-    }
-    btnPop.onclick = function() {
-      pop.style.display = "block";
-    }
-    window.onclick = function(event) {
-      if (event.target == pop) {
-        pop.style.display = "none";
-      }
-    }
-  }*/
-
-  async speichern(doh, gameRoundId){
+  async speichern(doh, gameRoundId, rundenAnzeige, spielAnzeige, modal){
+    let gameRound = await doh.getGameRoundById(gameRoundId);    
+    let aktuelleRunde = gameRound.round;
     let spielstand = await doh.getAllPlayerOfGameRoundId(gameRoundId);
+    let game = await doh.getGameByGameRoundId(gameRoundId);
+
     for(var i = 0; i<spielstand.length; i++){
       var wert = document.getElementById("spInput"+i).value;
       if(wert==""){window.alert("Bitte alle Felder ausfüllen"); return;}
@@ -177,9 +169,24 @@ class RoundOverview {
       document.getElementById("spPunkte"+i).innerHTML=wert;
       document.getElementById("spInput"+i).value="";
     }
+    if(aktuelleRunde>=game.maxRounds-1){
+      await doh.setGameRoundFinsihedById(gameRoundId);
+      let beste = 0;
+      for(var i = 0; i<spielstand.length;i++){
+        if(spielstand[i].points>spielstand[beste].points){
+          beste=i;
+        }
+      }
+      let gewinner = await doh.getPlayerById(spielstand[beste].playerId);
+      document.getElementById("gewinnerAnzeige").innerHTML=gewinner.playerName+' hat gewonnen!'
+      modal.style.display = "block";
+
+    }
+    doh.updateRoundByGameRoundId(gameRoundId, aktuelleRunde+1);
+    this.setzeAnzeige(doh, rundenAnzeige, spielAnzeige, gameId);
   }
-  
-  
+
+
 }
 
 export default RoundOverview;

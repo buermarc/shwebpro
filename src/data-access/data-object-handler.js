@@ -135,10 +135,24 @@ class DataObjectHandler {
     return GameRound.getById(gameRoundId);
   }
 
+  async updateRoundByGameRoundId(id, newRound) {
+    return db.database.gameRound.update(id, {round: newRound});
+  }
+
+  async setGameRoundFinsihedById(id) {
+    return db.database.gameRound.update(id, {fin: true});
+  }
+
   // update points of player in gameRound
   async updatePointsByPlayerIdAndGameRoundId(playerId, gameRoundId, newPoints) {
     let playerToGameRound = new PlayerToGameRound(playerId, gameRoundId, newPoints);
     return db.database.playerToGameRound.put(playerToGameRound.asJson);
+  }
+
+  async getGameByGameRoundId(id) {
+    let gameToGameRound = await db.database.gameToGameRound.where({gameRoundId: id}).toArray();
+    let gameId = gameToGameRound[0].gameId;
+    return db.database.game.get(gameId);
   }
 
   //==========================================================
@@ -281,6 +295,13 @@ class DataObjectHandler {
 
     //console.log(await this.updatePointsByPlayerIdAndGameRoundId(1, 1, 900));
     console.log(await this.getGameRoundById(2));
+
+    //this.updateRoundByGameRoundId(gameRound1Id, 5555);
+    arr = await GameRound.getAll();
+    console.log(arr);
+
+    arr = await this.getGameByGameRoundId(gameRound1Id);
+    console.log(arr);
   }
 
 }
