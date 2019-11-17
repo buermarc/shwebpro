@@ -100,8 +100,14 @@ class RoundOverview {
 
     var btn = document.createElement("BUTTON");
     btn.classList.add("border-fade");
+    btn.id="buttonSpeichern";
     btn.innerHTML = "Speichern";
     this._listButton.appendChild(btn);
+    var btnB = document.createElement("BUTTON");
+    btnB.classList.add("border-fade");
+    btnB.id="buttonBeenden";
+    btnB.innerHTML = "Beenden";
+    this._listButton.appendChild(btnB);
 
     this.setzeAnzeige(doh, anzeigeRunde, anzeigeSpiel, gameRoundId);
 
@@ -112,6 +118,9 @@ class RoundOverview {
 
    btn.addEventListener("click", () => {
     this.speichern(doh, gameRound.id, rundenAnzeige, spielAnzeige, modal)
+  });
+  btnB.addEventListener("click", () => {
+    this.spielBeenden(doh, gameRound.id, modal)
   });
 
   }
@@ -186,6 +195,20 @@ class RoundOverview {
     this.setzeAnzeige(doh, rundenAnzeige, spielAnzeige, gameId);
   }
 
+  async spielBeenden(doh, gameRoundId, modal){
+    let spielstand = await doh.getAllPlayerOfGameRoundId(gameRoundId);
+    await doh.setGameRoundFinsihedById(gameRoundId);
+      let beste = 0;
+      for(var i = 0; i<spielstand.length;i++){
+        if(spielstand[i].points>spielstand[beste].points){
+          beste=i;
+        }
+      }
+      let gewinner = await doh.getPlayerById(spielstand[beste].playerId);
+      document.getElementById("gewinnerAnzeige").innerHTML=gewinner.playerName+' hat gewonnen!'
+      modal.style.display = "block";
+
+  }
 
 }
 

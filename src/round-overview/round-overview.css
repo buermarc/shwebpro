@@ -106,12 +106,7 @@ font-size: 25pt;
     font-weight: bold;
     display: inline-block;
     font-size: 25px;
-    align-content: center;
     border-radius: 12px;
-    margin-right: 45%;
-    margin-left: 43%;
-    margin-top: 2em;
-    display: inline-block;
     background-color: white;
 
 	transition-duration: .3s;
@@ -221,6 +216,11 @@ font-size: 25pt;
     .round-overview #zurueckUebersicht{
         margin-top: 5em;
         background-color: var(--list-element-color);
+    }
+  
+    .round-overview #buttonSpeichern{
+      margin-left: 14em;
+      margin-right: 6em;
     }
 
     
