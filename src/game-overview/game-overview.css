@@ -13,6 +13,11 @@
     padding: 20px;
     width: 150px;
     background-color: white;
+    background-image: url(defaultImage.jpg);
+    background-position-x: center;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  background-size: 150px 150px;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 20px;
     font-weight: bold;
@@ -139,19 +144,32 @@
 
 .game-overview #elementDoppelkopf{
     background-image: url(doppelkopf.jpg);
-    background-position-x: center;
     background-position-y: bottom;
-    background-repeat: no-repeat;
     background-size: 170px 220px;
 }
 
-.game-overview #elementMau-Mau{
+.game-overview #elementTichu{
   background-image: url(dragon.png);
-  background-position-x: center;
   background-position-y: bottom;
-  background-repeat: no-repeat;
   background-size: 140px 190px;
 }
+
+.game-overview #elementSkat{
+  background-image: url(skat.png);
+  background-position-y: bottom;
+  background-size: 140px 190px;
+}
+
+.game-overview #elementBinokel{
+  background-image: url(binokel.png);
+  background-position-y: bottom;
+  background-size: 140px 190px;
+}
+
+.game-overview span{
+  color: #000;
+}
+
 
 
 
