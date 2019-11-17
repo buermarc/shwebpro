@@ -3,19 +3,7 @@
 import stylesheet from "./game-rounds-overview.css";
 import overview from './game-rounds-overview.html';
 import DataObjectHandler from '../data-access/data-object-handler.js';
-import PlayerToGameRound from '../data-access/data-objects/player-to-game-round.js';
-import Game from '../data-access/data-objects/game.js';
-import GameRound from '../data-access/data-objects/game-round.js';
-import GameToGameRound from '../data-access/data-objects/game-to-game-round.js';
-import Player from '../data-access/data-objects/player.js';
-import db from '../data-access/database-handler.js'
 
-let database = db.database;
-
-
-/**
- * View zum Anzeigen der offenen Runden eines Spieles
- */
 class GameRoundsOverview {
   /**
    * Konstruktor.
@@ -28,40 +16,27 @@ class GameRoundsOverview {
 
 
 
-  constructor(app) {
+  constructor(app, spielId) {
     this._app = app;
+    this._spielId = 1; //spielId
+    this._bodyTable = "";
 
+    this._doh = new DataObjectHandler(true);
     //Mockdaten => Daten aus Dantebank hohlen und in entsprechende Variablen Speichern
-    this._spiele = [
-      [],
-      [],
-      []
-    ];
+    // this._spiele = [
+    //   [],
+    //   [],
+    //   []
+    // ];
 
     //Eventuelle for-Schleifen um Daten zu speichern oder für jedes Spielobjekt
     //einzeln durchlaufen
-    this._spieler = ["Josia", "Karin", "Marc", "Lasse"];
-    this._spielstand = [30, -90, 150, 120];
-    this._gespielteRunden = 5;
-    this._spiel = "Doppelkopf";
-    this._beendet = true;
-
-    this._bodyTable = "";
-
-    //Buttons weiterspielen und rundeBeenden deaktivieren, sollte keine offene
-    //Runde vorhanden sein
-
+    // this._spieler = ["Josia", "Karin", "Marc", "Lasse"];
+    // this._spielstand = [30, -90, 150, 120];
+    // this._gespielteRunden = 5;
+    // this._spiel = "Doppelkopf";
   }
 
-  /**
-   * Von der Klasse App aufgerufene Methode, um die Seite anzuzeigen. Die
-   * Methode gibt daher ein passendes Objekt zurück, das an die Methode
-   * _switchVisibleContent() der Klasse App übergeben werden kann, um ihr
-   * die darzustellenden DOM-Elemente mitzuteilen.
-   *
-   * @return {Object} Darzustellende DOM-Elemente gemäß Beschreibung der
-   * Methode App._switchVisibleContent()
-   */
   async onShow() {
 
     let container = document.createElement("div");
@@ -106,12 +81,12 @@ class GameRoundsOverview {
       var anzahl = document.querySelector("#spieleranzahl").value;
         var string = "";
         for (var i = 0; i < anzahl; i++) {
-          string += '<input>' +
+          string += '<input id="'+i+'">' +
             '</input>' +
             '<br>';
         }
 
-        document.querySelector("#anzahlSpieler").innerHTML = string;
+      document.querySelector("#anzahlSpieler").innerHTML = string;
       modal2.style.display = "block";
     }
 
@@ -121,6 +96,11 @@ class GameRoundsOverview {
 
     function neuesSpielErstellen(){
       modal2.style.display = "none";
+      var anzahl = document.querySelector("#spieleranzahl").value;
+      for (var i = 0; i < anzahl; i++) {
+        var spieler = this._documentElement.getElementById(i);
+        this._doh.setNewPlayer(spieler);
+      }
       //Datenobjekt an Lasses Screen geben
     }
 
@@ -135,7 +115,7 @@ class GameRoundsOverview {
         modal2.style.display = "none";
       }}
 
-    this.createTable();
+    this.createTable(this._doh, this._spielId);
 
     return {
       className: "game-rounds-overview",
@@ -144,27 +124,15 @@ class GameRoundsOverview {
     };
   }
 
-  /**
-   * Von der Klasse App aufgerufene Methode, um festzustellen, ob der Wechsel
-   * auf eine neue Seite erlaubt ist. Wird hier true zurückgegeben, wird der
-   * Seitenwechsel ausgeführt.
-   *
-   * @param  {Function} goon Callback, um den Seitenwechsel zu einem späteren
-   * Zeitpunkt fortzuführen, falls wir hier false zurückgeben
-   * @return {Boolean} true, wenn der Seitenwechsel erlaubt ist, sonst false
-   */
   async onLeave(goon) {
     return true;
   }
 
-  /**
-   * @return {String} Titel für die Titelzeile des Browsers
-   */
   get title() {
     return "Neues Spiel";
   }
 
-  async createTable() {
+  async createTable(doh, spielId) {
 
     //von Marc: den gesamten HTML-Code per JS einfügen
 
@@ -187,65 +155,18 @@ class GameRoundsOverview {
     //       <button id="neuesSpielErstellen">Neues Spiel erstellen</button>
     //   </dialog>`
 
-    //Buttons weiterspielen und rundeBeenden deaktivieren, sollte keine offene
-    //Runde vorhanden sein
-    if (this._beendet == true) {
-      //document.querySelector("#weiterspielen").disabled = true;
+    let offeneSpiele = await doh.getOpenRoundsByGameId(spielId);
+    let spiel = Game.getById(spielId);
+
+    for (var i = 0; i < offeneSpiele.length; i++) {
+      // Für jede Runde erneut abfragen
+      let spieler = await doh.getAllPlayerOfGameRoundId(offeneSpiel[i]);
+      let spielerNamen = await doh.getAllPlayerOfGameRoundIdWithNames(offeneSpiele[i]);
+      let runde = GameRound.getById(offeneSpiele[i].rounds);
+      // HTML-Seite generieren
+      this.buildBodyTable(runde, spiel[1], spielerNamen);
     }
 
-    if (this._spiele[0][0] == null) {
-      //document.querySelector("#rundeBeenden").disabled = true;
-    }
-
-    //this._documentElement = this._documentElement.parentNode; FALLS FEHLER
-
-    // Listener für die sieben Buttons initialisieren
-    // this._documentElement.querySelector("#neuesSpiel").addEventListener("click", () => {
-    //   modal1.style.display = "block";
-    //   // document.getElementsByTagName('dialog')[0].show();
-    // });
-    //
-    // this._documentElement.querySelector("#abbrechen").addEventListener("click", () => {
-    //   // document.getElementsByTagName('dialog')[0].close();
-    // });
-    //
-    // this._documentElement.querySelector("#abbrechen2").addEventListener("click", () => {
-    //   // document.getElementsByTagName('dialog')[1].close();
-    // });
-    //
-    // this._documentElement.querySelector("#neuesSpielErstellen").addEventListener("click", () => {
-    //   // document.getElementsByTagName('dialog')[1].close();
-    //   //Datenobjekt an Lasses Screen geben
-    // });
-    //
-    // this._documentElement.querySelector("#weiter").addEventListener("click", () => {
-    //   // document.getElementsByTagName('dialog')[0].close();
-    //
-    //   var anzahl = document.querySelector("#spieleranzahl").value;
-    //   var string = "";
-    //   for (var i = 0; i < anzahl; i++) {
-    //     string += '<input>' +
-    //       '</input>' +
-    //       '<br>';
-    //   }
-    //
-    //   document.querySelector("#anzahlSpieler").innerHTML = string;
-    //
-    //   // document.getElementsByTagName('dialog')[1].show();
-    // });
-    //
-    // this._documentElement.querySelector("#weiterspielen").addEventListener("click", () => {
-    //   //Datenobjekt an Lasses Screen geben
-    // });
-    //
-    // this._documentElement.querySelector("#rundeBeenden").addEventListener("click", () => {
-    //   //Variable Runde beendet auf true setzen
-    // });
-
-
-
-    // HTML-Seite generieren
-    this.buildBodyTable(this._gespielteRunden, this._spiel);
     this._documentElement.querySelector("#tabelleOffeneSpiele").innerHTML +=
       // this._listElement.innerHTML +=
       '<table>' +
@@ -255,8 +176,8 @@ class GameRoundsOverview {
 
   buildBodyTable(runde, spiel) {
     this._bodyTable += '<th>' + spiel + '</th>';
-    for (var i = 0; i < this._spieler.length; i++) {
-      this.createBodyTable(this._spieler[i], this._spielstand[i]);
+    for (var i = 0; i < spieler; i++) {
+      this.createBodyTable(spielerNamen[i], spieler[i][3]);
     }
     this._bodyTable +=
       '<tr>' +
