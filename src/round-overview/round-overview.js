@@ -146,6 +146,8 @@ class RoundOverview {
     let gameRound = await doh.getGameRoundById(gameId);    
     let aktuelleRunde = gameRound.round;
     let spielstand = await doh.getAllPlayerOfGameRoundId(gameRoundId);
+    let game = await doh.getGameById(gameId);
+
     for(var i = 0; i<spielstand.length; i++){
       var wert = document.getElementById("spInput"+i).value;
       if(wert==""){window.alert("Bitte alle Felder ausfüllen"); return;}
@@ -159,7 +161,10 @@ class RoundOverview {
       document.getElementById("spPunkte"+i).innerHTML=wert;
       document.getElementById("spInput"+i).value="";
     }
-    
+    if(aktuelleRunde>=game.maxRounds-1){
+      setGameRoundFinsihedById(gameRoundId);
+      //weiterleiten zu Statistik
+    }
     doh.updateRoundByGameRoundId(gameRoundId, aktuelleRunde+1);
     this.setzeAnzeige(doh, rundenAnzeige, spielAnzeige, gameId);
   }

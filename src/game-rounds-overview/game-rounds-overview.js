@@ -49,6 +49,8 @@ class GameRoundsOverview {
     var modal1 = section.querySelector("#myModal1");
     var modal2 = section.querySelector("#myModal2");
 
+
+
     section.querySelector("#neuesSpiel").addEventListener("click", neuesSpiel);
     // section.querySelector("#weiterSpielen").addEventListener("click", weiterSpielen);
     // section.querySelector("#rundeBeenden").addEventListener("click", rundeBeenden);
@@ -154,6 +156,7 @@ class GameRoundsOverview {
     //       <button id="zurück">Abbrechen</button>
     //       <button id="neuesSpielErstellen">Neues Spiel erstellen</button>
     //   </dialog>`
+
 
     let offeneSpiele = await doh.getOpenRoundsByGameId(spielId);
     let spiel = await doh.getGameById(spielId);
