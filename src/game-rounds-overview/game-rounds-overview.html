@@ -2,6 +2,7 @@
     <!-- Topbar -->
     <header>
       <div class="left menu-content">
+        <p>Offene Spiele - wähle eine Aktion</p>
         <!-- Leer -->
       </div>
       <div class="right">
@@ -18,9 +19,9 @@
 
       <div class="offeneSpiele" id="tabelleOffeneSpiele"></div>
 
-      <button id="neuesSpiel">Neues Spiel</button>
-      <button id="weiterspielen">Weiterspielen</button>
-      <button id="rundeBeenden">Runde Beenden</button>
+      <button id="neuesSpiel" class="buttons">Neues Spiel</button>
+      <button id="weiterspielen" class="buttons">Weiterspielen</button>
+      <button id="rundeBeenden" class="buttons">Runde Beenden</button>
 
       <div id="myModal1" class="modal1">
           <!-- Modal content -->
@@ -30,10 +31,10 @@
                   <h2>Anzahl der Spieler festlegen</h2>
                 </div>
                 <div id="modalBody" class="modal-body">
-                  <input placeholder="Anzahl der Spieler eingeben" type="number" id="spieleranzahl"></input>
+                  <input placeholder="Anzahl der Spieler eingeben" class="inputField" type="number" id="spieleranzahl"></input>
                   <br>
-                  <button id="abbrechen">Abbrechen</button>
-                  <button id="weiter">Weiter</button>
+                  <button id="abbrechen"  class="buttons">Abbrechen</button>
+                  <button id="weiter"  class="buttons">Weiter</button>
                 </div>
           </div>
         </div>
@@ -47,8 +48,8 @@
                   </div>
                   <div id="modalBody" class="modal-body">
                     <div id="anzahlSpieler"></div>
-                    <button id="abbrechen2">Abbrechen</button>
-                    <button id="neuesSpielErstellen">Neues Spiel erstellen</button>
+                    <button id="zurück"  class="buttons">Züruck</button>
+                    <button id="neuesSpielErstellen"  class="buttons">Neues Spiel erstellen</button>
                   </div>
             </div>
           </div>

@@ -54,7 +54,7 @@ class GameRoundsOverview {
     // section.querySelector("#rundeBeenden").addEventListener("click", rundeBeenden);
     section.querySelector("#abbrechen").addEventListener("click", abbrechen);
     section.querySelector("#weiter").addEventListener("click", weiter);
-    section.querySelector("#abbrechen2").addEventListener("click", abbrechen2);
+    section.querySelector("#zurück").addEventListener("click", zurück);
     section.querySelector("#neuesSpielErstellen").addEventListener("click", neuesSpielErstellen);
 
     section.querySelector("#closeModal1").addEventListener("click", xButton);
@@ -81,17 +81,17 @@ class GameRoundsOverview {
       var anzahl = document.querySelector("#spieleranzahl").value;
         var string = "";
         for (var i = 0; i < anzahl; i++) {
-          string += '<input id="'+i+'">' +
+          string += '<input id="'+i+'" class="inputField">' +
             '</input>' +
             '<br>';
         }
-
       document.querySelector("#anzahlSpieler").innerHTML = string;
       modal2.style.display = "block";
     }
 
-    function abbrechen2(){
+    function zurück(){
       modal2.style.display = "none";
+      modal1.style.display = "block";
     }
 
     function neuesSpielErstellen(){
@@ -151,7 +151,7 @@ class GameRoundsOverview {
     //   <dialog>
     //       <h2>Spieler</h2>
     //       <div id="anzahlSpieler"></div>
-    //       <button id="abbrechen2">Abbrechen</button>
+    //       <button id="zurück">Abbrechen</button>
     //       <button id="neuesSpielErstellen">Neues Spiel erstellen</button>
     //   </dialog>`
 
