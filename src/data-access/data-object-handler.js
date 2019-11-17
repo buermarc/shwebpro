@@ -149,6 +149,12 @@ class DataObjectHandler {
     return db.database.playerToGameRound.put(playerToGameRound.asJson);
   }
 
+  async getGameByGameRoundId(id) {
+    let gameToGameRound = await db.database.gameToGameRound.where({gameRoundId: id}).toArray();
+    let gameId = gameToGameRound[0].gameId;
+    return db.database.game.get(gameId);
+  }
+
   //==========================================================
   //Mock Daten zum testen
   async _initData() {
@@ -292,6 +298,9 @@ class DataObjectHandler {
 
     //this.updateRoundByGameRoundId(gameRound1Id, 5555);
     arr = await GameRound.getAll();
+    console.log(arr);
+
+    arr = await this.getGameByGameRoundId(gameRound1Id);
     console.log(arr);
   }
 

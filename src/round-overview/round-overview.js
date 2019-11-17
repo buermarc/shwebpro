@@ -15,16 +15,16 @@ class RoundOverview {
    * @param {Objekt} app  Zentrales App-Objekt der Anwendung
    * @param {String} id   ID des darzustellenden Spieles
    * @param {String} mode "new", "display" oder "edit"
-   * 
+   *
    */
 
-   
+
 
   constructor(app, gameRoundId) {
     this._app = app;
 
     this._doh = new DataObjectHandler(true);
-    this._gameRoundId = gameRoundId;
+    this._gameRoundId = parseInt(gameRoundId);
 
 
   }
@@ -42,14 +42,14 @@ class RoundOverview {
 
     let container = document.createElement("div");
     container.innerHTML = overview.trim();
-    
+
     let section = container.querySelector("#round-overview").cloneNode(true);
     this._listElement = section.querySelector(".tSpieler");
     this._listButton = section.querySelector(".d");
 
     let rundenAnzeige = section.querySelector("#anzeigeRunde");
     let spielAnzeige = section.querySelector("#rundeText");
-  
+
     var modal = section.querySelector("#myModal");
 
     section.querySelector("#statistikB").addEventListener("click", openStatistik);
@@ -60,9 +60,9 @@ class RoundOverview {
     function openUebersicht(){
       window.location.href="#/gameOverview";
     }
-    
 
-    this.createContent(this._doh, this._gameRoundId, rundenAnzeige, spielAnzeige, modal); 
+
+    this.createContent(this._doh, this._gameRoundId, rundenAnzeige, spielAnzeige, modal);
 
     return {
       className: "round-overview",
@@ -70,7 +70,7 @@ class RoundOverview {
       main: section.querySelectorAll("main > *"),
     };
   }
-  
+
   /**
    * Von der Klasse App aufgerufene Methode, um festzustellen, ob der Wechsel
    * auf eine neue Seite erlaubt ist. Wird hier true zurückgegeben, wird der
@@ -102,7 +102,7 @@ class RoundOverview {
     btn.classList.add("border-fade");
     btn.innerHTML = "Speichern";
     this._listButton.appendChild(btn);
-    
+
 
     let aktuelleRunde = gameRound.round;
     let insgesamtRunden = game.maxRounds;
@@ -115,17 +115,17 @@ class RoundOverview {
     }
 
    btn.addEventListener("click", () => {
-    this.speichern(doh, gameRound.id, gameId, rundenAnzeige, spielAnzeige, modal)    
+    this.speichern(doh, gameRound.id, gameId, rundenAnzeige, spielAnzeige, modal)
   });
 
   }
 
   async setzeAnzeige(doh, anzeigeRunde, anzeigeSpiel, gameId){
-    
-    let gameRound = await doh.getGameRoundById(gameId);    
+
+    let gameRound = await doh.getGameRoundById(gameId);
     let game = await doh.getGameById(gameId);
 
-    
+
     let aktuelleRunde = gameRound.round;
     let insgesamtRunden = game.maxRounds;
     let spielName = game.gameName;
@@ -153,9 +153,9 @@ class RoundOverview {
       </div>
     `;
   }
-  
+
   async speichern(doh, gameRoundId, gameId, rundenAnzeige, spielAnzeige, modal){
-    let gameRound = await doh.getGameRoundById(gameId);    
+    let gameRound = await doh.getGameRoundById(gameId);
     let aktuelleRunde = gameRound.round;
     let spielstand = await doh.getAllPlayerOfGameRoundId(gameRoundId);
     let game = await doh.getGameById(gameId);
@@ -184,13 +184,13 @@ class RoundOverview {
       let gewinner = await doh.getPlayerById(spielstand[beste].playerId);
       document.getElementById("gewinnerAnzeige").innerHTML=gewinner.playerName+' hat gewonnen!'
       modal.style.display = "block";
-    
+
     }
     doh.updateRoundByGameRoundId(gameRoundId, aktuelleRunde+1);
     this.setzeAnzeige(doh, rundenAnzeige, spielAnzeige, gameId);
   }
-  
-  
+
+
 }
 
 export default RoundOverview;

@@ -30,7 +30,7 @@ class App {
       '/stats/game/:gameName/': params => this.showStatsGame(params.gameName),
       '/stats/player/:playerName/': params => this.showStatsPlayer(params.playerName),
       "/gameOverview": () => this.showGameOverview(),
-      "/roundOverview": () => this.showRoundOverview(),
+      "/roundOverview/:gameRoundId/": (params) => this.showRoundOverview(params.gameRoundId),
       "/gameRoundsOverview": () => this.showGameRoundsOverview(),
     });
 
@@ -140,8 +140,8 @@ class App {
     this._switchVisibleView(view);
   }
 
-  showRoundOverview(){
-    let view = new RoundOverview(this);
+  showRoundOverview(gameRoundId){
+    let view = new RoundOverview(this, gameRoundId);
     this._switchVisibleView(view);
   }
 
