@@ -1,6 +1,6 @@
 .dummy {}
 
-.modal1 {
+.game-rounds-overview .modal1 {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -14,14 +14,14 @@
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-.modal-header1 {
+.game-rounds-overview .modal-header1 {
   background-color: black;
   text-align: center;
   font-family: fantasy;
 }
 
 /* Modal Content */
-.modal1-content {
+.game-rounds-overview .modal1-content {
   position: relative;
   background-color: #fefefe;
   margin: auto;
@@ -35,7 +35,7 @@
   animation-duration: 0.4s
 }
 
-.modal2 {
+.game-rounds-overview .modal2 {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -50,7 +50,7 @@
 }
 
 /* Modal Content */
-.modal2-content {
+.game-rounds-overview .modal2-content {
   position: relative;
   background-color: #fefefe;
   margin: auto;
@@ -64,14 +64,14 @@
   animation-duration: 0.4s
 }
 
-.close {
+.game-rounds-overview .close {
   color: white;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 
-.htmlButtons {
+.game-rounds-overview .htmlButtons {
   background-color: #8B0000;
   border: solid black 2px;
   color: white;
@@ -85,7 +85,7 @@
   margin-top: 2%;
 }
 
-.buttonsModal1 {
+.game-rounds-overview .buttonsModal1 {
   background-color: #8B0000;
   border: solid black 2px;
   color: white;
@@ -99,7 +99,7 @@
   margin-left: 20%;
 }
 
-.buttonsModal2 {
+.game-rounds-overview .buttonsModal2 {
   background-color: #8B0000;
   border: solid black 2px;
   color: white;
@@ -113,13 +113,13 @@
   margin-left: 15%;
 }
 
-.inputField {
+.game-rounds-overview .inputField {
   background-color: #F08080;
   margin-top: 2%;
   text-align: center;
 }
 
-.inputFieldSpieleranzahl {
+.game-rounds-overview .inputFieldSpieleranzahl {
   background-color: #F08080;
   margin-left: 25%;
   width: 15em;
@@ -128,7 +128,7 @@
 }
 
 
-table, th, td {
+.game-rounds-overview table, th, td {
   margin-top: 2%;
   border: 1px solid black;
   align-items: center;
@@ -139,29 +139,29 @@ table, th, td {
   font-family: cursive;
 }
 
-.spielerPunkte {
+.game-rounds-overview .spielerPunkte {
   font-size: 25px;
   text-align: center;
   font-family: fantasy;
 }
 
-.gespielteRunde {
+.game-rounds-overview .gespielteRunde {
   text-align: center;
   font-family: fantasy;
 }
 
-.spielerLabel {
+.game-rounds-overview .spielerLabel {
   margin-right: 5%;
   margin-left: 25%;
   margin-bottom: 2%;
   color: white;
 }
 
-.tableHeader {
+.game-rounds-overview .tableHeader {
   font-size: 1.5em;
   font-style: normal;
 }
 
-.modal-body{
+.game-rounds-overview .modal-body{
   background-color: #424242;
 }

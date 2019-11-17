@@ -23,9 +23,6 @@ class GameRoundsOverview {
 
     this._doh = new DataObjectHandler(true);
 
-    this._minPlayers = this._doh.getGameById(this._spielId).minPlayers;
-    this._maxPlayers = this._doh.getGameById(this._spielId).maxPlayers;
-
     //Mockdaten => Daten aus Dantebank hohlen und in entsprechende Variablen Speichern
     // this._spiele = [
     //   [],
@@ -42,6 +39,11 @@ class GameRoundsOverview {
   }
 
   async onShow() {
+
+    this._minPlayers= await this._doh.getGameById(id);
+    this._minPlayers = this._minPlayers.minPlayers;
+    this._maxPlayers= await this._doh.getGameById(id);
+    this._maxPlayers = this._maxPlayers.maxPlayers;
 
     let container = document.createElement("div");
     container.innerHTML = overview.trim();
@@ -84,8 +86,8 @@ class GameRoundsOverview {
     }
 
     function weiter(){
-      //if (document.querySelector("#spieleranzahl").value < this._maxPlayers && document.querySelector("#spieleranzahl").value >= this._minPlayers) {
-      if (document.querySelector("#spieleranzahl").value < 10 && document.querySelector("#spieleranzahl").value >= 1) {
+      if (document.querySelector("#spieleranzahl").value < this._maxPlayers && document.querySelector("#spieleranzahl").value >= this._minPlayers) {
+      //if (document.querySelector("#spieleranzahl").value < 10 && document.querySelector("#spieleranzahl").value >= 1) {
         modal1.style.display = "none";
         var anzahl = document.querySelector("#spieleranzahl").value
           var string = "";
@@ -191,9 +193,8 @@ class GameRoundsOverview {
         playerName = playerName.playerName;
         return playerName;
       }));
-      let runde = await doh.getGameRoundById(offeneSpiele[i].id);
       // HTML-Seite generieren //Hier stimmt was nicht, in
-      this.buildBodyTable(runde.rounds, spiel.gameName, spieler, spielerNamen);
+      this.buildBodyTable(offeneSpiele[i].round, spiel.gameName, spieler, spielerNamen);
     }
 
     console.log(this._listElement.parentNode.querySelector("#tabelleOffeneSpiele"));
