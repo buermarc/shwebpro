@@ -156,28 +156,36 @@ class GameRoundsOverview {
     //   </dialog>`
 
     let offeneSpiele = await doh.getOpenRoundsByGameId(spielId);
-    let spiel = Game.getById(spielId);
+    let spiel = await doh.getGameById(spielId);
 
     for (var i = 0; i < offeneSpiele.length; i++) {
       // Für jede Runde erneut abfragen
-      let spieler = await doh.getAllPlayerOfGameRoundId(offeneSpiel[i]);
-      let spielerNamen = await doh.getAllPlayerOfGameRoundIdWithNames(offeneSpiele[i]);
-      let runde = GameRound.getById(offeneSpiele[i].rounds);
-      // HTML-Seite generieren
-      this.buildBodyTable(runde, spiel[1], spielerNamen);
+      let spieler = await doh.getAllPlayerOfGameRoundId(offeneSpiele[i].id); //Json Object
+      // playerId: this._playerId,
+      // gameRoundId: this._gameRoundId,
+      // points: this._points,
+      let spielerNamen = await Promise.all(spieler.map(async spiel => {
+        let playerName = await doh.getPlayerById(spiel.playerId);
+        playerName = playerName.playerName;
+        return playerName;
+      }));
+      let runde = await doh.getGameRoundById(offeneSpiele[i].id);
+      // HTML-Seite generieren //Hier stimmt was nicht, in
+      this.buildBodyTable(runde.rounds, spiel.gameName, spieler, spielerNamen);
     }
 
-    this._documentElement.querySelector("#tabelleOffeneSpiele").innerHTML +=
+    console.log(this._listElement.parentNode.querySelector("#tabelleOffeneSpiele"));
+    this._listElement.parentNode.querySelector("#tabelleOffeneSpiele").innerHTML +=
       // this._listElement.innerHTML +=
       '<table>' +
       this._bodyTable +
       '</table>';
   }
 
-  buildBodyTable(runde, spiel) {
-    this._bodyTable += '<th>' + spiel + '</th>';
-    for (var i = 0; i < spieler; i++) {
-      this.createBodyTable(spielerNamen[i], spieler[i][3]);
+  buildBodyTable(runde, spielName, spieler, spielerNamen) {
+    this._bodyTable += '<th>' + spielName + '</th>';
+    for (var i = 0; i < spielerNamen.length; i++) {
+      this.createBodyTable(spielerNamen[i], spieler[i].points);
     }
     this._bodyTable +=
       '<tr>' +
