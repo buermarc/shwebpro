@@ -40,12 +40,16 @@ class GameRoundsOverview {
 
   async onShow() {
 
-    this._minPlayers= await this._doh.getGameById(this._spielId);
-    this._minPlayers = this._minPlayers.minPlayers;
-    this._maxPlayers= await this._doh.getGameById(this._spielId);
-    this._maxPlayers = this._maxPlayers.maxPlayers;
-    console.log(this._minPlayers);
-    console.log(this._maxPlayers);
+    this._minPlayers = await this._doh.getGameById(this._spielId);
+    var minPlayers = this._minPlayers.minPlayers;
+    this._maxPlayers = await this._doh.getGameById(this._spielId);
+    var maxPlayers = this._maxPlayers.maxPlayers;
+
+    if (minPlayers == null) {
+      minPlayers = 1;
+    } else if (maxPlayers == null) {
+      maxPlayers = 100;
+    };
 
     let container = document.createElement("div");
     container.innerHTML = overview.trim();
@@ -88,7 +92,7 @@ class GameRoundsOverview {
     }
 
     function weiter(){
-      if (document.querySelector("#spieleranzahl").value < this._maxPlayers && document.querySelector("#spieleranzahl").value >= this._minPlayers) {
+      if (document.querySelector("#spieleranzahl").value <= maxPlayers && document.querySelector("#spieleranzahl").value >= minPlayers) {
       //if (document.querySelector("#spieleranzahl").value < 10 && document.querySelector("#spieleranzahl").value >= 1) {
         modal1.style.display = "none";
         var anzahl = document.querySelector("#spieleranzahl").value
@@ -105,7 +109,7 @@ class GameRoundsOverview {
         modal2.style.display = "block";
       } else {
         document.querySelector("#spieleranzahl").value="";
-        alert("Bitte gib eine Zahl ein, die größer oder gleich " + this._minPlayers + " ist, beziehungsweise kleiner oder gleich " + this._maxPlayers + " ist!");
+        alert("Bitte gib eine Zahl ein, die größer oder gleich " + minPlayers + " ist, beziehungsweise kleiner oder gleich " + maxPlayers + " ist!");
       }
 
     }
@@ -124,7 +128,7 @@ class GameRoundsOverview {
         var spieler = this._documentElement.getElementById(i);
         this._doh.setNewPlayer(spieler);
       }
-      //Datenobjekt an Lasses Screen geben
+      //window.location.href="#/gameOverview" +
     }
 
     function xButton(){
