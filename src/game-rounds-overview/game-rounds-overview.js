@@ -22,6 +22,10 @@ class GameRoundsOverview {
     this._bodyTable = "";
 
     this._doh = new DataObjectHandler(true);
+
+    this._minPlayers = this._doh.getGameById(this._spielId).minPlayers;
+    this._maxPlayers = this._doh.getGameById(this._spielId).maxPlayers;
+
     //Mockdaten => Daten aus Dantebank hohlen und in entsprechende Variablen Speichern
     // this._spiele = [
     //   [],
@@ -64,26 +68,30 @@ class GameRoundsOverview {
       modal1.style.display = "block";
     }
 
-    // function weiterSpielen(){
-    //   //Datenobjekt an Lasses Screen geben
-    // }
-    //
-    // function rundeBeenden(){
-    //   //Variable Runde beendet auf true setzen
-    // }
-    //
+    function weiterSpielen(){
+      //Datenobjekt an Lasses Screen geben
+    }
+
+    function rundeBeenden(){
+      //Variable Runde beendet auf true setzen
+    }
+
     function abbrechen(){
       modal1.style.display = "none";
+      document.querySelector("#spieleranzahl").value="";
     }
 
     function weiter(){
       modal1.style.display = "none";
-      var anzahl = document.querySelector("#spieleranzahl").value;
+      var anzahl = document.querySelector("#spieleranzahl").value
         var string = "";
+        var spielerNummer = 1;
         for (var i = 0; i < anzahl; i++) {
-          string += '<input id="'+i+'" class="inputField">' +
-            '</input>' +
-            '<br>';
+          string +=
+          '<label class="spielerLabel">Spieler '+spielerNummer+':</label>' +
+          '<input id="'+i+'" class="inputField" maxlength="10" size="10"></input>' +
+          '<br>';
+          spielerNummer += 1;
         }
       document.querySelector("#anzahlSpieler").innerHTML = string;
       modal2.style.display = "block";
@@ -92,11 +100,13 @@ class GameRoundsOverview {
     function zurück(){
       modal2.style.display = "none";
       modal1.style.display = "block";
+      document.querySelector("#spieleranzahl").value="";
     }
 
     function neuesSpielErstellen(){
       modal2.style.display = "none";
       var anzahl = document.querySelector("#spieleranzahl").value;
+      document.querySelector("#spieleranzahl").value="";
       for (var i = 0; i < anzahl; i++) {
         var spieler = this._documentElement.getElementById(i);
         this._doh.setNewPlayer(spieler);
@@ -107,12 +117,14 @@ class GameRoundsOverview {
     function xButton(){
       modal1.style.display = "none";
       modal2.style.display = "none";
+      document.querySelector("#spieleranzahl").value="";
     }
 
     window.onclick = function(event) {
       if (event.target == modal1 || event.target == modal2) {
         modal1.style.display = "none";
         modal2.style.display = "none";
+        document.querySelector("#spieleranzahl").value="";
       }}
 
     this.createTable(this._doh, this._spielId);
@@ -177,19 +189,20 @@ class GameRoundsOverview {
     console.log(this._listElement.parentNode.querySelector("#tabelleOffeneSpiele"));
     this._listElement.parentNode.querySelector("#tabelleOffeneSpiele").innerHTML +=
       // this._listElement.innerHTML +=
-      '<table>' +
+      '<table  class="tableElements">' +
       this._bodyTable +
       '</table>';
   }
 
   buildBodyTable(runde, spielName, spieler, spielerNamen) {
-    this._bodyTable += '<th>' + spielName + '</th>';
+    this._bodyTable += '<th class="tableHeader" colspan="2">' + spielName + '</th>' +
+      '<tr>' + '<td class="spielerPunkte">Spieler</td>' + '<td class="spielerPunkte">Punkte</td>' + '</tr>';
     for (var i = 0; i < spielerNamen.length; i++) {
       this.createBodyTable(spielerNamen[i], spieler[i].points);
     }
     this._bodyTable +=
       '<tr>' +
-      '<td>Gespielte Runden: ' + runde + '</td>' +
+      '<td class="gespielteRunde" colspan="2">Gespielte Runden: ' + runde + '</td>' +
       '</tr>';
   }
 
