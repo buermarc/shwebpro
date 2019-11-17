@@ -115,6 +115,10 @@
         opacity: 1;
         right: 0;
       }
+#app > main {
+  background-color: var(--list-element-hover-color);
+}
+
 /*
  * Hauptinhalt
  */
@@ -191,6 +195,6 @@
     #app > main {
         flex: 1;
         overflow: auto;
-        background-color: var(--main-background-color);
+        background-image: url(https://c.wallhere.com/photos/3e/0e/wood_texture_dark_planks_simple_background-156677.jpg!d);
     }
 }

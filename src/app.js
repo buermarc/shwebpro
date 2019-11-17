@@ -110,7 +110,6 @@ class App {
     window.addEventListener("resize", () => {
       _initHamburgerMenu();
     });
-
     _initHamburgerMenu();
 
   }
@@ -142,7 +141,7 @@ class App {
   }
 
   showRoundOverview(){
-    let view = new RoundOverview(this); 
+    let view = new RoundOverview(this);
     this._switchVisibleView(view);
   }
 
@@ -209,7 +208,8 @@ class App {
     document.title = `${this._title} – ${view.title}`;
 
     this._currentView = view;
-    this._switchVisibleContent(await view.onShow());
+    let content = await view.onShow()
+    this._switchVisibleContent(content);
     return true;
   }
 
