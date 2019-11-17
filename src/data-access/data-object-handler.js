@@ -258,23 +258,28 @@ class DataObjectHandler {
     //take care date will make them not the ones in the db
     let gameRound1 = new GameRound(1, false, Date.now());
     let gameRound2 = new GameRound(3, false, Date.now());
+    let gameRound3 = new GameRound(3, false, Date.now());
     if (arr.length < 1) {
       console.log('GameRound Data Init');
       gameRound1.saveNew();
       gameRound2.saveNew();
+      gameRound3.saveNew();
     }
     arr = await GameRound.getAll();
     console.log(arr);
     let gameRound1Id = arr[0].id;
     let gameRound2Id = arr[1].id;
+    let gameRound3Id = arr[2].id;
 
     arr = await GameToGameRound.getAll();
     let gameToGameRound1 = new GameToGameRound(game1Id, gameRound1Id);
-    let gameToGameRound2 = new GameToGameRound(game2Id, gameRound2Id);
+    let gameToGameRound2 = new GameToGameRound(game1Id, gameRound2Id);
+    let gameToGameRound3 = new GameToGameRound(game2Id, gameRound3Id);
     if (arr.length < 1) {
       console.log('GameToGameRound Data Init');
       gameToGameRound1.saveNew();
       gameToGameRound2.saveNew();
+      gameToGameRound3.saveNew();
     }
     arr = await GameToGameRound.getAll();
     console.log(arr);
@@ -309,6 +314,8 @@ class DataObjectHandler {
     let playerToGameRound3 = new PlayerToGameRound(player2Id, gameRound1Id, -20);
     let playerToGameRound4 = new PlayerToGameRound(player2Id, gameRound2Id, 80);
     let playerToGameRound5 = new PlayerToGameRound(player3Id, gameRound1Id, 90);
+    let playerToGameRound6 = new PlayerToGameRound(player3Id, gameRound3Id, 90);
+    let playerToGameRound7 = new PlayerToGameRound(player3Id, gameRound3Id, 90);
     if (arr.length < 1) {
       console.log('PlayerToGameRound Data Init');
       playerToGameRound1.saveNew();
@@ -316,6 +323,8 @@ class DataObjectHandler {
       playerToGameRound3.saveNew();
       playerToGameRound4.saveNew();
       playerToGameRound5.saveNew();
+      playerToGameRound6.saveNew();
+      playerToGameRound7.saveNew();
     }
     arr = await PlayerToGameRound.getAll();
     console.log(arr);
