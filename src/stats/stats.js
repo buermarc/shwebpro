@@ -123,6 +123,10 @@ class Stats {
       };
     }));
 
+    //leere arrays rausfiltern
+    tableContent = tableContent.filter(x => {
+      return x.arr.length > 0;
+    });
 
     //search with query
     if (query != null && query != '') {

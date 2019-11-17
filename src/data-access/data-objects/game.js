@@ -32,8 +32,8 @@ class Game {
   static async getById(id) {
     return database.game.get(id);
   }
-  static async delete() {
-    return database.game.delete(this.asJson);
+  static async delete(id) {
+    return database.game.delete(id);
   }
   static async clear() {
     return database.game.clear();

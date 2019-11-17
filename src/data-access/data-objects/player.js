@@ -24,8 +24,8 @@ class Player {
   static async getById(id) {
     return database.player.get(id);
   }
-  static async delete() {
-    return database.player.delete(this.asJson);
+  static async delete(id) {
+    return database.player.delete(id);
   }
   static async deleteById(id) {
     return database.player.delete(id);

@@ -28,8 +28,8 @@ class GameToGameRound {
   static async getById(id) {
     return database.gameToGameRound.get(id);
   }
-  async delete() {
-    return database.gameToGameRound.delete(this.asJson);
+  static async delete(id) {
+    return database.gameToGameRound.delete(id);
   }
   static async clear() {
     return database.gameToGameRound.clear();

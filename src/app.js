@@ -10,6 +10,7 @@ import GameOverview from "./game-overview/game-overview.js";
 import RoundOverview from "./round-overview/round-overview.js";
 import GameRoundsOverview from "./game-rounds-overview/game-rounds-overview.js";
 import Navigo from 'navigo/lib/navigo.js';
+import DataObjectHandler from './data-access/data-object-handler.js';
 
 class App {
   constructor() {
@@ -183,6 +184,8 @@ class App {
    * @return {Boolean} Flag, ob die neue Seite aufgerufen werden konnte
    */
   async _switchVisibleView(view) {
+    let doh = new DataObjectHandler();
+    await doh._initData(false);
     // Callback, mit dem die noch sichtbare View den Seitenwechsel zu einem
     // späteren Zeitpunkt fortführen kann, wenn sie in der Methode onLeave()
     // false zurückliefert. Dadurch erhält sie die Möglichkeit, den Anwender
