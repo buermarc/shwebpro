@@ -124,6 +124,7 @@
   margin-left: 25%;
   width: 15em;
   text-align: center;
+  color: white;
 }
 
 
@@ -153,9 +154,14 @@ table, th, td {
   margin-right: 5%;
   margin-left: 25%;
   margin-bottom: 2%;
+  color: white;
 }
 
 .tableHeader {
   font-size: 1.5em;
   font-style: normal;
+}
+
+.modal-body{
+  background-color: #424242;
 }

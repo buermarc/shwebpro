@@ -69,7 +69,7 @@ class GameRoundsOverview {
     }
 
     function weiterSpielen(){
-      //Datenobjekt an Lasses Screen geben
+      //this._spielId an Lasses Screen geben
     }
 
     function rundeBeenden(){
@@ -82,19 +82,25 @@ class GameRoundsOverview {
     }
 
     function weiter(){
-      modal1.style.display = "none";
-      var anzahl = document.querySelector("#spieleranzahl").value
-        var string = "";
-        var spielerNummer = 1;
-        for (var i = 0; i < anzahl; i++) {
-          string +=
-          '<label class="spielerLabel">Spieler '+spielerNummer+':</label>' +
-          '<input id="'+i+'" class="inputField" maxlength="10" size="10"></input>' +
-          '<br>';
-          spielerNummer += 1;
-        }
-      document.querySelector("#anzahlSpieler").innerHTML = string;
-      modal2.style.display = "block";
+      if (document.querySelector("#spieleranzahl").value < this._maxPlayers && document.querySelector("#spieleranzahl").value >= this._minPlayers) {
+        modal1.style.display = "none";
+        var anzahl = document.querySelector("#spieleranzahl").value
+          var string = "";
+          var spielerNummer = 1;
+          for (var i = 0; i < anzahl; i++) {
+            string +=
+            '<label class="spielerLabel">Spieler '+spielerNummer+':</label>' +
+            '<input id="'+i+'" class="inputField" maxlength="10" size="10"></input>' +
+            '<br>';
+            spielerNummer += 1;
+          }
+        document.querySelector("#anzahlSpieler").innerHTML = string;
+        modal2.style.display = "block";
+      } else {
+        document.querySelector("#spieleranzahl").value="";
+        alert("Bitte gib eine Zahl ein, die größer oder gleich " + this._minPlayers + " ist, beziehungsweise kleiner oder gleich " + this._maxPlayers + " ist!");
+      }
+
     }
 
     function zurück(){
