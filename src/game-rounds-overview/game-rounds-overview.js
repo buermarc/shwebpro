@@ -67,7 +67,9 @@ class GameRoundsOverview {
     section.querySelector("#abbrechen").addEventListener("click", abbrechen);
     section.querySelector("#weiter").addEventListener("click", weiter);
     section.querySelector("#zurück").addEventListener("click", zurück);
-    section.querySelector("#neuesSpielErstellen").addEventListener("click", neuesSpielErstellen);
+    section.querySelector("#neuesSpielErstellen").addEventListener("click", () => {
+    neuesSpielErstellen(this._doh, this._spielId)
+    });
 
     section.querySelector("#closeModal1").addEventListener("click", xButton);
     section.querySelector("#closeModal2").addEventListener("click", xButton);
@@ -91,7 +93,7 @@ class GameRoundsOverview {
           for (var i = 0; i < anzahl; i++) {
             string +=
             '<label class="spielerLabel">Spieler '+spielerNummer+':</label>' +
-            '<input id="'+i+'" class="inputField" maxlength="10" size="10"></input>' +
+            '<input id="spieler'+i+'" class="inputField" maxlength="10" size="10"></input>' +
             '<br>';
             spielerNummer += 1;
           }
@@ -110,15 +112,23 @@ class GameRoundsOverview {
       document.querySelector("#spieleranzahl").value="";
     }
 
-    function neuesSpielErstellen(){
-      modal2.style.display = "none";
+    async function neuesSpielErstellen(doh, spielId){
       var anzahl = document.querySelector("#spieleranzahl").value;
       document.querySelector("#spieleranzahl").value="";
+      var spielerId = [];
       for (var i = 0; i < anzahl; i++) {
-        var spieler = this._documentElement.getElementById(i);
-        this._doh.setNewPlayer(spieler);
+        var spieler = document.querySelector("#spieler" + i).value;
+        console.log(spieler);
+        spielerId[i] = await doh.setNewPlayer(spieler);
+        console.log(spielerId[i]);
       }
-      //window.location.href="#/gameOverview" +
+      console.log("asd");
+      console.log(spielerId);
+      console.log(spielId);
+      modal2.style.display = "none";
+      let gameRoundId = await doh.setNewGameRoundWithPlayers(spielId, spielerId);
+      console.log(gameRoundId);
+      window.location.href="#/gameOverview/" + gameRoundId;
     }
 
     function xButton(){
@@ -192,14 +202,14 @@ class GameRoundsOverview {
 
       weiterSpielen += 1;
       this.buildBodyTable(offeneSpiele[i].round, spiel.gameName, spieler, spielerNamen, weiterSpielen);
+    }
 
       console.log(this._listElement.parentNode.querySelector("#tabelleOffeneSpiele"));
       this._listElement.parentNode.querySelector("#tabelleOffeneSpiele").innerHTML +=
       // this._listElement.innerHTML +=
-     '<table  class="tableElements">' +
-     this._bodyTable +
-     '</table>';
-    }
+      '<table  class="tableElements">' +
+      this._bodyTable +
+      '</table>';
   }
 
   buildBodyTable(runde, spielName, spieler, spielerNamen, weiterSpielen) {
