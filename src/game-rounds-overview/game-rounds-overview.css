@@ -14,10 +14,11 @@
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-.game-rounds-overview .modal-header1 {
-  background-color: black;
+.game-rounds-overview .modalHeader {
+  background-color: white;
   text-align: center;
   font-family: fantasy;
+  color: black;
 }
 
 /* Modal Content */
@@ -127,17 +128,18 @@
 }
 
 .game-rounds-overview .inputField {
-  background-color: #F08080;
+  background-color: white;
   margin-top: 2%;
   text-align: center;
+  color: black;
 }
 
 .game-rounds-overview .inputFieldSpieleranzahl {
-  background-color: #F08080;
+  background-color: white;
   margin-left: 25%;
   width: 15em;
   text-align: center;
-  color: white;
+  color: black;
 }
 
 

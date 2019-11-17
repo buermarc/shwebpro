@@ -18,7 +18,7 @@ class GameRoundsOverview {
 
   constructor(app, spielId) {
     this._app = app;
-    this._spielId = 1;//parseInt(gameId); //spielId
+    this._spielId = 2;//parseInt(gameId); //spielId
     this._bodyTable = "";
 
     this._doh = new DataObjectHandler(true);
