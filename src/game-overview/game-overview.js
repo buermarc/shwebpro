@@ -165,15 +165,6 @@ class GameOverview {
       window.location.href="#gameRoundsOverview" + spielId;
     }
   }
-  /*buildList(element,name){
-    element.innerHTML+=`
-    <div class="lSpiel" >
-      <ul>
-        <li>`+name+`</li>
-      </ul>
-    </div>
-    `;
-  }*/
 
   buildList(element,name){
     
