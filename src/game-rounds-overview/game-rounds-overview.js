@@ -128,7 +128,7 @@ class GameRoundsOverview {
       modal2.style.display = "none";
       let gameRoundId = await doh.setNewGameRoundWithPlayers(spielId, spielerId);
       console.log(gameRoundId);
-      window.location.href="#/gameOverview/" + gameRoundId;
+      window.location.href="#/roundOverview/" + gameRoundId;
     }
 
     function xButton(){
@@ -201,7 +201,7 @@ class GameRoundsOverview {
       }));
 
       weiterSpielen += 1;
-      this.buildBodyTable(offeneSpiele[i].round, spiel.gameName, spieler, spielerNamen, weiterSpielen);
+      this.buildBodyTable(offeneSpiele[i].round, spiel.gameName, spieler, spielerNamen, weiterSpielen, offeneSpiele[i].id);
     }
 
       console.log(this._listElement.parentNode.querySelector("#tabelleOffeneSpiele"));
@@ -212,15 +212,17 @@ class GameRoundsOverview {
       '</table>';
   }
 
-  buildBodyTable(runde, spielName, spieler, spielerNamen, weiterSpielen) {
+  buildBodyTable(runde, spielName, spieler, spielerNamen, weiterSpielen, gameRoundId) {
     this._bodyTable += '<th class="tableHeader" colspan="2">' + spielName + '</th>' +
       '<tr>' + '<td class="spielerPunkte">Spieler</td>' + '<td class="spielerPunkte">Punkte</td>' + '</tr>';
     for (var k = 0; k < spielerNamen.length; k++) {
       this.createBodyTable(spielerNamen[k], spieler[k].points);
     }
+
+
     this._bodyTable +=
       '<tr>' +
-      '<td class="gespielteRunde" colspan="2">Gespielte Runden: ' + runde + '<button class="weiterSpielen" id="weiterSpielen">Weiterspielen</button></td>' +
+      '<td class="gespielteRunde" colspan="2">Gespielte Runden: ' + runde + '<button class="weiterSpielen" id="weiterSpielen" href="#/roundOverview/'+ gameRoundId + '" onClick="(function(){window.location.href="#/roundOverview/"'+gameRoundId+'; return false;})()return false;" data-navigo>Weiterspielen</button></td>' +
       '</tr>';
   }
 
