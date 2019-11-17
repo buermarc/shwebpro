@@ -82,7 +82,8 @@ class GameRoundsOverview {
     }
 
     function weiter(){
-      if (document.querySelector("#spieleranzahl").value < this._maxPlayers && document.querySelector("#spieleranzahl").value >= this._minPlayers) {
+      //if (document.querySelector("#spieleranzahl").value < this._maxPlayers && document.querySelector("#spieleranzahl").value >= this._minPlayers) {
+      if (document.querySelector("#spieleranzahl").value < 10 && document.querySelector("#spieleranzahl").value >= 1) {
         modal1.style.display = "none";
         var anzahl = document.querySelector("#spieleranzahl").value
           var string = "";
