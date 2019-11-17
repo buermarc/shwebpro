@@ -1,17 +1,17 @@
 .dummy {}
 
-.a{
+.round-overview .a{
     display: -webkit-box;
     -webkit-box-flex: 100;
     -webkit-box-orient: vertical;
     overflow-x: hidden;
 }
-.b{
+.round-overview .b{
     display: -webkit-box;
     -webkit-box-orient: horizontal;
     -webkit-box-flex: 100;
 }
-.c{
+.round-overview .c{
     word-wrap: break-word;
 text-align: center;
 margin-top: 2.5em;
@@ -20,17 +20,17 @@ margin-left: 2em;
 font-weight: bold;
 font-size: 25pt;
 }
-.d{
+.round-overview .d{
     -webkit-box-flex: 20;
     text-align: center;
     margin-top: 2.5em;
 }
-.e{
+.round-overview .e{
     -webkit-box-flex: 80;
     margin-top: 0.5em;
 }
 
-.liste {
+.round-overview .liste {
     margin-left: 5em;
     -webkit-box-flex: 100;
     display: grid;
@@ -40,11 +40,11 @@ font-size: 25pt;
     padding: 10px;
 }
 
-.marginright{
+.round-overview .marginright{
     margin-right: 1em;
     }
 
-.tSpieler{
+.round-overview .tSpieler{
     overflow-y: scroll;
 }
 
@@ -74,7 +74,7 @@ font-size: 25pt;
     margin-left: 5px;
 }
 /*Input Text*/
-.inputFocus{
+.round-overview .inputFocus{
     height: 95%;
     width: 100%;
     font-size: 15px;
@@ -84,20 +84,20 @@ font-size: 25pt;
     background-color: var(--button-background-color);
     border:  var(--button-background-color);
 }
-.inputFocus:focus{
+.round-overview .inputFocus:focus{
     background-color: black;
     color: white;
 }
 
 
-#rundeText{
+.round-overview #rundeText{
     margin-bottom: 50px;
     margin-left: 10px;
     font-size: 40pt;
 }
 
 /*Button*/
-.border-fade{
+.round-overview .border-fade{
     border: none;
     color: black;
     padding: 15px 32px;
@@ -118,7 +118,7 @@ font-size: 25pt;
     transition-property: box-shadow;
     transform: translateZ(0);
 }
-.border-fade:hover{
+.round-overview .border-fade:hover{
     box-shadow: 
 			inset 0 0 0 4px black,
 			0 0 1px rgba(0, 0, 0, 0); /* Hack to improve aliasing on mobile/tablet devices */
@@ -126,23 +126,101 @@ font-size: 25pt;
     
 /*Scrollbar*/
 /* width */
-::-webkit-scrollbar {
+.round-overview ::-webkit-scrollbar {
     width: 20px;
     border: solid 3px transparent;
   }
 /* Track */
-::-webkit-scrollbar-track {
+.round-overview ::-webkit-scrollbar-track {
     box-shadow: inset 0 0 5px grey; 
     border-radius: 10px;
   }
    
   /* Handle */
-  ::-webkit-scrollbar-thumb {
+  .round-overview ::-webkit-scrollbar-thumb {
     background: grey;
     border-radius: 10px;
   }
   
   /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
+  .round-overview  ::-webkit-scrollbar-thumb:hover {
     background: darkgray; 
   }
+
+  .round-overview .modal {
+    margin-top: 5em;
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  .round-overview .modal-content {
+    position: relative;
+    margin: auto;
+    padding: 0;
+    border-radius: 3em;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+  }
+  
+  /* Add Animation */
+  @-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+  }
+  
+  @keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+  }
+  
+  /* The Close Button */
+  
+  .round-overview #gewinnerAnzeige{
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+  
+  .round-overview .modal-header1 {
+    padding: 2px 16px;
+    line-height: 0em;
+    background-color: black;
+    color: var(--font-color);
+    size: 12pt;
+    border-top-left-radius: 3em;
+    border-top-right-radius: 3em;
+  }
+  
+  .round-overview .modal-body {
+    width: auto;
+    height: 250px;
+    padding: 2px 16px;
+    background-color: var(--button-background-color);
+    border-bottom-left-radius: 3em;
+    border-bottom-right-radius: 3em;}
+  
+    .round-overview #statistikB{
+     margin-top: 1em;
+        background-color: var(--list-element-color);
+    }
+    .round-overview #zurueckUebersicht{
+        margin-top: 5em;
+        background-color: var(--list-element-color);
+    }
+
+    
