@@ -91,11 +91,12 @@ class RoundOverview {
     return "Rundenübersicht";
   }
 
-  async createContent(doh, gameId, rundenAnzeige, spielAnzeige, modal){
+  async createContent(doh, gameRoundId, rundenAnzeige, spielAnzeige, modal){
     let anzeigeRunde = rundenAnzeige;
     let anzeigeSpiel = spielAnzeige;
-    let gameRound = await doh.getGameRoundById(gameId);
+    let gameRound = await doh.getGameRoundById(gameRoundId);
     let spielstand = await doh.getAllPlayerOfGameRoundId(gameRound.id);
+    let gameId; //gameId über runde rausfinden
     let game = await doh.getGameById(gameId);
 
     var btn = document.createElement("BUTTON");
@@ -107,7 +108,7 @@ class RoundOverview {
     let aktuelleRunde = gameRound.round;
     let insgesamtRunden = game.maxRounds;
     let spielName = game.name;
-    this.setzeAnzeige(doh, anzeigeRunde, anzeigeSpiel, gameId);
+    this.setzeAnzeige(doh, anzeigeRunde, anzeigeSpiel, gameRoundId);
 
     for (var i = 0; i < spielstand.length; i++) {
       let spielerName = await doh.getPlayerById(spielstand[i].playerId);
@@ -120,10 +121,10 @@ class RoundOverview {
 
   }
 
-  async setzeAnzeige(doh, anzeigeRunde, anzeigeSpiel, gameId){
-
-    let gameRound = await doh.getGameRoundById(gameId);
-    let game = await doh.getGameById(gameId);
+  async setzeAnzeige(doh, anzeigeRunde, anzeigeSpiel, gameRoundId){
+    
+    let gameRound = await doh.getGameRoundById(gameRoundId);    
+    let game = await doh.getGameById(gameId);//feheler
 
 
     let aktuelleRunde = gameRound.round;
@@ -155,7 +156,7 @@ class RoundOverview {
   }
 
   async speichern(doh, gameRoundId, gameId, rundenAnzeige, spielAnzeige, modal){
-    let gameRound = await doh.getGameRoundById(gameId);
+    let gameRound = await doh.getGameRoundById(gameRoundId);    
     let aktuelleRunde = gameRound.round;
     let spielstand = await doh.getAllPlayerOfGameRoundId(gameRoundId);
     let game = await doh.getGameById(gameId);
