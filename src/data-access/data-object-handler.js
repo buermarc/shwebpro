@@ -139,7 +139,7 @@ class DataObjectHandler {
     return db.database.gameRound.update(id, {round: newRound});
   }
 
-  async setGameRoundFinsihedById() {
+  async setGameRoundFinsihedById(id) {
     return db.database.gameRound.update(id, {fin: true});
   }
 
