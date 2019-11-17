@@ -40,10 +40,12 @@ class GameRoundsOverview {
 
   async onShow() {
 
-    this._minPlayers= await this._doh.getGameById(id);
+    this._minPlayers= await this._doh.getGameById(this._spielId);
     this._minPlayers = this._minPlayers.minPlayers;
-    this._maxPlayers= await this._doh.getGameById(id);
+    this._maxPlayers= await this._doh.getGameById(this._spielId);
     this._maxPlayers = this._maxPlayers.maxPlayers;
+    console.log(this._minPlayers);
+    console.log(this._maxPlayers);
 
     let container = document.createElement("div");
     container.innerHTML = overview.trim();
