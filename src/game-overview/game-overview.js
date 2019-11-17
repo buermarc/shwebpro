@@ -92,7 +92,7 @@ class GameOverview {
       let name = this._spiel[i].gameName;
       if(element!=null){
         element.addEventListener("click", () => {
-          this.addElementListSpiel(name, source);
+          this.addElementListSpiel(name, source,this._spiel[i].id);
         });
       }
     }
@@ -103,8 +103,7 @@ class GameOverview {
       let name = this._spiel[i].gameName;
       if(element!=null){
         element.addEventListener("click", () => {
-          //weiterleiten Josia
-          window.alert("hallöchen");
+          window.location.href="#gameRoundsOverview" + this._spiel[i].id;
         });
       }
     }
@@ -162,14 +161,13 @@ class GameOverview {
         }
       }
   }
-  async addElementListSpiel(spielName, source){
+  async addElementListSpiel(spielName, source, spielId){
     let elementName = this._listElement.querySelector("#element"+spielName);
     if(elementName==null){
       let elementModalListe = this._modalElementListe.querySelector("#element"+spielName);
       modalElement.removeChild(elementModalListe);
       this.buildList(this._listElement, spielName, source);
-
-      //weiterleiten Josias seite und gleichzeitig das Pop-Up aufrufen, für neues Spiel
+      window.location.href="#gameRoundsOverview" + spielId;
     }
   }
   /*buildList(element,name){
