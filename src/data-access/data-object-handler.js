@@ -203,7 +203,7 @@ class DataObjectHandler {
     //game.clear();
     // Player.clear();
     let game1 = new Game('Doppelkopf', 50, 4, 4);
-    let game2 = new Game('Tishu', null, 4, 4);
+    let game2 = new Game('Tichu', null, 4, 4);
     let game3 = new Game('Mau-Mau', null, null, null);
     let game4 = new Game('Skat', 20, 3, 3);
     let game5 = new Game('Canasta', null, 2, 6);
