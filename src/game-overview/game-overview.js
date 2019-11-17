@@ -29,14 +29,14 @@ class GameOverview {
    */
 
 
-   
+
   constructor(app) {
     this._app = app;
 
     //"Doppelkopf", "Spiel","Doppelkopf"
     this._spiel = [];
     this._doh = new DataObjectHandler(true);
-    
+
   }
 
   /**
@@ -80,7 +80,7 @@ class GameOverview {
     // Liste erstellen
     this.createList(this._doh);
 
-    //Eventlistener modal element 
+    //Eventlistener modal element
     this._spiel = await this._doh.getAllGames();
     for (var i = 0; i < this._spiel.length; i++) {
       let element = this._modalElementListe.querySelector("#element"+this._spiel[i].gameName);
@@ -133,8 +133,8 @@ class GameOverview {
   async createList(doh){
 
     this._spiel = await doh.getAllGames();
-     
-    
+
+
       if (this._spiel.length == 0) {
         // Hinweistext, wenn noch keine Spiele vorhanden sind
         this._listElement.innerHTML += `
@@ -176,12 +176,12 @@ class GameOverview {
   }*/
 
   buildList(element,name){
-    
+
     element.innerHTML+=`
         <li  class="listElement" id="element`+name+`">`+name+`
         </li>
     `;
-    
+
   }
 
 }

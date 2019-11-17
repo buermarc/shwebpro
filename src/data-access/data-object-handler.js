@@ -136,13 +136,14 @@ class DataObjectHandler {
   async getNeverPlayedGames() {
     let set1 = await Game.getAll();
     let set2 = await GameToGameRound.getAll();
-
     set1 = set1.map(s => s.id);
     set2 = set2.map(s => s.gameId);
     set1 = new Set(set1);
     set2 = new Set(set2);
     let difference = new Set([...set1].filter(x => !set2.has(x)));
-    return Array.from(difference);
+    difference = Array.from(difference);
+    difference = await Promise.all(difference.map(async x => Game.getById(x)));
+    return difference;
   }
 
   async getAllreadyPlayedGames() {
@@ -153,7 +154,9 @@ class DataObjectHandler {
     set1 = new Set(set1);
     set2 = new Set(set2);
     let intersection = new Set([...set1].filter(x => set2.has(x)));
-    return Array.from(intersection);
+    intersection = Array.from(intersection);
+    intersection = await Promise.all(intersection.map(async x => Game.getById(x)));
+    return intersection;
   }
 
   //=============Lasse========================================
