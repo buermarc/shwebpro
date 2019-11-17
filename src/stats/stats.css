@@ -47,9 +47,9 @@
   background-color: #E94336;
 }
 
-.stats .row:active .colorstrip,
-.stats .row:focus .colorstrip,
-.stats .row:hover .colorstrip,
+.stats .row#gameName:active .colorstrip,
+.stats .row#gameName:focus .colorstrip,
+.stats .row#gameName:hover .colorstrip,
 .stats .field.playerName:active .colorstrip,
 .stats .field.playerName:focus .colorstrip,
 .stats .field.playerName:hover .colorstrip {
@@ -58,15 +58,44 @@
 }
 
 .stats .table-box>div {
-  border: 0.05em solid #DDD;
+  border: 0.05em solid;
 }
 
-.stats div.table {
+.stats div.title {
   display: flex;
+  width: 100%;
+}
+
+.stats div.backButton {
+  padding: 0.1em 0.4em 0.1em 0.3em;
+  margin: 0.5em 1.5em 0.5em 1em;
+  background: #313131;
+  border: 0.1em solid;
+}
+
+.stats div.backButton:hover {
+  background-color: var(--header-active-background-color);
+  cursor: pointer;
+}
+
+.stats div.backButton>a {
+  font-size: 20pt;
+  font-weight: 900;
+}
+
+.stats div.titleName {
+  padding: 0.1em 0.4em 0.1em 0.3em;
+  margin: 0.7em 1.5em 0.5em 1em;
+}
+
+.stats div.titleName>a {}
+
+.stats div.table {
+  display: block;
 }
 
 .stats div.table-box {
-  width: 48.5%;
+  width: 97%;
   margin-top: 0.5em;
   margin-left: 1%;
 }
@@ -77,7 +106,7 @@
 }
 
 .stats div#gameName.row {
-  background: var(--overview-heading-background-color);
+  background: #313131;
   text-align: center;
   display: inline-block;
   position: relative;
@@ -86,14 +115,13 @@
 }
 
 .stats div#gameName.row:hover {
-  background-color: #bdbdbd;
+  background-color: var(--header-active-background-color);
   cursor: pointer;
 }
 
 .stats div.row {
   display: flex;
   width: 100%;
-
 }
 
 .stats #win-lose>div.win.lose {
@@ -112,18 +140,19 @@
   padding-right: 0.3em;
   padding-bottom: 0.3em;
   overflow: hidden;
+  background: #454545;
 }
 
 .stats div.field.win {
   width: 40%;
   padding-left: 0.3em;
-  border-left: 0.1em solid #DDD;
+  border-left: 0.1em solid;
 }
 
 .stats div.field.lose {
   width: 40%;
   margin-left: 0em;
-  border-left: 0.1em solid #DDD;
+  border-left: 0.1em solid;
 }
 
 .stats div.field.win.lose {
@@ -135,20 +164,29 @@
 .stats div.field.playerName {
   width: 20%;
   position: relative;
-  background: var(--overview-heading-background-color);
+  /* background: #313131; */
+  background: #313131;
 }
 
 .stats div#win-lose.row>div.field.win {
   border-left: 0;
   border-right: 0;
+  background-color: #313131;
 }
 
 .stats div#win-lose.row>div.field.lose {
   border-left: 0;
+  background-color: #313131;
 }
 
 .stats div#win-lose.row>div.field.win.lose {
   border-right: 0;
+  background-color: #313131;
+}
+
+.stats.player div#win-lose.row>div.sum,
+.stats.game div#win-lose.row>div.sum{
+  background: #313131;
 }
 
 .stats div.row.data>div.field {
@@ -156,8 +194,18 @@
 }
 
 .stats div.field.playerName:hover {
-  background-color: #bdbdbd;
+  background-color: var(--header-active-background-color);
   cursor: pointer;
+}
+
+@media screen and (min-width: 85em) {
+  .stats div.table {
+    display: flex;
+  }
+
+  .stats div.table-box {
+    width: 48.5%;
+  }
 }
 
 .dummy {}
