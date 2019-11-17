@@ -64,8 +64,6 @@ class GameRoundsOverview {
 
 
     section.querySelector("#neuesSpiel").addEventListener("click", neuesSpiel);
-    // section.querySelector("#weiterSpielen").addEventListener("click", weiterSpielen);
-    // section.querySelector("#rundeBeenden").addEventListener("click", rundeBeenden);
     section.querySelector("#abbrechen").addEventListener("click", abbrechen);
     section.querySelector("#weiter").addEventListener("click", weiter);
     section.querySelector("#zurück").addEventListener("click", zurück);
@@ -76,14 +74,6 @@ class GameRoundsOverview {
 
     function neuesSpiel(){
       modal1.style.display = "block";
-    }
-
-    function weiterSpielen(){
-      //this._spielId an Lasses Screen geben
-    }
-
-    function rundeBeenden(){
-      //Variable Runde beendet auf true setzen
     }
 
     function abbrechen(){
@@ -187,7 +177,7 @@ class GameRoundsOverview {
 
     let offeneSpiele = await doh.getOpenRoundsByGameId(spielId);
     let spiel = await doh.getGameById(spielId);
-
+    var weiterSpielen = 0;
     for (var i = 0; i < offeneSpiele.length; i++) {
       // Für jede Runde erneut abfragen
       let spieler = await doh.getAllPlayerOfGameRoundId(offeneSpiele[i].id); //Json Object
@@ -199,8 +189,9 @@ class GameRoundsOverview {
         playerName = playerName.playerName;
         return playerName;
       }));
-      // HTML-Seite generieren //Hier stimmt was nicht, in
-      this.buildBodyTable(offeneSpiele[i].round, spiel.gameName, spieler, spielerNamen);
+
+      weiterSpielen += 1;
+      this.buildBodyTable(offeneSpiele[i].round, spiel.gameName, spieler, spielerNamen, weiterSpielen);
     }
 
     console.log(this._listElement.parentNode.querySelector("#tabelleOffeneSpiele"));
@@ -209,9 +200,13 @@ class GameRoundsOverview {
       '<table  class="tableElements">' +
       this._bodyTable +
       '</table>';
+      section.querySelector("#weiterSpielen").addEventListener("click", spielenFortsetzen);
+      function spielenFortsetzen(){
+        allert("Es funktioniert!");
+      }
   }
 
-  buildBodyTable(runde, spielName, spieler, spielerNamen) {
+  buildBodyTable(runde, spielName, spieler, spielerNamen, weiterSpielen) {
     this._bodyTable += '<th class="tableHeader" colspan="2">' + spielName + '</th>' +
       '<tr>' + '<td class="spielerPunkte">Spieler</td>' + '<td class="spielerPunkte">Punkte</td>' + '</tr>';
     for (var i = 0; i < spielerNamen.length; i++) {
@@ -219,7 +214,7 @@ class GameRoundsOverview {
     }
     this._bodyTable +=
       '<tr>' +
-      '<td class="gespielteRunde" colspan="2">Gespielte Runden: ' + runde + '</td>' +
+      '<td class="gespielteRunde" colspan="2">Gespielte Runden: ' + runde + '<button class="weiterSpielen" id="weiterSpielen">Weiterspielen</button></td>' +
       '</tr>';
   }
 
