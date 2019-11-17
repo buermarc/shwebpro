@@ -16,7 +16,7 @@ var elements = document.getElementsByClassName("column");
 var i;
 
 /**
- * View zur Anzeige oder zum Bearbeiten eines Songs.
+ * View zur Anzeige oder zum Bearbeiten eines Spiele.
  */
 class GameOverview {
   /**
@@ -54,18 +54,26 @@ class GameOverview {
     container.innerHTML = overview.trim();
 
     let section = container.querySelector("#game-overview").cloneNode(true);
-    this._listElement = section.querySelector("#game-overview > main > div");
+    this._listElement = section.querySelector(".lSpiel");
+    this._modalElement = section.querySelector(".modal-body");
+    this._modalElementListe = section.querySelector(".modal-body > ul");
     this._documentElement = section.querySelector("#game-overview > main");
 
-    section.querySelector("#modalButton").addEventListener("click", hi);
-    var modal = section.querySelector("#myModal");
-    section.querySelector("#closeModal").addEventListener("click", hi2);
+    var pictureTichu ="https://img.fireden.net/tg/image/1506/31/1506318249723.png";
+    var source="http://kartenlegen-beratung.com/wp-content/uploads/2015/07/kreuz_dame.jpg";
+    //var source = "https://web.whatsapp.com/ea2f84bc-b3a8-4297-ad79-4195ec0a4f48";
 
-    function hi(){
+
+    //alles zum Modal
+    section.querySelector("#modalButton").addEventListener("click", openModal);
+    var modal = section.querySelector("#myModal");
+    section.querySelector("#closeModal").addEventListener("click", closeModal);
+
+    function openModal(){
       modal.style.display = "block";
     }
 
-    function hi2(){
+    function closeModal(){
       modal.style.display = "none";
     }
 
@@ -74,7 +82,32 @@ class GameOverview {
         modal.style.display = "none";
       }}
 
-    this.createList(this._doh);
+    // Liste erstellen
+    this.createList(this._doh,source);
+
+    //Eventlistener modal element 
+    this._spiel = await this._doh.getAllGames();
+    for (var i = 0; i < this._spiel.length; i++) {
+      let element = this._modalElementListe.querySelector("#element"+this._spiel[i].gameName);
+      let name = this._spiel[i].gameName;
+      if(element!=null){
+        element.addEventListener("click", () => {
+          this.addElementListSpiel(name, source);
+        });
+      }
+    }
+
+    //Eventlistener listSpiel
+    for (var i = 0; i < this._spiel.length; i++) {
+      let element = this._listElement.querySelector("#element"+this._spiel[i].gameName);
+      let name = this._spiel[i].gameName;
+      if(element!=null){
+        element.addEventListener("click", () => {
+          //weiterleiten Josia
+          window.alert("hallöchen");
+        });
+      }
+    }
 
     return {
       className: "game-overview",
@@ -103,51 +136,10 @@ class GameOverview {
     return "Spieleübersicht";
   }
 
-  async createList(doh){
-    
-    //this._popUpElement.parentNode.querySelector("#abbrechenNeuesSpiel").addEventListener("click", () => {
-    //  document.getElementsByTagName('dialog')[0].close();
-    //});
-    
-    // copy and paste _documentElementAustauschen
-    /*var amount = this._spiel.length;
-    var btn = document.createElement("button");
-    btn.id = "button0"
-    btn.innerHTML = "neues Spiel hinzufügen";
-    this._documentElement.appendChild(btn);*/
-
-    //var btnClose = document.createElement("button");
-    //btnClose.id = "buttonClose"
-    //btnClose.innerHTML = "abbrechen";
-    //this._popUpElement.appendChild(btnClose);
-
-    //btn.addEventListener("click", Warnung);
-    //btnClose.addEventListener("click", Hi);
-    
-    function Warnung(){
-      console.log("HHHH");
-      if (amount == 8){
-        window.alert("Keine weiteren Spiele möglich");
-      }
-      else{
-        document.getElementsById('modalButton').addEventListener("click", modalTest)
-      }
-    }
-
-    function Hi(){
-      console.log("Hi");
-        document.getElementsByTagName('dialog')[0].close();
-    }
+  async createList(doh,source){
 
     this._spiel = await doh.getAllGames();
-      for (var i = 0; i < this._spiel.length; i++) {
-        this.buildList(this._listElement,this._spiel[i].gameName);
-      }
-      /*for (var i = 0; i < this._spiel.length; i++) {
-        this.buildList(this._popUpElement,this._spiel[i].gameName);
-      }*/
-
-
+     
     
       if (this._spiel.length == 0) {
         // Hinweistext, wenn noch keine Spiele vorhanden sind
@@ -158,18 +150,29 @@ class GameOverview {
                   </div>
               </li>
           `;
-      };
+      }else{
+        for (var i = 0; i < this._spiel.length; i++) {
+          this.buildList(this._listElement, this._spiel[i].gameName,source);
+        }
+        for (var i = 0; i < this._spiel.length; i++) {
+          let elementName = this._listElement.querySelector("#element"+this._spiel[i].gameName);
+          if(elementName==null){
+            this.buildList(this._modalElementListe,this._spiel[i].gameName,source);
+          }
+        }
+      }
+  }
+  async addElementListSpiel(spielName, source){
+    let elementName = this._listElement.querySelector("#element"+spielName);
+    if(elementName==null){
+      let elementModalListe = this._modalElementListe.querySelector("#element"+spielName);
+      modalElement.removeChild(elementModalListe);
+      this.buildList(this._listElement, spielName, source);
 
-    this._listElement.addEventListener("click", function(e) {
-      // e.target is our targetted element.
-                  // try doing console.log(e.target.nodeName), it will result LI
-          window.alert(e.target.id + " was clicked");
-      });
+      //weiterleiten Josias seite und gleichzeitig das Pop-Up aufrufen, für neues Spiel
     }
-  
-    
-
-  buildList(element,name){
+  }
+  /*buildList(element,name){
     element.innerHTML+=`
     <div class="lSpiel" >
       <ul>
@@ -177,6 +180,15 @@ class GameOverview {
       </ul>
     </div>
     `;
+  }*/
+
+  buildList(element,name,source){
+    
+    element.innerHTML+=`
+        <li  class="listElement" id="element`+name+`">`+name+`
+        </li>
+    `;
+    
   }
 
 }
