@@ -20,11 +20,11 @@ class RoundOverview {
 
    
 
-  constructor(app) {
+  constructor(app, gameRoundId) {
     this._app = app;
 
     this._doh = new DataObjectHandler(true);
-  
+    this._gameRoundId = gameRoundId;
 
 
   }
@@ -49,8 +49,20 @@ class RoundOverview {
 
     let rundenAnzeige = section.querySelector("#anzeigeRunde");
     let spielAnzeige = section.querySelector("#rundeText");
+  
+    var modal = section.querySelector("#myModal");
 
-    this.createContent(this._doh, 1, rundenAnzeige, spielAnzeige);
+    section.querySelector("#statistikB").addEventListener("click", openStatistik);
+    function openStatistik(){
+      window.location.href="#/stats";
+    }
+    section.querySelector("#zurueckUebersicht").addEventListener("click", openUebersicht);
+    function openUebersicht(){
+      window.location.href="#/gameOverview";
+    }
+    
+
+    this.createContent(this._doh, this._gameRoundId, rundenAnzeige, spielAnzeige, modal); 
 
     return {
       className: "round-overview",
@@ -79,7 +91,7 @@ class RoundOverview {
     return "Rundenübersicht";
   }
 
-  async createContent(doh, gameId, rundenAnzeige, spielAnzeige){
+  async createContent(doh, gameId, rundenAnzeige, spielAnzeige, modal){
     let anzeigeRunde = rundenAnzeige;
     let anzeigeSpiel = spielAnzeige;
     let gameRound = await doh.getGameRoundById(gameId);
@@ -103,7 +115,7 @@ class RoundOverview {
     }
 
    btn.addEventListener("click", () => {
-    this.speichern(doh, gameRound.id, gameId, rundenAnzeige, spielAnzeige)    
+    this.speichern(doh, gameRound.id, gameId, rundenAnzeige, spielAnzeige, modal)    
   });
 
   }
@@ -142,7 +154,7 @@ class RoundOverview {
     `;
   }
   
-  async speichern(doh, gameRoundId, gameId, rundenAnzeige, spielAnzeige){
+  async speichern(doh, gameRoundId, gameId, rundenAnzeige, spielAnzeige, modal){
     let gameRound = await doh.getGameRoundById(gameId);    
     let aktuelleRunde = gameRound.round;
     let spielstand = await doh.getAllPlayerOfGameRoundId(gameRoundId);
@@ -163,7 +175,16 @@ class RoundOverview {
     }
     if(aktuelleRunde>=game.maxRounds-1){
       setGameRoundFinsihedById(gameRoundId);
-      //weiterleiten zu Statistik
+      let beste = 0;
+      for(var i = 0; i<spielstand.length;i++){
+        if(spielstand[i].points>spielstand[beste].points){
+          beste=i;
+        }
+      }
+      let gewinner = await doh.getPlayerById(spielstand[beste].playerId);
+      document.getElementById("gewinnerAnzeige").innerHTML=gewinner.playerName+' hat gewonnen!'
+      modal.style.display = "block";
+    
     }
     doh.updateRoundByGameRoundId(gameRoundId, aktuelleRunde+1);
     this.setzeAnzeige(doh, rundenAnzeige, spielAnzeige, gameId);
