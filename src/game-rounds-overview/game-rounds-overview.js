@@ -18,7 +18,7 @@ class GameRoundsOverview {
 
   constructor(app, spielId) {
     this._app = app;
-    this._spielId = 2;//parseInt(gameId); //spielId
+    this._spielId = 1;//parseInt(gameId); //spielId
     this._bodyTable = "";
 
     this._doh = new DataObjectHandler(true);
@@ -192,25 +192,21 @@ class GameRoundsOverview {
 
       weiterSpielen += 1;
       this.buildBodyTable(offeneSpiele[i].round, spiel.gameName, spieler, spielerNamen, weiterSpielen);
-    }
 
-    console.log(this._listElement.parentNode.querySelector("#tabelleOffeneSpiele"));
-    this._listElement.parentNode.querySelector("#tabelleOffeneSpiele").innerHTML +=
+      console.log(this._listElement.parentNode.querySelector("#tabelleOffeneSpiele"));
+      this._listElement.parentNode.querySelector("#tabelleOffeneSpiele").innerHTML +=
       // this._listElement.innerHTML +=
-      '<table  class="tableElements">' +
-      this._bodyTable +
-      '</table>';
-      section.querySelector("#weiterSpielen").addEventListener("click", spielenFortsetzen);
-      function spielenFortsetzen(){
-        allert("Es funktioniert!");
-      }
+     '<table  class="tableElements">' +
+     this._bodyTable +
+     '</table>';
+    }
   }
 
   buildBodyTable(runde, spielName, spieler, spielerNamen, weiterSpielen) {
     this._bodyTable += '<th class="tableHeader" colspan="2">' + spielName + '</th>' +
       '<tr>' + '<td class="spielerPunkte">Spieler</td>' + '<td class="spielerPunkte">Punkte</td>' + '</tr>';
-    for (var i = 0; i < spielerNamen.length; i++) {
-      this.createBodyTable(spielerNamen[i], spieler[i].points);
+    for (var k = 0; k < spielerNamen.length; k++) {
+      this.createBodyTable(spielerNamen[k], spieler[k].points);
     }
     this._bodyTable +=
       '<tr>' +
