@@ -1,22 +1,6 @@
-ul li {
-    /* make list elements fall inline as block elements */
-    position: relative;
-    display: inline-block;
-    /* next two lines only for display purposes */
-    text-align: center;
-    border:0.2em solid rgb(0, 0, 0);
-    border-radius: 10px;
-    margin: 25px;
-    padding: 40px;
-    width: 180px;
-    background-color: var(--list-element-color);
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-size: 20px;
-    font-weight: bold;
-    float: left;
-}
+.dummy {}
 
-.modal1 {
+.game-rounds-overview .modal1 {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -30,19 +14,21 @@ ul li {
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-.modal-header1 {
-  background-color: black;
+.game-rounds-overview .modalHeader {
+  background-color: white;
   text-align: center;
+  font-family: fantasy;
+  color: black;
 }
 
 /* Modal Content */
-.modal1-content {
+.game-rounds-overview .modal1-content {
   position: relative;
   background-color: #fefefe;
   margin: auto;
   padding: 0;
   border: 1px solid #888;
-  width: 50%;
+  width: 35%;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
@@ -50,7 +36,7 @@ ul li {
   animation-duration: 0.4s
 }
 
-.modal2 {
+.game-rounds-overview .modal2 {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -65,13 +51,13 @@ ul li {
 }
 
 /* Modal Content */
-.modal2-content {
+.game-rounds-overview .modal2-content {
   position: relative;
   background-color: #fefefe;
   margin: auto;
   padding: 0;
   border: 1px solid #888;
-  width: 50%;
+  width: 35%;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
@@ -79,14 +65,14 @@ ul li {
   animation-duration: 0.4s
 }
 
-.close {
+.game-rounds-overview .close {
   color: white;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 
-.buttons {
+.game-rounds-overview .neuesSpielErstellen {
   background-color: #8B0000;
   border: solid black 2px;
   color: white;
@@ -95,10 +81,102 @@ ul li {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  align-items: center;
+  margin-left: 46%;
+  margin-top: 2%;
 }
 
-.inputField {
-  background-color: #F08080;
-  margin-left: auto;
-  margin-right: auto;
+.game-rounds-overview .weiterSpielen {
+  background-color: #8B0000;
+  border: solid black 2px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  align-items: center;
+  margin-left: 5%;
+}
+
+.game-rounds-overview .buttonsModal1 {
+  background-color: #8B0000;
+  border: solid black 2px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  align-items: center;
+  margin-top: 2%;
+  margin-left: 20%;
+}
+
+.game-rounds-overview .buttonsModal2 {
+  background-color: #8B0000;
+  border: solid black 2px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  align-items: center;
+  margin-top: 2%;
+  margin-left: 15%;
+}
+
+.game-rounds-overview .inputField {
+  background-color: white;
+  margin-top: 2%;
+  text-align: center;
+  color: black;
+}
+
+.game-rounds-overview .inputFieldSpieleranzahl {
+  background-color: white;
+  margin-left: 25%;
+  width: 15em;
+  text-align: center;
+  color: black;
+}
+
+
+.game-rounds-overview table, th, td {
+  margin-top: 2%;
+  border: 1px solid black;
+  align-items: center;
+  margin-left: 19%;
+  background-color: #424242;
+  height: 4em;
+  width: 50em;
+  font-family: cursive;
+}
+
+.game-rounds-overview .spielerPunkte {
+  font-size: 25px;
+  text-align: center;
+  font-family: fantasy;
+}
+
+.game-rounds-overview .gespielteRunde {
+  text-align: center;
+  font-family: fantasy;
+}
+
+.game-rounds-overview .spielerLabel {
+  margin-right: 5%;
+  margin-left: 25%;
+  margin-bottom: 2%;
+  color: white;
+}
+
+.game-rounds-overview .tableHeader {
+  font-size: 1.5em;
+  font-style: normal;
+}
+
+.game-rounds-overview .modal-body{
+  background-color: #424242;
 }
