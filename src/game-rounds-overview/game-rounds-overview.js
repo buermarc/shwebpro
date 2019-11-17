@@ -71,6 +71,70 @@ class GameRoundsOverview {
     this._listElement = section.querySelector("#game-rounds-overview > main > div");
     this._documentElement = section.querySelector("#game-rounds-overview > main");
 
+    var modal1 = section.querySelector("#myModal1");
+    var modal2 = section.querySelector("#myModal2");
+
+    section.querySelector("#neuesSpiel").addEventListener("click", neuesSpiel);
+    // section.querySelector("#weiterSpielen").addEventListener("click", weiterSpielen);
+    // section.querySelector("#rundeBeenden").addEventListener("click", rundeBeenden);
+    section.querySelector("#abbrechen").addEventListener("click", abbrechen);
+    section.querySelector("#weiter").addEventListener("click", weiter);
+    section.querySelector("#abbrechen2").addEventListener("click", abbrechen2);
+    section.querySelector("#neuesSpielErstellen").addEventListener("click", neuesSpielErstellen);
+
+    section.querySelector("#closeModal1").addEventListener("click", xButton);
+    section.querySelector("#closeModal2").addEventListener("click", xButton);
+
+    function neuesSpiel(){
+      modal1.style.display = "block";
+    }
+
+    // function weiterSpielen(){
+    //   //Datenobjekt an Lasses Screen geben
+    // }
+    //
+    // function rundeBeenden(){
+    //   //Variable Runde beendet auf true setzen
+    // }
+    //
+    function abbrechen(){
+      modal1.style.display = "none";
+    }
+
+    function weiter(){
+      modal1.style.display = "none";
+      var anzahl = document.querySelector("#spieleranzahl").value;
+        var string = "";
+        for (var i = 0; i < anzahl; i++) {
+          string += '<input>' +
+            '</input>' +
+            '<br>';
+        }
+
+        document.querySelector("#anzahlSpieler").innerHTML = string;
+      modal2.style.display = "block";
+    }
+
+    function abbrechen2(){
+      modal2.style.display = "none";
+    }
+
+    function neuesSpielErstellen(){
+      modal2.style.display = "none";
+      //Datenobjekt an Lasses Screen geben
+    }
+
+    function xButton(){
+      modal1.style.display = "none";
+      modal2.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      if (event.target == modal1 || event.target == modal2) {
+        modal1.style.display = "none";
+        modal2.style.display = "none";
+      }}
+
     this.createTable();
 
     return {
@@ -136,46 +200,47 @@ class GameRoundsOverview {
     //this._documentElement = this._documentElement.parentNode; FALLS FEHLER
 
     // Listener für die sieben Buttons initialisieren
-    this._documentElement.querySelector("#neuesSpiel").addEventListener("click", () => {
-      document.getElementsByTagName('dialog')[0].show();
-    });
-
-    this._documentElement.querySelector("#abbrechen").addEventListener("click", () => {
-      document.getElementsByTagName('dialog')[0].close();
-    });
-
-    this._documentElement.querySelector("#abbrechen2").addEventListener("click", () => {
-      document.getElementsByTagName('dialog')[1].close();
-    });
-
-    this._documentElement.querySelector("#neuesSpielErstellen").addEventListener("click", () => {
-      document.getElementsByTagName('dialog')[1].close();
-      //Datenobjekt an Lasses Screen geben
-    });
-
-    this._documentElement.querySelector("#weiter").addEventListener("click", () => {
-      document.getElementsByTagName('dialog')[0].close();
-
-      var anzahl = document.querySelector("#spieleranzahl").value;
-      var string = "";
-      for (var i = 0; i < anzahl; i++) {
-        string += '<input>' +
-          '</input>' +
-          '<br>';
-      }
-
-      document.querySelector("#anzahlSpieler").innerHTML = string;
-
-      document.getElementsByTagName('dialog')[1].show();
-    });
-
-    this._documentElement.querySelector("#weiterspielen").addEventListener("click", () => {
-      //Datenobjekt an Lasses Screen geben
-    });
-
-    this._documentElement.querySelector("#rundeBeenden").addEventListener("click", () => {
-      //Variable Runde beendet auf true setzen
-    });
+    // this._documentElement.querySelector("#neuesSpiel").addEventListener("click", () => {
+    //   modal1.style.display = "block";
+    //   // document.getElementsByTagName('dialog')[0].show();
+    // });
+    //
+    // this._documentElement.querySelector("#abbrechen").addEventListener("click", () => {
+    //   // document.getElementsByTagName('dialog')[0].close();
+    // });
+    //
+    // this._documentElement.querySelector("#abbrechen2").addEventListener("click", () => {
+    //   // document.getElementsByTagName('dialog')[1].close();
+    // });
+    //
+    // this._documentElement.querySelector("#neuesSpielErstellen").addEventListener("click", () => {
+    //   // document.getElementsByTagName('dialog')[1].close();
+    //   //Datenobjekt an Lasses Screen geben
+    // });
+    //
+    // this._documentElement.querySelector("#weiter").addEventListener("click", () => {
+    //   // document.getElementsByTagName('dialog')[0].close();
+    //
+    //   var anzahl = document.querySelector("#spieleranzahl").value;
+    //   var string = "";
+    //   for (var i = 0; i < anzahl; i++) {
+    //     string += '<input>' +
+    //       '</input>' +
+    //       '<br>';
+    //   }
+    //
+    //   document.querySelector("#anzahlSpieler").innerHTML = string;
+    //
+    //   // document.getElementsByTagName('dialog')[1].show();
+    // });
+    //
+    // this._documentElement.querySelector("#weiterspielen").addEventListener("click", () => {
+    //   //Datenobjekt an Lasses Screen geben
+    // });
+    //
+    // this._documentElement.querySelector("#rundeBeenden").addEventListener("click", () => {
+    //   //Variable Runde beendet auf true setzen
+    // });
 
 
 
