@@ -248,6 +248,7 @@
   .stats div.table {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
   }
 
   .stats div.table-box {

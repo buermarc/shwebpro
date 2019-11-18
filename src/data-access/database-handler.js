@@ -15,9 +15,9 @@ database.version(1).stores({
   game: '++id, gameName',
   player: '++id, playerName',
   gameRound: '++id, round, fin',
-  gameToGameRound: '[gameId+gameRoundId], gameId, gameRoundId',
-  playerToGame: '[playerId+gameId], playerId, gameId, win, lose',
-  playerToGameRound: '[playerId+gameRoundId], playerId, gameRoundId, points'
+  gameToGameRound: '++id, [gameId+gameRoundId], gameId, gameRoundId',
+  playerToGame: '++id, [playerId+gameId], playerId, gameId, win, lose',
+  playerToGameRound: '++id, [playerId+gameRoundId], playerId, gameRoundId, points'
 
 });
 

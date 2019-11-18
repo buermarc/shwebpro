@@ -40,7 +40,18 @@ class PlayerToGameRound {
   async update() {
     return database.playerToGameRound.put(this.asJson);
   }
-  async getId() {}
+  async getId() {
+    let res = await database.playerToGameRound.
+    where(this.asJson).toArray();
+    if (res.length == 0) {
+      console.log('No such entry');
+    } else if (res.length == 1) {
+      return res[0].id;
+    } else {
+      throw ('This oject: ' + this.asJson + ' is not unique\n array has the length: ' +
+        res.length + '\n ' + res);
+    }
+  }
   async search(query) {
     //TODO
   }

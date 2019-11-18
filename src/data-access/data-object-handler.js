@@ -28,6 +28,10 @@ class DataObjectHandler {
   async getAllPlayers() {
     return await Player.getAll();
   }
+
+  async getAllPlayerToGame() {
+    return await PlayerToGame.getAll();
+  }
   //============Josia=================================
 
 
@@ -64,7 +68,7 @@ class DataObjectHandler {
       playerName: playerName
     }).toArray();
     if (check.length != 0) {
-      throw 'Name ' + playerName + ' may already exists or is double';
+      return check[0].id;
     } else {
       let player = new Player(playerName);
       player = player.saveNew();
@@ -182,7 +186,49 @@ class DataObjectHandler {
   // update points of player in gameRound
   async updatePointsByPlayerIdAndGameRoundId(playerId, gameRoundId, newPoints) {
     let playerToGameRound = new PlayerToGameRound(playerId, gameRoundId, newPoints);
-    return db.database.playerToGameRound.put(playerToGameRound.asJson);
+    let id = await db.database.playerToGameRound.where({
+      playerId: playerId,
+      gameRoundId: gameRoundId
+    }).toArray();
+    id = id[0].id;
+    console.log(id);
+    return db.database.playerToGameRound.update(id, playerToGameRound.asJson);
+  }
+
+  async setWinOrLoseForPlayerAndGame(gameId, playerId, booleanWin) {
+    if (booleanWin) {
+      let currentWins = await db.database.playerToGame.where({
+        gameId: gameId,
+        playerId: playerId
+      }).toArray();
+      if (currentWins.length == 0) {
+        return await db.database.playerToGame.add({
+          playerId: playerId,
+          gameId: gameId,
+          win: 1,
+          lose: 0
+        });
+      }
+      return await db.database.playerToGame.update(currentWins[0].id, {
+        win: (currentWins[0].win + 1)
+      });
+    } else if (!booleanWin) {
+      let currentWins = await db.database.playerToGame.where({
+        gameId: gameId,
+        playerId: playerId
+      }).toArray();
+      if (currentWins.length == 0) {
+        return await db.database.playerToGame.add({
+          playerId: playerId,
+          gameId: gameId,
+          win: 0,
+          lose: 1
+        });
+      }
+      return await db.database.playerToGame.update(currentWins[0].id, {
+        lose: (currentWins[0].lose + 1)
+      });
+    }
   }
 
   async getGameByGameRoundId(id) {
@@ -393,6 +439,7 @@ class DataObjectHandler {
 
     console.log(await this.getNeverPlayedGames());
     console.log(await this.getAllreadyPlayedGames());
+    console.log(await PlayerToGame.getAll());
   }
 
 }

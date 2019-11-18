@@ -18,7 +18,7 @@ class GameRoundsOverview {
 
   constructor(app, spielId) {
     this._app = app;
-    this._spielId = 1;//parseInt(gameId); //spielId
+    this._spielId = parseInt(spielId); //spielId
     this._bodyTable = "";
 
     this._doh = new DataObjectHandler(true);
@@ -39,6 +39,8 @@ class GameRoundsOverview {
   }
 
   async onShow() {
+
+    this._gameRoundIds = [];
 
     this._minPlayers = await this._doh.getGameById(this._spielId);
     var minPlayers = this._minPlayers.minPlayers;
@@ -68,53 +70,53 @@ class GameRoundsOverview {
     section.querySelector("#weiter").addEventListener("click", weiter);
     section.querySelector("#zurück").addEventListener("click", zurück);
     section.querySelector("#neuesSpielErstellen").addEventListener("click", () => {
-    neuesSpielErstellen(this._doh, this._spielId)
+      neuesSpielErstellen(this._doh, this._spielId)
     });
 
     section.querySelector("#closeModal1").addEventListener("click", xButton);
     section.querySelector("#closeModal2").addEventListener("click", xButton);
 
-    function neuesSpiel(){
+    function neuesSpiel() {
       modal1.style.display = "block";
     }
 
-    function abbrechen(){
+    function abbrechen() {
       modal1.style.display = "none";
-      document.querySelector("#spieleranzahl").value="";
+      document.querySelector("#spieleranzahl").value = "";
     }
 
-    function weiter(){
+    function weiter() {
       if (document.querySelector("#spieleranzahl").value <= maxPlayers && document.querySelector("#spieleranzahl").value >= minPlayers) {
-      //if (document.querySelector("#spieleranzahl").value < 10 && document.querySelector("#spieleranzahl").value >= 1) {
+        //if (document.querySelector("#spieleranzahl").value < 10 && document.querySelector("#spieleranzahl").value >= 1) {
         modal1.style.display = "none";
         var anzahl = document.querySelector("#spieleranzahl").value
-          var string = "";
-          var spielerNummer = 1;
-          for (var i = 0; i < anzahl; i++) {
-            string +=
-            '<label class="spielerLabel">Spieler '+spielerNummer+':</label>' +
-            '<input id="spieler'+i+'" class="inputField" maxlength="10" size="10"></input>' +
+        var string = "";
+        var spielerNummer = 1;
+        for (var i = 0; i < anzahl; i++) {
+          string +=
+            '<label class="spielerLabel">Spieler ' + spielerNummer + ':</label>' +
+            '<input id="spieler' + i + '" class="inputField" maxlength="10" size="10"></input>' +
             '<br>';
-            spielerNummer += 1;
-          }
+          spielerNummer += 1;
+        }
         document.querySelector("#anzahlSpieler").innerHTML = string;
         modal2.style.display = "block";
       } else {
-        document.querySelector("#spieleranzahl").value="";
+        document.querySelector("#spieleranzahl").value = "";
         alert("Bitte gib eine Zahl ein, die größer oder gleich " + minPlayers + " ist, beziehungsweise kleiner oder gleich " + maxPlayers + " ist!");
       }
 
     }
 
-    function zurück(){
+    function zurück() {
       modal2.style.display = "none";
       modal1.style.display = "block";
-      document.querySelector("#spieleranzahl").value="";
+      document.querySelector("#spieleranzahl").value = "";
     }
 
-    async function neuesSpielErstellen(doh, spielId){
+    async function neuesSpielErstellen(doh, spielId) {
       var anzahl = document.querySelector("#spieleranzahl").value;
-      document.querySelector("#spieleranzahl").value="";
+      document.querySelector("#spieleranzahl").value = "";
       var spielerId = [];
       for (var i = 0; i < anzahl; i++) {
         var spieler = document.querySelector("#spieler" + i).value;
@@ -128,21 +130,22 @@ class GameRoundsOverview {
       modal2.style.display = "none";
       let gameRoundId = await doh.setNewGameRoundWithPlayers(spielId, spielerId);
       console.log(gameRoundId);
-      window.location.href="#/roundOverview/" + gameRoundId;
+      window.location.href = "#/roundOverview/" + gameRoundId;
     }
 
-    function xButton(){
+    function xButton() {
       modal1.style.display = "none";
       modal2.style.display = "none";
-      document.querySelector("#spieleranzahl").value="";
+      document.querySelector("#spieleranzahl").value = "";
     }
 
     window.onclick = function(event) {
       if (event.target == modal1 || event.target == modal2) {
         modal1.style.display = "none";
         modal2.style.display = "none";
-        document.querySelector("#spieleranzahl").value="";
-      }}
+        document.querySelector("#spieleranzahl").value = "";
+      }
+    }
 
     this.createTable(this._doh, this._spielId);
 
@@ -203,13 +206,29 @@ class GameRoundsOverview {
       weiterSpielen += 1;
       this.buildBodyTable(offeneSpiele[i].round, spiel.gameName, spieler, spielerNamen, weiterSpielen, offeneSpiele[i].id);
     }
+    if (offeneSpiele.length == 0) {
+      this._bodyTable += '<th class="tableHeader" colspan="2">' + spiel.gameName + '</th>' +
+        '<tr>' + '<td colspan="2" class="spielerPunkte">Keine offenen Spiele</td>' + '</tr>';
+    }
 
-      console.log(this._listElement.parentNode.querySelector("#tabelleOffeneSpiele"));
-      this._listElement.parentNode.querySelector("#tabelleOffeneSpiele").innerHTML +=
+    console.log(this._listElement.parentNode.querySelector("#tabelleOffeneSpiele"));
+    this._listElement.parentNode.querySelector("#tabelleOffeneSpiele").innerHTML +=
       // this._listElement.innerHTML +=
       '<table  class="tableElements">' +
       this._bodyTable +
       '</table>';
+      let tmpButtons = this._listElement.parentNode.querySelectorAll('.weiterSpielen');
+      console.log(tmpButtons);
+      if (tmpButtons.length == this._gameRoundIds.length) {
+        let u = 0
+        tmpButtons.forEach(x => {
+          x.addEventListener('click', () => {
+            window.location.href = '#/roundOverview/'+ this._gameRoundIds[u++];
+          });
+        });
+      } else {
+        throw 'buttons and array of gamerounds not the same length';
+      }
   }
 
   buildBodyTable(runde, spielName, spieler, spielerNamen, weiterSpielen, gameRoundId) {
@@ -219,10 +238,10 @@ class GameRoundsOverview {
       this.createBodyTable(spielerNamen[k], spieler[k].points);
     }
 
-
+    this._gameRoundIds.push(gameRoundId);
     this._bodyTable +=
       '<tr>' +
-      '<td class="gespielteRunde" colspan="2">Gespielte Runden: ' + runde + '<button class="weiterSpielen" id="weiterSpielen" href="#/roundOverview/'+ gameRoundId + '" onClick="(function(){window.location.href="#/roundOverview/"'+gameRoundId+'; return false;})()return false;" data-navigo>Weiterspielen</button></td>' +
+      '<td class="gespielteRunde" colspan="2">Gespielte Runden: ' + runde + '<button class="weiterSpielen" id="weiterSpielen" href="#/roundOverview/' + gameRoundId + '" data-navigo>Weiterspielen</button></td>' +
       '</tr>';
   }
 

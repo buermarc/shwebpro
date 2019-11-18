@@ -78,16 +78,16 @@ class GameOverview {
       }}
 
     // Liste erstellen
-    this.createList(this._doh);
+    await this.createList(this._doh);
 
-    //Eventlistener modal element 
+    //Eventlistener modal element
 
 
     this._spiel = await this._doh.getNeverPlayedGames();
     for (var i = 0; i < this._spiel.length; i++) {
 
       let name = this._spiel[i].gameName;
-      this.buildList(this._modalElementListe, name);
+      // this.buildList(this._modalElementListe, name);
       let elementModalListe = this._modalElementListe.querySelector("#element"+name);
       let id = this._spiel[i].id;
       elementModalListe.addEventListener("click", () => {
@@ -138,8 +138,8 @@ class GameOverview {
   async createList(doh){
 
     this._spiel = await doh.getAllreadyPlayedGames();
-     
-    
+
+
       if (this._spiel.length == 0) {
         // Hinweistext, wenn noch keine Spiele vorhanden sind
         this._listElement.innerHTML += `
@@ -153,6 +153,7 @@ class GameOverview {
         for (var i = 0; i < this._spiel.length; i++) {
           this.buildList(this._listElement, this._spiel[i].gameName);
         }
+        this._spiel = await doh.getNeverPlayedGames();
         for (var i = 0; i < this._spiel.length; i++) {
           let elementName = this._listElement.querySelector("#element"+this._spiel[i].gameName);
           if(elementName==null){

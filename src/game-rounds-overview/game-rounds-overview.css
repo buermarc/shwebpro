@@ -17,7 +17,7 @@
 .game-rounds-overview .modalHeader {
   background-color: white;
   text-align: center;
-  font-family: fantasy;
+  font-family: sans-serif;
   color: black;
 }
 
@@ -151,18 +151,18 @@
   background-color: #424242;
   height: 4em;
   width: 50em;
-  font-family: cursive;
+  font-family: sans-serif;
 }
 
 .game-rounds-overview .spielerPunkte {
   font-size: 25px;
   text-align: center;
-  font-family: fantasy;
+  font-family: sans-serif;
 }
 
 .game-rounds-overview .gespielteRunde {
   text-align: center;
-  font-family: fantasy;
+  font-family: sans-serif;
 }
 
 .game-rounds-overview .spielerLabel {
